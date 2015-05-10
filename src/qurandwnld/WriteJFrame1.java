@@ -61,6 +61,8 @@ public class WriteJFrame1 extends javax.swing.JFrame {
     private final ArrayList<Selection>[] sel;
     
     int page;
+    
+    Selection current;
 
     private PaintSurface getSurface() {
         return (PaintSurface) jPanel1;
@@ -105,8 +107,15 @@ public class WriteJFrame1 extends javax.swing.JFrame {
                     Element eElement = (Element) nNode;
                     int p = Integer.parseInt(eElement.getAttribute("page"));
                     String[] n = eElement.getAttribute("rect").split(",");
-                    //sel[p - 1].add(new Rectangle2D.Float(Integer.parseInt(n[0]),
-                    //        Integer.parseInt(n[1]), Integer.parseInt(n[2]), Integer.parseInt(n[3])));
+                    Selection s = new Selection();
+                    s.rect = new Rectangle2D.Float(Integer.parseInt(n[0]),
+                            Integer.parseInt(n[1]), Integer.parseInt(n[2]), Integer.parseInt(n[3]));
+                    s.type = SelectionType.fromValue(Integer.parseInt(eElement.getAttribute("type")));
+                    s.page = p;
+                    s.shahed = eElement.getElementsByTagName("shahed").item(0).getTextContent();
+                    s.descr = eElement.getElementsByTagName("descr").item(0).getTextContent();
+                    
+                    sel[p - 1].add(s);
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -162,8 +171,27 @@ public class WriteJFrame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new PaintSurface();
         jSpinner1 = new javax.swing.JSpinner();
+
+        jMenuItem1.setText("تعديل...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("حذف");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("تسجيل القراءات");
@@ -232,13 +260,27 @@ public class WriteJFrame1 extends javax.swing.JFrame {
                 for (int j = 0; j < sel[i].size(); ++j) {
                     Element staff = doc.createElement("selection");
                     rootElement.appendChild(staff);
+                    
                     Attr attr = doc.createAttribute("page");
                     attr.setValue("" + (i + 1));
                     staff.setAttributeNode(attr);
+                    
                     attr = doc.createAttribute("rect");
                     Rectangle rect = sel[i].get(j).rect.getBounds();
                     attr.setValue(String.format("%d,%d,%d,%d", rect.x, rect.y, rect.width, rect.height));
                     staff.setAttributeNode(attr);
+                    
+                    attr = doc.createAttribute("type");
+                    attr.setValue(String.format("%d", sel[i].get(j).type.getValue()));
+                    staff.setAttributeNode(attr);
+                    
+                    Element el = doc.createElement("shahed");
+                    staff.appendChild(el);
+                    el.appendChild(doc.createTextNode(sel[i].get(j).shahed));
+                    
+                    el = doc.createElement("descr");
+                    staff.appendChild(el);
+                    el.appendChild(doc.createTextNode(sel[i].get(j).descr));
                 }
             }
             doc.appendChild(rootElement);
@@ -254,13 +296,38 @@ public class WriteJFrame1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        InputQeraatJDialog j = new InputQeraatJDialog(this, true);
+        j.type(current.type);
+        j.shahed(current.shahed);
+        j.descr(current.descr);
+        if (JOptionPane.showConfirmDialog(this,
+                        j.getContentPane(),
+                        "تحرير بيانات القراءة",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
+            current.descr = j.descr();
+            current.shahed = j.shahed();
+            current.type = j.type();
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        if (JOptionPane.showConfirmDialog(this, "متأكد من رغبتك في حذف هذا الموضع؟",
+                "تأكيد", JOptionPane.OK_CANCEL_OPTION)
+                == JOptionPane.OK_OPTION) {
+            getSurface().shapes.remove(current);
+            getSurface().repaint();
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     private void showPage(int p) {
         try {
             jSpinner1.setValue(p);
             ((TitledBorder) getSurface().getBorder()).setTitle("سورة " + getSurahByPage(p));
             getSurface().shapes = sel[p - 1];
-            String path = String.format("C:\\Users\\ibraheem\\Downloads\\quran\\%04d.jpg", p);
-            getSurface().image = ImageIO.read(new File(path));
+            String path = String.format("quran/%04d.jpg", p);
+            getSurface().image = ImageIO.read(getClass().getClassLoader().getResource(path));
             getSurface().repaint();
         } catch (IOException ex) {
         }
@@ -331,16 +398,43 @@ public class WriteJFrame1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }
 
 enum SelectionType {
-    Farsh,
-    Hamz,
-    Edgham,
-    Emalah,
+    Farsh(1),
+    Hamz(2),
+    Edgham(3),
+    Emalah(4);
+    
+    private final int value;
+    private SelectionType(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+    
+    public static SelectionType fromValue(int t) {
+        switch (t) {
+            case 1:
+                return Farsh;
+            case 2:
+                return Hamz;
+            case 3:
+                return Edgham;
+            case 4:
+                return Emalah;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
 }
 
 class Selection {
@@ -362,12 +456,19 @@ class PaintSurface extends JPanel {
     public PaintSurface() {
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger())
+                    isPopup(e);
                 startDrag = new Point(e.getX(), e.getY());
                 endDrag = startDrag;
                 repaint();
             }
 
             public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger())
+                    isPopup(e);
+                if (Math.abs(startDrag.x - e.getX()) < 3
+                        || Math.abs(startDrag.y - e.getY()) < 3)
+                    return;
                 WriteJFrame1 f = (WriteJFrame1) PaintSurface.this.getParent().getParent().getParent().getParent();
                 InputQeraatJDialog j = new InputQeraatJDialog(f, true);
                 if (JOptionPane.showConfirmDialog(f,
@@ -388,20 +489,17 @@ class PaintSurface extends JPanel {
                 }
             }
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e); //To change body of generated methods, choose Tools | Templates.
-                if (e.getButton() == MouseEvent.BUTTON2) {
-                    for (Selection s : shapes) {
-                        if (s.rect.contains(e.getX(), e.getY())) {
-                            
-                            break;
-                        }
+            public void isPopup(MouseEvent e) {
+                for (Selection s : shapes) {
+                    if (s.rect.contains(e.getX(), e.getY())) {
+                        WriteJFrame1 f = (WriteJFrame1) PaintSurface.this
+                                .getParent().getParent().getParent().getParent();
+                        f.current = s;
+                        f.jPopupMenu1.show(e.getComponent(), e.getX(), e.getY());
+                        break;
                     }
                 }
             }
-            
-            
         });
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
@@ -437,7 +535,7 @@ class PaintSurface extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         paintBackground(g2);
         Color[] colors = {Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED, Color.BLUE, Color.PINK};
-        int colorIndex = 0;
+        //int colorIndex = 0;
 
         g2.setStroke(new BasicStroke(2));
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
@@ -445,7 +543,8 @@ class PaintSurface extends JPanel {
         for (Selection s : shapes) {
             g2.setPaint(Color.BLACK);
             g2.draw(s.rect);
-            g2.setPaint(colors[(colorIndex++) % 6]);
+            //g2.setPaint(colors[(colorIndex++) % 6]);
+            g2.setPaint(colors[s.type.getValue() - 1]);
             g2.fill(s.rect);
         }
 

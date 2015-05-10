@@ -44,7 +44,7 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     void type(SelectionType t) {
         for (int i = 0; i < jComboBox1.getItemCount(); ++i) {
             ComboItem item = (ComboItem) jComboBox1.getItemAt(i);
-            if (item.value.equals(t)) {
+            if (item.value.getValue() == t.getValue()) {
                 jComboBox1.setSelectedItem(item);
                 break;
             }
@@ -111,10 +111,12 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "فرش", "همز", "إدغام", "إمالة" }));
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Traditional Arabic", 1, 18)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Traditional Arabic", 1, 18)); // NOI18N
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
