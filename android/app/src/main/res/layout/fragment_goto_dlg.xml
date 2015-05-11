@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@android:style/Animation.Dialog">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/gotoDlgMsg"
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editTextPageNum"
+        android:editable="true"
+        android:hint="رقم الصفحة..."
+        android:layout_below="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="48dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ذهاب"
+        android:id="@+id/buttonGoto"
+        android:layout_alignBottom="@+id/editTextPageNum"
+        android:layout_toLeftOf="@+id/editTextPageNum"
+        android:layout_toStartOf="@+id/editTextPageNum" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewSurah"
+        android:layout_below="@+id/editTextPageNum"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:headerDividersEnabled="false"
+        android:clickable="false"
+        android:drawSelectorOnTop="true" />
+</RelativeLayout>

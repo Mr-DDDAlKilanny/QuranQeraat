@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">مصحف القراءات العشر</string>
     <string name="action_settings">إعدادات</string>
+    <string name="action_goto">ذهاب إلى</string>
     <string name="downloadPage">http://www.myquran.us/content/quran/arabic/%04d.jpg</string>
     <string name="title_activity_loading_panel">LoadingPanel</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gotoDlgMsg">فضلا أدخل رقم الصفحة أو اذهب للسورة</string>
 </resources>
