@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -17,50 +20,97 @@ public class QuranImageView extends ImageView {
 
     private final int[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED, Color.BLUE };
     ArrayList<Selection> selections;
-    private int lastImageWidth, lastImageHeight;
+    private Paint paint;
+
+    private void init() {
+        paint = new Paint();
+        //paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.FILL);
+    }
 
     public QuranImageView(Context context) {
         super(context);
+        init();
     }
 
     public QuranImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public QuranImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
-        lastImageWidth = bm.getWidth();
-        lastImageHeight = bm.getHeight();
     }
 
-    private Rectangle getActualRect(Rectangle r) {
-        Rectangle ret = new Rectangle();
-        float w = (float) getWidth() / lastImageWidth;
-        float h = (float) getHeight() / lastImageHeight;
-        ret.x = r.x * w;
-        ret.y = r.y * h;
-        ret.width = r.width * w;
-        ret.height = r.height * h;
+    private RectF getActualRect(Rectangle r) {
+        //float w = getDrawable().getIntrinsicWidth() / lastImageWidth;
+        //float h = getDrawable().getIntrinsicHeight() / lastImageHeight;
+        RectF ret = new RectF();
+        //ret.set(r.x * w,
+        //        r.y * h,
+        //        (r.x + r.width) * w,
+        //        (r.y + r.height) * h);
+        ret.set(r.x,
+                r.y,
+                r.x + r.width,
+                r.y + r.height);
         return ret;
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
         if (selections != null) {
-            Paint paint = new Paint();
-            paint.setStrokeWidth(2);
             for (Selection s : selections) {
-                Rectangle d = getActualRect(s.rect);
+                RectF d = getActualRect(s.rect);
+                System.out.println("Given: " + s.rect + ", actual: " + d);
                 paint.setColor(colors[s.type.getValue() - 1]);
-                paint.setAlpha(10);
-                canvas.drawRect(d.x, d.y, d.width, d.height, paint);
+                paint.setAlpha(125);
+                canvas.drawRect(d, paint);
             }
         }
+    }
+
+    public Dimension getScaledImageSize() {
+        float[] f = new float[9];
+        getImageMatrix().getValues(f);
+
+        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
+        float scaleX = f[Matrix.MSCALE_X];
+        float scaleY = f[Matrix.MSCALE_Y];
+
+        // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
+        Drawable d = getDrawable();
+        int origW = d.getIntrinsicWidth();
+        int origH = d.getIntrinsicHeight();
+
+        // Calculate the actual dimensions
+        int actW = Math.round(origW * scaleX);
+        int actH = Math.round(origH * scaleY);
+        return new Dimension(actW, actH);
+    }
+
+    public Rectangle getScaledRectFromImageRect(Dimension bmp, Rectangle r) {
+        //Dimension d = getScaledImageSize();
+        float[] f = new float[9];
+        getImageMatrix().getValues(f);
+
+        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
+        float w = f[Matrix.MSCALE_X];
+        float h = f[Matrix.MSCALE_Y];
+        //float w = d.width / (float) bmp.width;
+        //float h = d.height / (float) bmp.height;
+        Rectangle rr = new Rectangle();
+        rr.x = r.x;
+        rr.y = r.y;
+        rr.width = r.width * w;
+        rr.height = r.height * h;
+        return rr;
     }
 }
