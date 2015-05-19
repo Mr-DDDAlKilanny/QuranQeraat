@@ -1,5 +1,6 @@
 package kilanny.qeraatmushaf;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -47,10 +47,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private final String settingFilename = "myfile";
-    private int page;
+    private boolean isActionbarVisible = false;
     private Setting setting;
     private static final int MAX_PAGE = 604;
     private boolean isLoadingPage;
@@ -73,7 +73,6 @@ public class MainActivity extends ActionBarActivity {
         if (setting == null) {
             setting = new Setting();
         }
-        page = setting.page;
     }
 
     private void saveSettings() {
@@ -108,12 +107,12 @@ public class MainActivity extends ActionBarActivity {
                     v.selections = null;
                     v.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ajax_loader));
                     v.invalidate();
+                    setProgressBarIndeterminateVisibility(true);
                 }
             });
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    setProgressBarIndeterminateVisibility(true);
                     String path = String.format(getString(R.string.downloadPage), p);
                     Bitmap bb = readPage(p);
                     if (bb == null) {
@@ -129,14 +128,18 @@ public class MainActivity extends ActionBarActivity {
                             if (b == null) {
                                 showAlert("خطأ", "لا يمكن تحميل الصورة. تأكد من اتصالك بالانترنت");
                             } else {
+                                v.currentPageSize = new Dimension(pageSizes[p - 1][0],
+                                        pageSizes[p - 1][1]);
                                 v.setImageBitmap(b);
                                 v.selections = sel[p - 1];
                                 CharSequence text = "صفحة " + p;
                                 Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                                page = p;
+                                setting.page = p;
                                 saveSettings();
                             }
                             setProgressBarIndeterminateVisibility(false);
+                            isActionbarVisible = false;
+                            getActionBar().hide();
                             isLoadingPage = false;
                         }
                     });
@@ -184,11 +187,7 @@ public class MainActivity extends ActionBarActivity {
                             r.y = Integer.parseInt(tmp[1]);
                             r.width = Integer.parseInt(tmp[2]);
                             r.height = Integer.parseInt(tmp[3]);
-                            currentProduct.rect = v.getScaledRectFromImageRect(
-                                    new Dimension(pageSizes[p - 1][0], pageSizes[p - 1][1]),
-                                    r
-                            );
-                            //currentProduct.rect = r;
+                            currentProduct.rect = r;
                             currentProduct.type = SelectionType.fromValue(
                                     parser.getAttributeIntValue(null, "type", 1));
                         } else if (currentProduct != null){
@@ -258,13 +257,27 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                viewPage(page - 1);
+                viewPage(setting.page - 1);
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                viewPage(page + 1);
+                viewPage(setting.page + 1);
+            }
+
+            @Override
+            public void onClick() {
+                super.onClick();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isActionbarVisible)
+                            getActionBar().hide();
+                        else getActionBar().show();
+                        isActionbarVisible = !isActionbarVisible;
+                    }
+                });
             }
         });
         new AsyncTask<Void, Void, Void>() {
@@ -286,7 +299,7 @@ public class MainActivity extends ActionBarActivity {
                 readSelections();
                 isLoadingPage = false;
                 readSettings();
-                viewPage(page);
+                viewPage(setting.page);
                 return null;
             }
         }.execute();
@@ -314,6 +327,8 @@ public class MainActivity extends ActionBarActivity {
         } else if (id == R.id.action_goto) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.fragment_goto_dlg);
+            EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+            txt.setText("" + setting.page);
             dialog.setTitle("ذهاب إلى الصفحة");
             final ListView l = (ListView) dialog.findViewById(R.id.listViewSurah);
             l.setAdapter(new ArrayAdapter<Surah>(this,

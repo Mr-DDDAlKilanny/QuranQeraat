@@ -20,6 +20,7 @@ public class QuranImageView extends ImageView {
 
     private final int[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED, Color.BLUE };
     ArrayList<Selection> selections;
+    Dimension currentPageSize;
     private Paint paint;
 
     private void init() {
@@ -49,13 +50,10 @@ public class QuranImageView extends ImageView {
     }
 
     private RectF getActualRect(Rectangle r) {
-        //float w = getDrawable().getIntrinsicWidth() / lastImageWidth;
-        //float h = getDrawable().getIntrinsicHeight() / lastImageHeight;
+        r = getScaledRectFromImageRect(
+                 currentPageSize, //new Dimension(getDrawable().getIntrinsicWidth(), getDrawable().getIntrinsicHeight()),
+                r);
         RectF ret = new RectF();
-        //ret.set(r.x * w,
-        //        r.y * h,
-        //        (r.x + r.width) * w,
-        //        (r.y + r.height) * h);
         ret.set(r.x,
                 r.y,
                 r.x + r.width,
@@ -68,17 +66,18 @@ public class QuranImageView extends ImageView {
         super.draw(canvas);
         if (selections != null) {
             for (Selection s : selections) {
-                RectF d = getActualRect(s.rect);
-                System.out.println("Given: " + s.rect + ", actual: " + d);
                 paint.setColor(colors[s.type.getValue() - 1]);
                 paint.setAlpha(125);
-                canvas.drawRect(d, paint);
+                canvas.drawRect(getActualRect(s.rect), paint);
             }
         }
     }
 
     public Dimension getScaledImageSize() {
         float[] f = new float[9];
+        if (f.length == 9) {
+            return new Dimension(getWidth(), getHeight());
+        }
         getImageMatrix().getValues(f);
 
         // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
@@ -93,19 +92,15 @@ public class QuranImageView extends ImageView {
         // Calculate the actual dimensions
         int actW = Math.round(origW * scaleX);
         int actH = Math.round(origH * scaleY);
+        System.out.printf("Original (%d, %d) Result (%d, %d)\n", origW, origH,
+                actW, actH);
         return new Dimension(actW, actH);
     }
 
     public Rectangle getScaledRectFromImageRect(Dimension bmp, Rectangle r) {
-        //Dimension d = getScaledImageSize();
-        float[] f = new float[9];
-        getImageMatrix().getValues(f);
-
-        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
-        float w = f[Matrix.MSCALE_X];
-        float h = f[Matrix.MSCALE_Y];
-        //float w = d.width / (float) bmp.width;
-        //float h = d.height / (float) bmp.height;
+        final Dimension d = getScaledImageSize();
+        float w = d.width / (float) bmp.width;
+        float h = d.height / (float) bmp.height;
         Rectangle rr = new Rectangle();
         rr.x = r.x;
         rr.y = r.y;
