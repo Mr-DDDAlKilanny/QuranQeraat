@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -51,7 +49,7 @@ public class QuranImageView extends ImageView {
 
     private RectF getActualRect(Rectangle r) {
         r = getScaledRectFromImageRect(
-                 currentPageSize, //new Dimension(getDrawable().getIntrinsicWidth(), getDrawable().getIntrinsicHeight()),
+                 currentPageSize,
                 r);
         RectF ret = new RectF();
         ret.set(r.x,
@@ -73,37 +71,13 @@ public class QuranImageView extends ImageView {
         }
     }
 
-    public Dimension getScaledImageSize() {
-        float[] f = new float[9];
-        if (f.length == 9) {
-            return new Dimension(getWidth(), getHeight());
-        }
-        getImageMatrix().getValues(f);
-
-        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
-        float scaleX = f[Matrix.MSCALE_X];
-        float scaleY = f[Matrix.MSCALE_Y];
-
-        // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
-        Drawable d = getDrawable();
-        int origW = d.getIntrinsicWidth();
-        int origH = d.getIntrinsicHeight();
-
-        // Calculate the actual dimensions
-        int actW = Math.round(origW * scaleX);
-        int actH = Math.round(origH * scaleY);
-        System.out.printf("Original (%d, %d) Result (%d, %d)\n", origW, origH,
-                actW, actH);
-        return new Dimension(actW, actH);
-    }
-
     public Rectangle getScaledRectFromImageRect(Dimension bmp, Rectangle r) {
-        final Dimension d = getScaledImageSize();
+        final Dimension d = new Dimension(getWidth(), getHeight());
         float w = d.width / (float) bmp.width;
         float h = d.height / (float) bmp.height;
         Rectangle rr = new Rectangle();
-        rr.x = r.x;
-        rr.y = r.y;
+        rr.x = r.x * w;
+        rr.y = r.y * h;
         rr.width = r.width * w;
         rr.height = r.height * h;
         return rr;

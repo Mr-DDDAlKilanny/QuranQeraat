@@ -183,10 +183,10 @@ public class MainActivity extends Activity {
                             int p = currentProduct.page = parser.getAttributeIntValue(null, "page", 1);
                             Rectangle r = new Rectangle();
                             String[] tmp = parser.getAttributeValue(null, "rect").split(",");
-                            r.x = Integer.parseInt(tmp[0]);
-                            r.y = Integer.parseInt(tmp[1]);
-                            r.width = Integer.parseInt(tmp[2]);
-                            r.height = Integer.parseInt(tmp[3]);
+                            r.x = Float.parseFloat(tmp[0]);
+                            r.y = Float.parseFloat(tmp[1]);
+                            r.width = Float.parseFloat(tmp[2]);
+                            r.height = Float.parseFloat(tmp[3]);
                             currentProduct.rect = r;
                             currentProduct.type = SelectionType.fromValue(
                                     parser.getAttributeIntValue(null, "type", 1));

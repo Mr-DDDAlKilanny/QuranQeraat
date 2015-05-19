@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
@@ -111,14 +112,15 @@ public class WriteJFrame1 extends javax.swing.JFrame {
                     int p = Integer.parseInt(eElement.getAttribute("page"));
                     String[] n = eElement.getAttribute("rect").split(",");
                     Selection s = new Selection();
+                    s.origRect = new Rectangle2D.Float(Float.parseFloat(n[0]),
+                            Float.parseFloat(n[1]), Float.parseFloat(n[2]), Float.parseFloat(n[3]));
                     s.rect = surface.getScaledRectFromImageRect(new Dimension(pageSizes[p - 1][0], pageSizes[p - 1][1]),
-                            new Rectangle2D.Float(Integer.parseInt(n[0]),
-                            Integer.parseInt(n[1]), Integer.parseInt(n[2]), Integer.parseInt(n[3])));
+                            (Rectangle2D.Float) s.origRect);
                     s.type = SelectionType.fromValue(Integer.parseInt(eElement.getAttribute("type")));
                     s.page = p;
                     s.shahed = eElement.getElementsByTagName("shahed").item(0).getTextContent();
                     s.descr = eElement.getElementsByTagName("descr").item(0).getTextContent();
-                    
+                    s.isNew = false;
                     sel[p - 1].add(s);
                 }
             }
@@ -296,11 +298,11 @@ public class WriteJFrame1 extends javax.swing.JFrame {
                     staff.setAttributeNode(attr);
                     
                     attr = doc.createAttribute("rect");
-                    Rectangle2D.Float rect = surface.getImageRectFromScaled(
+                    Rectangle2D.Float rect = sel[i].get(j).isNew ? surface.getImageRectFromScaled(
                             new Dimension(pageSizes[i][0], pageSizes[i][1]),
-                            (Rectangle2D.Float) sel[i].get(j).rect);
-                    attr.setValue(String.format("%d,%d,%d,%d", (int) rect.x,
-                            (int) rect.y, (int) rect.width, (int) rect.height));
+                            (Rectangle2D.Float) sel[i].get(j).rect) : (Rectangle2D.Float) sel[i].get(j).origRect;
+                    attr.setValue(String.format("%f,%f,%f,%f", rect.x,
+                            rect.y, rect.width, rect.height));
                     staff.setAttributeNode(attr);
                     
                     attr = doc.createAttribute("type");
@@ -394,10 +396,49 @@ public class WriteJFrame1 extends javax.swing.JFrame {
         return result;
     }
 
+    private static void test() {
+        File f = new File("data.xml");
+        if (!f.exists())
+            return;
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder dBuilder;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(f);
+            doc.getDocumentElement().normalize();
+            ArrayList<Selection> ss = new ArrayList<>();
+            NodeList nList = doc.getElementsByTagName("selection");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    int p = Integer.parseInt(eElement.getAttribute("page"));
+                    String[] n = eElement.getAttribute("rect").split(",");
+                    Selection s = new Selection();
+                    s.rect = new Rectangle2D.Float(Float.parseFloat(n[0]),
+                            Float.parseFloat(n[1]), Float.parseFloat(n[2]), Float.parseFloat(n[3]));
+                    ss.add(s);
+                }
+            }
+            if (ss.isEmpty()) return;
+            BufferedImage read = ImageIO.read(ss.get(0).getClass().getClassLoader().getResource("quran/0001.jpg"));
+            Graphics2D g = read.createGraphics();
+            g.setPaint(Color.red);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .55f));
+            for (Selection s : ss) {
+                g.fill(s.rect);
+            }
+            ImageIO.write(read, "jpg", new File("output.jpg"));
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(WriteJFrame1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        //test();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -471,11 +512,12 @@ enum SelectionType {
 }
 
 class Selection {
-    Rectangle2D rect;
+    Rectangle2D rect, origRect;
     int page;
     String shahed;
     String descr;
     SelectionType type;
+    boolean isNew;
 }
 
 class PaintSurface extends JPanel {
@@ -514,6 +556,7 @@ class PaintSurface extends JPanel {
                     s.rect = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
                     s.descr = j.descr();
                     s.shahed = j.shahed();
+                    s.isNew = true;
                     s.type = j.type();
                     shapes.add(s);
                     startDrag = null;
@@ -543,27 +586,29 @@ class PaintSurface extends JPanel {
         });
     }
     
-    public Dimension getScaledImageSize() {
-        Dimension d = ((TitledBorder) getBorder()).getMinimumSize(this);
-        return new Dimension(getWidth() - d.width / 2, getHeight() - d.height);
+    private Rectangle getDrawingArea() {
+        //Dimension d = ((TitledBorder) getBorder()).getMinimumSize(this);
+        //return new Rectangle(d.width / 4, d.height / 4, getWidth() - d.width / 2, getHeight() - d.height / 2);
+        return new Rectangle(Math.round(getInsets().left / 2.0f), Math.round(getInsets().top / 2.0f),
+                getWidth() - getInsets().left, getHeight() - getInsets().top);
     }
     
     public Rectangle2D.Float getImageRectFromScaled(Dimension bmp, Rectangle2D.Float r) {
-        Dimension d = getScaledImageSize();
+        Rectangle d = getDrawingArea();
         float w = (float) bmp.width / d.width;
         float h = (float) bmp.height / d.height;
-        return new Rectangle2D.Float(r.x,
-                r.y,
+        return new Rectangle2D.Float(r.x * w - d.x,
+                r.y * h - d.y,
                 r.width * w,
                 r.height * h);
     }
     
     public Rectangle2D.Float getScaledRectFromImageRect(Dimension bmp, Rectangle2D.Float r) {
-        Dimension d = getScaledImageSize();
+        Rectangle d = getDrawingArea();
         float w = d.width / (float) bmp.width;
         float h = d.height / (float) bmp.height;
-        return new Rectangle2D.Float(r.x,
-                r.y,
+        return new Rectangle2D.Float(r.x * w + d.x,
+                r.y * h + d.y + 10,
                 r.width * w,
                 r.height * h);
     }
@@ -579,11 +624,9 @@ class PaintSurface extends JPanel {
 //            Shape line = new Line2D.Float(0, i, getSize().width, i);
 //            g2.draw(line);
 //        }
-        Dimension d = ((TitledBorder) getBorder()).getMinimumSize(this);
-        g2.clearRect(getInsets().left, getInsets().top,
-                getWidth() - d.width / 2, getHeight() - d.height);
-        g2.drawImage(image, getInsets().left, getInsets().top,
-                getWidth() - d.width / 2, getHeight() - d.height, null);
+        Rectangle d = getDrawingArea();
+        g2.clearRect(d.x, d.y, d.width, d.height);
+        g2.drawImage(image, d.x, d.y, d.width, d.height, null);
     }
 
     @Override
