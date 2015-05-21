@@ -148,6 +148,56 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void displaySelection(Selection s) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.view_qeraat_dlg);
+        EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+        txt.setText("" + setting.page);
+        dialog.setTitle("ذهاب إلى الصفحة");
+        final ListView l = (ListView) dialog.findViewById(R.id.listViewSurah);
+        l.setAdapter(new ArrayAdapter<Surah>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values));
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Surah itemValue = (Surah) l.getItemAtPosition(position);
+                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                txt.setText("" + itemValue.page);
+            }
+        });
+        Button b = (Button) dialog.findViewById(R.id.buttonGoto);
+        b.setOnClickListener(new View.OnClickListener() {
+            private Runnable err = new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
+                    dlgAlert.setMessage(String.format("أدخل رقم صفحة صحيح في المدى (1-%d)", MAX_PAGE));
+                    dlgAlert.setTitle("خطأ");
+                    dlgAlert.setPositiveButton("موافق", null);
+                    dlgAlert.setCancelable(false);
+                    dlgAlert.create().show();
+                }
+            };
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                    int num = Integer.parseInt(txt.getText().toString());
+                    if (num > 0 && num <= MAX_PAGE) {
+                        dialog.dismiss();
+                        viewPage(num);
+                    } else {
+                        err.run();
+                    }
+                } catch (Exception ex) {
+                    err.run();
+                }
+            }
+        });
+        dialog.show();
+    }
+
     public static Bitmap getBitmapFromURL(String link) {
         System.out.println(link);
         try {
@@ -178,16 +228,28 @@ public class MainActivity extends Activity {
                 switch (eventType){
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
-                        if (name.equals("selection")){
+                        if (name.equals("selection")) {
                             currentProduct = new Selection();
-                            int p = currentProduct.page = parser.getAttributeIntValue(null, "page", 1);
-                            Rectangle r = new Rectangle();
-                            String[] tmp = parser.getAttributeValue(null, "rect").split(",");
-                            r.x = Float.parseFloat(tmp[0]);
-                            r.y = Float.parseFloat(tmp[1]);
-                            r.width = Float.parseFloat(tmp[2]);
-                            r.height = Float.parseFloat(tmp[3]);
-                            currentProduct.rect = r;
+                            currentProduct.page = parser.getAttributeIntValue(null, "page", 1);
+                            String rect = parser.getAttributeValue(null, "rect");
+                            if (rect != null) {
+                                Rectangle r = new Rectangle();
+                                String[] tmp = rect.split(",");
+                                r.x = Float.parseFloat(tmp[0]);
+                                r.y = Float.parseFloat(tmp[1]);
+                                r.width = Float.parseFloat(tmp[2]);
+                                r.height = Float.parseFloat(tmp[3]);
+                                currentProduct.rect = r;
+                            } else {
+                                rect = parser.getAttributeValue(null, "line");
+                                Line r = new Line();
+                                String[] tmp = rect.split(",");
+                                r.x1 = Float.parseFloat(tmp[0]);
+                                r.y1 = Float.parseFloat(tmp[1]);
+                                r.x2 = Float.parseFloat(tmp[2]);
+                                r.y2 = Float.parseFloat(tmp[3]);
+                                currentProduct.rect = r;
+                            }
                             currentProduct.type = SelectionType.fromValue(
                                     parser.getAttributeIntValue(null, "type", 1));
                         } else if (currentProduct != null){
@@ -542,7 +604,10 @@ enum SelectionType {
     Farsh(1),
     Hamz(2),
     Edgham(3),
-    Emalah(4);
+    Emalah(4),
+    Naql(5),
+    Mad(6),
+    Sakt(7);
 
     private final int value;
     private SelectionType(int value) {
@@ -563,13 +628,23 @@ enum SelectionType {
                 return Edgham;
             case 4:
                 return Emalah;
+            case 5:
+                return Naql;
+            case 6:
+                return Mad;
+            case 7:
+                return Sakt;
             default:
                 throw new IllegalArgumentException();
         }
     }
 }
 
-class Rectangle {
+abstract class Shape {
+
+}
+
+class Rectangle extends Shape {
     float x, y, width, height;
 
     @Override
@@ -578,8 +653,17 @@ class Rectangle {
     }
 }
 
+class Line extends Shape {
+    float x1, y1, x2, y2;
+
+    @Override
+    public String toString() {
+        return String.format("rect[%f, %f, %f, %f]", x1, y1, x2, y2);
+    }
+}
+
 class Selection {
-    Rectangle rect;
+    Shape rect;
     int page;
     String shahed;
     String descr;

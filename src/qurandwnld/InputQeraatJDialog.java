@@ -5,49 +5,35 @@
  */
 package qurandwnld;
 
-import javax.swing.DefaultComboBoxModel;
-
 /**
  *
  * @author ibraheem
  */
 public class InputQeraatJDialog extends javax.swing.JDialog {
-
-    class ComboItem {
-
-        private SelectionType value;
-        private String label;
-
-        public ComboItem(SelectionType value, String label) {
-            this.value = value;
-            this.label = label;
-        }
-
-        public SelectionType getValue() {
-            return this.value;
-        }
-
-        public String getLabel() {
-            return this.label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
-
-    SelectionType type() {
-        return ((ComboItem) jComboBox1.getSelectedItem()).getValue();
-    }
     
-    void type(SelectionType t) {
-        for (int i = 0; i < jComboBox1.getItemCount(); ++i) {
-            ComboItem item = (ComboItem) jComboBox1.getItemAt(i);
-            if (item.value.getValue() == t.getValue()) {
-                jComboBox1.setSelectedItem(item);
+    void type(SelectionType s) {
+        switch (s) {
+            case Edgham:
+                jLabel1.setText("النوع: إدغام");
                 break;
-            }
+            case Emalah:
+                jLabel1.setText("النوع: إمالة");
+                break;
+            case Farsh:
+                jLabel1.setText("النوع: فرش");
+                break;
+            case Hamz:
+                jLabel1.setText("النوع: همز");
+                break;
+            case Mad:
+                jLabel1.setText("النوع: مد");
+                break;
+            case Naql:
+                jLabel1.setText("النوع: نقل");
+                break;
+            case Sakt:
+                jLabel1.setText("النوع: سكت");
+                break;
         }
     }
 
@@ -73,11 +59,6 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     public InputQeraatJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        ((DefaultComboBoxModel) jComboBox1.getModel()).removeAllElements();
-        ((DefaultComboBoxModel) jComboBox1.getModel()).addElement(new ComboItem(SelectionType.Farsh, "فرش"));
-        ((DefaultComboBoxModel) jComboBox1.getModel()).addElement(new ComboItem(SelectionType.Hamz, "همز"));
-        ((DefaultComboBoxModel) jComboBox1.getModel()).addElement(new ComboItem(SelectionType.Edgham, "إدغام"));
-        ((DefaultComboBoxModel) jComboBox1.getModel()).addElement(new ComboItem(SelectionType.Emalah, "إمالة"));
         WriteJFrame1.rtlLayout(this);
     }
 
@@ -90,25 +71,20 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("تحرير بيانات القراءة");
 
-        jLabel1.setText("النوع");
-
         jLabel2.setText("الوصف");
 
         jLabel3.setText("الشاهد");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "فرش", "همز", "إدغام", "إمالة" }));
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Traditional Arabic", 1, 18)); // NOI18N
@@ -120,6 +96,9 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,26 +106,25 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 368, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -157,7 +135,7 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -207,7 +185,6 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

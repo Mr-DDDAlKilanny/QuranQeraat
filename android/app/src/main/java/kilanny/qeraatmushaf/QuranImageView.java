@@ -66,7 +66,12 @@ public class QuranImageView extends ImageView {
             for (Selection s : selections) {
                 paint.setColor(colors[s.type.getValue() - 1]);
                 paint.setAlpha(125);
-                canvas.drawRect(getActualRect(s.rect), paint);
+                if (s.rect instanceof Rectangle)
+                    canvas.drawRect(getActualRect((Rectangle) s.rect), paint);
+                else {
+                    Line l = getScaledLineFromImageLine(currentPageSize, (Line) s.rect);
+                    canvas.drawLine(l.x1, l.y1, l.x2, l.y2, paint);
+                }
             }
         }
     }
@@ -80,6 +85,18 @@ public class QuranImageView extends ImageView {
         rr.y = r.y * h;
         rr.width = r.width * w;
         rr.height = r.height * h;
+        return rr;
+    }
+
+    public Line getScaledLineFromImageLine(Dimension bmp, Line r) {
+        final Dimension d = new Dimension(getWidth(), getHeight());
+        float w = d.width / (float) bmp.width;
+        float h = d.height / (float) bmp.height;
+        Line rr = new Line();
+        rr.x1 = r.x1 * w;
+        rr.y1 = r.y1 * h;
+        rr.x2 = r.x2 * w;
+        rr.y2 = r.y2 * h;
         return rr;
     }
 }
