@@ -24,7 +24,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
     public void onSwipeRight() {
     }
 
-    public void onClick() {
+    public void onClick(float x, float y) {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -44,7 +44,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
         @Override
         public void onShowPress(MotionEvent e) {
             super.onShowPress(e);
-            onClick();
+            onClick(e.getX(), e.getY());
         }
 
         @Override

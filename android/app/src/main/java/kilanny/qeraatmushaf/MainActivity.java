@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -148,53 +150,36 @@ public class MainActivity extends Activity {
         }
     }
 
+    public static String getString(SelectionType s) {
+        switch (s) {
+            case Edgham:
+                return ("النوع: إدغام");
+            case Emalah:
+                return ("النوع: إمالة");
+            case Farsh:
+                return ("النوع: فرش");
+            case Hamz:
+                return ("النوع: همز");
+            case Mad:
+                return ("النوع: مد");
+            case Naql:
+                return ("النوع: نقل");
+            case Sakt:
+                return ("النوع: سكت");
+        }
+        throw new IllegalArgumentException();
+    }
+
     private void displaySelection(Selection s) {
         final Dialog dialog = new Dialog(this);
+        dialog.setTitle(R.string.app_name);
         dialog.setContentView(R.layout.view_qeraat_dlg);
-        EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-        txt.setText("" + setting.page);
-        dialog.setTitle("ذهاب إلى الصفحة");
-        final ListView l = (ListView) dialog.findViewById(R.id.listViewSurah);
-        l.setAdapter(new ArrayAdapter<Surah>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values));
-        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Surah itemValue = (Surah) l.getItemAtPosition(position);
-                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-                txt.setText("" + itemValue.page);
-            }
-        });
-        Button b = (Button) dialog.findViewById(R.id.buttonGoto);
-        b.setOnClickListener(new View.OnClickListener() {
-            private Runnable err = new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
-                    dlgAlert.setMessage(String.format("أدخل رقم صفحة صحيح في المدى (1-%d)", MAX_PAGE));
-                    dlgAlert.setTitle("خطأ");
-                    dlgAlert.setPositiveButton("موافق", null);
-                    dlgAlert.setCancelable(false);
-                    dlgAlert.create().show();
-                }
-            };
-
-            @Override
-            public void onClick(View v) {
-                try {
-                    EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-                    int num = Integer.parseInt(txt.getText().toString());
-                    if (num > 0 && num <= MAX_PAGE) {
-                        dialog.dismiss();
-                        viewPage(num);
-                    } else {
-                        err.run();
-                    }
-                } catch (Exception ex) {
-                    err.run();
-                }
-            }
-        });
+        TextView txt = (TextView) dialog.findViewById(R.id.textViewType);
+        txt.setText(getString(s.type));
+        txt = (TextView) dialog.findViewById(R.id.textViewShahed);
+        txt.setText(s.shahed);
+        txt = (TextView) dialog.findViewById(R.id.textViewDescr);
+        txt.setText(s.descr);
         dialog.show();
     }
 
@@ -309,6 +294,22 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void displayMulipleChoiceSelections(Selection[] s) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+        builderSingle.setTitle("عدة ملاحظات:");
+        final ArrayAdapter<Selection> arrayAdapter = new ArrayAdapter<Selection>(
+                this, android.R.layout.select_dialog_singlechoice, s);
+        builderSingle.setAdapter(arrayAdapter,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        displaySelection(arrayAdapter.getItem(which));
+                    }
+                });
+        builderSingle.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -316,6 +317,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ImageView v = (ImageView) findViewById(R.id.imageView);
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
+            private ArrayList<Selection> matches = new ArrayList<Selection>();
+
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
@@ -329,12 +332,20 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onClick() {
-                super.onClick();
+            public void onClick(final float x, final float y) {
+                super.onClick(x, y);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (isActionbarVisible)
+                        QuranImageView i = (QuranImageView) findViewById(R.id.imageView);
+                        matches.clear();
+                        i.getSelectionAtPos(x, y, matches);
+                        if (matches.size() > 0) {
+                            if (matches.size() == 1)
+                                displaySelection(matches.get(0));
+                            else
+                                displayMulipleChoiceSelections((Selection[]) matches.toArray());
+                        } else if (isActionbarVisible)
                             getActionBar().hide();
                         else getActionBar().show();
                         isActionbarVisible = !isActionbarVisible;
@@ -470,11 +481,11 @@ public class MainActivity extends Activity {
 
     private void downloadAll() {
         final ProgressDialog show = ProgressDialog.show(this, "تحميل المصحف كاملا",
-                "يتم تحميل المصحف...");
-        show.setIndeterminate(false);
+                "يتم تحميل المصحف...", true, true);
+        final Handler updateBarHandler = new Handler();
         show.setMax(MAX_PAGE);
+        show.setProgress(0);
         show.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        show.setCancelable(true);
         final AsyncTask<Void, Integer, String[]> execute = new AsyncTask<Void, Integer, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
@@ -503,9 +514,15 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            protected void onProgressUpdate(Integer... values) {
-                show.setProgress(values[0]);
-                show.setMessage(String.format("يتم تحميل الصفحة %d من %d", values[0], MAX_PAGE));
+            protected void onProgressUpdate(final Integer... values) {
+                updateBarHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        show.setProgress(values[0]);
+                        show.setMessage(String.format("يتم تحميل الصفحة %d من %d",
+                                values[0], MAX_PAGE));
+                    }
+                });
             }
 
             @Override
@@ -668,6 +685,11 @@ class Selection {
     String shahed;
     String descr;
     SelectionType type;
+
+    @Override
+    public String toString() {
+        return MainActivity.getString(type);
+    }
 }
 class Surah {
     String name;

@@ -16,8 +16,13 @@ import java.util.ArrayList;
  */
 public class QuranImageView extends ImageView {
 
-    private final int[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED, Color.BLUE };
+    private final int[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN,
+            Color.RED, Color.BLUE, Color.WHITE, Color.GRAY };
+    private static final int LINE_BORDER = 10;
     ArrayList<Selection> selections;
+    private ArrayList<Boolean> lastTypes = new ArrayList<>();
+    private ArrayList<RectF> lastRects = new ArrayList<>();
+    private ArrayList<Line> lastLines = new ArrayList<>();
     Dimension currentPageSize;
     private Paint paint;
 
@@ -63,13 +68,22 @@ public class QuranImageView extends ImageView {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (selections != null) {
+            lastRects.clear();
+            lastLines.clear();
+            lastTypes.clear();
             for (Selection s : selections) {
                 paint.setColor(colors[s.type.getValue() - 1]);
                 paint.setAlpha(125);
-                if (s.rect instanceof Rectangle)
-                    canvas.drawRect(getActualRect((Rectangle) s.rect), paint);
+                if (s.rect instanceof Rectangle) {
+                    lastTypes.add(Boolean.TRUE);
+                    RectF r = getActualRect((Rectangle) s.rect);
+                    lastRects.add(r);
+                    canvas.drawRect(r, paint);
+                }
                 else {
+                    lastTypes.add(Boolean.FALSE);
                     Line l = getScaledLineFromImageLine(currentPageSize, (Line) s.rect);
+                    lastLines.add(l);
                     canvas.drawLine(l.x1, l.y1, l.x2, l.y2, paint);
                 }
             }
@@ -98,5 +112,23 @@ public class QuranImageView extends ImageView {
         rr.x2 = r.x2 * w;
         rr.y2 = r.y2 * h;
         return rr;
+    }
+
+    public void getSelectionAtPos(float x, float y, ArrayList<Selection> matches) {
+        int[] ty = new int[2];
+        for (int i = 0; i < lastTypes.size(); ++i) {
+            if (lastTypes.get(i).booleanValue()) {
+                RectF r = lastRects.get(ty[0]++);
+                if (r.contains(x, y)) matches.add(selections.get(i));
+            } else {
+                Line l = lastLines.get(ty[1]++);
+                RectF r = new RectF();
+                r.set(l.x1,
+                        l.y1 - LINE_BORDER,
+                        l.x2,
+                        l.y2 + LINE_BORDER);
+                if (r.contains(x, y)) matches.add(selections.get(i));
+            }
+        }
     }
 }
