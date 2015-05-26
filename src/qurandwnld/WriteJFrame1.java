@@ -78,6 +78,8 @@ class WriteJFrame1 extends javax.swing.JFrame {
     private final ArrayList<Selection>[] sel;
     static final int MAX_PAGE = 604;
     final int pageSizes[][] = new int[MAX_PAGE][2];
+    final String[] surahName = new String[114];
+    final String[] pageSurah = new String[MAX_PAGE];
     
     int page;
     
@@ -125,7 +127,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
         radioButtons.stream().forEach((r) -> {
             r.addChangeListener(changeListener);
         });
-        readPageSizes();
+        readQuranData();
         readSetting();
         rtlLayout(this);
         jSpinner1.setModel(new SpinnerNumberModel(1, 1, MAX_PAGE, 1));
@@ -180,7 +182,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
         }
     }
     
-    private void readPageSizes() {
+    private void readQuranData() {
         File f = new File(getClass().getClassLoader().getResource("quran-data.xml").getFile());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder dBuilder;
@@ -200,48 +202,33 @@ class WriteJFrame1 extends javax.swing.JFrame {
                     pageSizes[page - 1][1] = height;
                 }
             }
+            nList = doc.getElementsByTagName("sura");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    int idx = Integer.parseInt(eElement.getAttribute("index"));
+                    String name = eElement.getAttribute("name");
+                    surahName[idx - 1] = name;
+                }
+            }
+            nList = doc.getElementsByTagName("page");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    int idx = Integer.parseInt(eElement.getAttribute("index"));
+                    int sura = Integer.parseInt(eElement.getAttribute("sura"));
+                    pageSurah[idx - 1] = surahName[sura - 1];
+                }
+            }
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(WriteJFrame1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private String getSurahByPage(int p) {
-        File f = new File(getClass().getClassLoader().getResource("quran-data.xml").getFile());
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder dBuilder;
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(f);
-            doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("page");
-            String s = null;
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    if (eElement.getAttribute("index").equals(p + "")) {
-                        s = eElement.getAttribute("sura");
-                        break;
-                    }
-                }
-            }
-            if (s == null)
-                return null;
-            nList = doc.getElementsByTagName("sura");
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    if (eElement.getAttribute("index").equals(s)) {
-                        return eElement.getAttribute("name");
-                    }
-                }
-            }
-            return null;
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(WriteJFrame1.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
+        return pageSurah[p - 1];
     }
 
     /**
@@ -286,6 +273,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("تسجيل القراءات");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -443,12 +431,13 @@ class WriteJFrame1 extends javax.swing.JFrame {
 
     private void showPage(int p) {
         try {
-            jSpinner1.setValue(p);
-            ((TitledBorder) getSurface().getBorder()).setTitle("سورة " + getSurahByPage(p));
-            getSurface().shapes = sel[p - 1];
             String path = String.format("quran/%04d.jpg", p);
             getSurface().image = ImageIO.read(getClass().getClassLoader().getResource(path));
             getSurface().repaint();
+            jSpinner1.setValue(p);
+            ((TitledBorder) getSurface().getBorder()).setTitle("سورة " + getSurahByPage(p));
+            getSurface().shapes = sel[p - 1];
+            page = p;
         } catch (IOException ex) {
         }
     }
@@ -792,7 +781,9 @@ class PaintSurface extends JPanel {
     private Rectangle getDrawingArea() {
         //Dimension d = ((TitledBorder) getBorder()).getMinimumSize(this);
         //return new Rectangle(d.width / 4, d.height / 4, getWidth() - d.width / 2, getHeight() - d.height / 2);
-        return new Rectangle(Math.round(getInsets().left / 2.0f), Math.round(getInsets().top / 2.0f),
+        
+        // getInsets(): right == left & top == bottom
+        return new Rectangle((int) Math.round(getInsets().left / 2.0f), (int) Math.round(getInsets().top / 2.0f),
                 getWidth() - getInsets().left, getHeight() - getInsets().top);
     }
     

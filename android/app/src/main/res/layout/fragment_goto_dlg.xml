@@ -33,14 +33,87 @@
         android:layout_toLeftOf="@+id/editTextPageNum"
         android:layout_toStartOf="@+id/editTextPageNum" />
 
-    <ListView
+    <TabHost
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewSurah"
+        android:id="@+id/tabHost"
         android:layout_below="@+id/editTextPageNum"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:headerDividersEnabled="false"
-        android:clickable="false"
-        android:drawSelectorOnTop="true" />
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/بالسورة"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewSurah"
+                        android:headerDividersEnabled="false"
+                        android:clickable="false"
+                        android:drawSelectorOnTop="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/بالجزء"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewJuz"
+                        android:headerDividersEnabled="false"
+                        android:clickable="false"
+                        android:drawSelectorOnTop="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/بالحزب"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewHizb"
+                        android:headerDividersEnabled="false"
+                        android:clickable="false"
+                        android:drawSelectorOnTop="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/بالمحفوظات"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewBookmarks"
+                        android:headerDividersEnabled="false"
+                        android:clickable="false"
+                        android:drawSelectorOnTop="true" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
 </RelativeLayout>

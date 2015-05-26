@@ -35,6 +35,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="&#x62a;&#x633;&#x62c;&#x64a;&#x644; &#x627;&#x644;&#x642;&#x631;&#x627;&#x621;&#x627;&#x62a;"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

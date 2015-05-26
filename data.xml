@@ -36,6 +36,10 @@
     <shahed/>
     <descr/>
   </selection>
+  <selection page="1" rect="167.107147,197.317078,39.285713,24.468292" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
   <selection page="2" rect="74.389580,110.473679,29.776676,24.753288" type="3">
     <shahed/>
     <descr/>
@@ -46,7 +50,7 @@
   </selection>
   <selection page="3" rect="179.600494,7.863485,14.888338,29.151314" type="1">
     <shahed/>
-    <descr/>
+    <descr>ضم حمزة الهاء</descr>
   </selection>
   <selection page="3" rect="141.883377,3.699013,19.851116,31.233551" type="2">
     <shahed/>
@@ -79,5 +83,57 @@
   <selection page="3" rect="198.459061,499.271362,89.330025,42.685852" type="2">
     <shahed/>
     <descr>وقف حمزة</descr>
+  </selection>
+  <selection page="4" rect="334.071411,12.138210,58.928570,30.320324" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="4" rect="86.750000,208.697556,37.500000,47.048779" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="4" rect="154.607147,342.525177,64.285713,35.547966" type="2">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="4" rect="125.142853,475.307312,53.571426,38.684551" type="3">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="4" rect="51.035713,554.767456,82.142853,43.912193" type="4">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection line="6.392857,387.482910,42.107143,386.437378" page="4" type="5">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection line="28.714287,126.100800,43.892857,126.100800" page="4" type="7">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="5" rect="350.941833,9.936483,46.532440,31.221500" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="5" rect="113.805374,375.228027,60.850113,49.954399" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="5" rect="36.847878,590.656372,108.277405,38.506516" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="6" rect="332.149902,12.719870,59.955257,32.885994" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="6" rect="31.478748,575.892517,99.328857,40.079803" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="6" rect="142.440720,297.389252,65.324387,33.913681" type="1">
+    <shahed/>
+    <descr/>
   </selection>
 </selections>

@@ -15,8 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,15 +47,20 @@ import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import kilanny.util.ArabicNumbers;
+
 
 public class MainActivity extends Activity {
 
     private final String settingFilename = "myfile";
     private boolean isActionbarVisible = false;
     private Setting setting;
+    private Menu menu;
     private static final int MAX_PAGE = 604;
     private boolean isLoadingPage;
-    private final Surah[] values = new Surah[114];
+    private final ListItem[] juzs = new ListItem[30];
+    private final ListItem[] hizbs = new ListItem[60];
+    private final Surah[] surahs = new Surah[114];
     private final int pageSizes[][] = new int[MAX_PAGE][2];
     private final ArrayList<Selection>[] sel = new ArrayList[MAX_PAGE];
 
@@ -74,6 +78,7 @@ public class MainActivity extends Activity {
         }
         if (setting == null) {
             setting = new Setting();
+            setting.bookmarks = new ArrayList<>();
         }
     }
 
@@ -96,6 +101,16 @@ public class MainActivity extends Activity {
             Bitmap bitmap = bitmapDrawable.getBitmap();
             bitmap.recycle();
         }
+    }
+
+    private String getPageNote(int p) {
+        // f(y) = (y - 1) * 10 + 2 {2, 12, 22, 32, 42, ...}
+        // f(x) = (x - 1) * 20 + 2 {2, 22, 42, 62, ...}
+        if (p % 10 == 2) {
+            if ((p - 2) % 20 == 0) return "الجزء " + ArabicNumbers.numToStr((p - 2) / 20 + 1);
+            return "الحزب " + ArabicNumbers.numToStr((p - 2) / 10 + 1);
+        }
+        return null;
     }
 
     private void viewPage(final int p) {
@@ -134,11 +149,14 @@ public class MainActivity extends Activity {
                                         pageSizes[p - 1][1]);
                                 v.setImageBitmap(b);
                                 v.selections = sel[p - 1];
-                                CharSequence text = "صفحة " + p;
-                                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                                String note = getPageNote(p);
+                                if (note != null)
+                                    Toast.makeText(getApplicationContext(), note,
+                                            Toast.LENGTH_SHORT).show();
                                 setting.page = p;
                                 saveSettings();
                             }
+                            setBookmarkMenuItem(setting.isBookmarked(p));
                             setProgressBarIndeterminateVisibility(false);
                             isActionbarVisible = false;
                             getActionBar().hide();
@@ -204,7 +222,6 @@ public class MainActivity extends Activity {
             sel[i] = new ArrayList<>();
         }
         XmlResourceParser parser = getResources().getXml(R.xml.data);
-        QuranImageView v = (QuranImageView) findViewById(R.id.imageView);
         try {
             int eventType = parser.getEventType();
             Selection currentProduct = null;
@@ -262,6 +279,7 @@ public class MainActivity extends Activity {
         XmlResourceParser parser = getResources().getXml(R.xml.qurandata);
         Surah s = new Surah();
         s.index = idx;
+        int tmp = idx < 2 ? 1 : surahs[idx - 2].page;
         s.page = MAX_PAGE * 2;
         try {
             int eventType = parser.getEventType();
@@ -287,6 +305,8 @@ public class MainActivity extends Activity {
                 }
                 eventType = parser.next();
             }
+            if (s.page == MAX_PAGE * 2)
+                s.page = tmp;
             return s;
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
@@ -294,25 +314,44 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void displayMulipleChoiceSelections(Selection[] s) {
+    private void displayMulipleChoiceSelections(Object[] s) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
         builderSingle.setTitle("عدة ملاحظات:");
-        final ArrayAdapter<Selection> arrayAdapter = new ArrayAdapter<Selection>(
+        final ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<Object>(
                 this, android.R.layout.select_dialog_singlechoice, s);
         builderSingle.setAdapter(arrayAdapter,
                 new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        displaySelection(arrayAdapter.getItem(which));
+                        displaySelection((Selection) arrayAdapter.getItem(which));
                     }
                 });
         builderSingle.show();
     }
 
+    private void initQuranData() {
+        for (int i = 0; i < 114; ++i) {
+            surahs[i] = getSurah(i + 1);
+        }
+        for (int i = 0; i < juzs.length; ++i) {
+            ListItem j = new ListItem();
+            j.name = "الجزء " + ArabicNumbers.numToStr(i + 1);
+            j.value = new Integer(i * 20 + 2);
+            juzs[i] = j;
+        }
+        for (int i = 0; i < hizbs.length; ++i) {
+            ListItem j = new ListItem();
+            j.name = "الحزب " + ArabicNumbers.numToStr(i + 1);
+            j.value = new Integer(i * 10 + 2);
+            hizbs[i] = j;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        //requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView v = (ImageView) findViewById(R.id.imageView);
@@ -321,18 +360,21 @@ public class MainActivity extends Activity {
 
             @Override
             public void onSwipeLeft() {
+                if (isLoadingPage) return;
                 super.onSwipeLeft();
                 viewPage(setting.page - 1);
             }
 
             @Override
             public void onSwipeRight() {
+                if (isLoadingPage) return;
                 super.onSwipeRight();
                 viewPage(setting.page + 1);
             }
 
             @Override
             public void onClick(final float x, final float y) {
+                if (isLoadingPage) return;
                 super.onClick(x, y);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -344,7 +386,7 @@ public class MainActivity extends Activity {
                             if (matches.size() == 1)
                                 displaySelection(matches.get(0));
                             else
-                                displayMulipleChoiceSelections((Selection[]) matches.toArray());
+                                displayMulipleChoiceSelections(matches.toArray());
                         } else if (isActionbarVisible)
                             getActionBar().hide();
                         else getActionBar().show();
@@ -366,9 +408,7 @@ public class MainActivity extends Activity {
                         v.invalidate();
                     }
                 });
-                for (int i = 0; i < 114; ++i) {
-                    values[i] = getSurah(i + 1);
-                }
+                initQuranData();
                 readSelections();
                 isLoadingPage = false;
                 readSettings();
@@ -382,7 +422,125 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
         return true;
+    }
+
+    private void setBookmarkMenuItem(boolean add) {
+        if (add) {
+            menu.findItem(R.id.action_bookmark).setTitle("إزالة الحفظ");
+            menu.findItem(R.id.action_bookmark)
+                    .setIcon(R.drawable.abc_btn_rating_star_off_mtrl_alpha);
+        }
+        else {
+            menu.findItem(R.id.action_bookmark).setTitle("حفظ الصفحة");
+            menu.findItem(R.id.action_bookmark)
+                    .setIcon(R.drawable.abc_btn_rating_star_on_mtrl_alpha);
+        }
+    }
+
+    private void displayGotoDlg() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.fragment_goto_dlg);
+        TabHost tabHost = (TabHost) dialog.findViewById(R.id.tabHost);
+        tabHost.setup();
+        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
+        TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
+        TabHost.TabSpec tab3 = tabHost.newTabSpec("tab3");
+        TabHost.TabSpec tab4 = tabHost.newTabSpec("tab4");
+        tab1.setIndicator("بالسورة");
+        tab1.setContent(R.id.listViewSurah);
+        tab2.setIndicator("بالجزء");
+        tab2.setContent(R.id.listViewJuz);
+        tab3.setIndicator("بالحزب");
+        tab3.setContent(R.id.listViewHizb);
+        tab4.setIndicator(null,
+                getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
+        tab4.setContent(R.id.listViewBookmarks);
+        /** Add the tabs  to the TabHost to display. */
+        tabHost.addTab(tab1);
+        tabHost.addTab(tab2);
+        tabHost.addTab(tab3);
+        tabHost.addTab(tab4);
+        EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+        txt.setText("" + setting.page);
+        dialog.setTitle("ذهاب إلى الصفحة");
+        final ListView l = (ListView) dialog.findViewById(R.id.listViewSurah);
+        l.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, surahs));
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Surah itemValue = (Surah) l.getItemAtPosition(position);
+                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                txt.setText("" + itemValue.page);
+            }
+        });
+        final ListView ll = (ListView) dialog.findViewById(R.id.listViewJuz);
+        ll.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, juzs));
+        ll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem itemValue = (ListItem) ll.getItemAtPosition(position);
+                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                txt.setText(itemValue.value.toString());
+            }
+        });
+        final ListView lll = (ListView) dialog.findViewById(R.id.listViewHizb);
+        lll.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, hizbs));
+        lll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem itemValue = (ListItem) lll.getItemAtPosition(position);
+                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                txt.setText(itemValue.value.toString());
+            }
+        });
+        final ListView l4 = (ListView) dialog.findViewById(R.id.listViewBookmarks);
+        l4.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                setting.bookmarks.toArray()));
+        l4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem itemValue = (ListItem) l4.getItemAtPosition(position);
+                EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                txt.setText(itemValue.name);
+            }
+        });
+        Button b = (Button) dialog.findViewById(R.id.buttonGoto);
+        b.setOnClickListener(new View.OnClickListener() {
+            private Runnable err = new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
+                    dlgAlert.setMessage(String.format("أدخل رقم صفحة صحيح في المدى (1-%d)", MAX_PAGE));
+                    dlgAlert.setTitle("خطأ");
+                    dlgAlert.setPositiveButton("موافق", null);
+                    dlgAlert.setCancelable(false);
+                    dlgAlert.create().show();
+                }
+            };
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
+                    int num = Integer.parseInt(txt.getText().toString());
+                    if (num > 0 && num <= MAX_PAGE) {
+                        dialog.dismiss();
+                        viewPage(num);
+                    } else {
+                        err.run();
+                    }
+                } catch (Exception ex) {
+                    err.run();
+                }
+            }
+        });
+        dialog.show();
     }
 
     @Override
@@ -398,53 +556,7 @@ public class MainActivity extends Activity {
         } else if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_goto) {
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.fragment_goto_dlg);
-            EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-            txt.setText("" + setting.page);
-            dialog.setTitle("ذهاب إلى الصفحة");
-            final ListView l = (ListView) dialog.findViewById(R.id.listViewSurah);
-            l.setAdapter(new ArrayAdapter<Surah>(this,
-                    android.R.layout.simple_list_item_1, android.R.id.text1, values));
-            l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Surah itemValue = (Surah) l.getItemAtPosition(position);
-                    EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-                    txt.setText("" + itemValue.page);
-                }
-            });
-            Button b = (Button) dialog.findViewById(R.id.buttonGoto);
-            b.setOnClickListener(new View.OnClickListener() {
-                private Runnable err = new Runnable() {
-                    @Override
-                    public void run() {
-                        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
-                        dlgAlert.setMessage(String.format("أدخل رقم صفحة صحيح في المدى (1-%d)", MAX_PAGE));
-                        dlgAlert.setTitle("خطأ");
-                        dlgAlert.setPositiveButton("موافق", null);
-                        dlgAlert.setCancelable(false);
-                        dlgAlert.create().show();
-                    }
-                };
-
-                @Override
-                public void onClick(View v) {
-                    try {
-                        EditText txt = (EditText) dialog.findViewById(R.id.editTextPageNum);
-                        int num = Integer.parseInt(txt.getText().toString());
-                        if (num > 0 && num <= MAX_PAGE) {
-                            dialog.dismiss();
-                            viewPage(num);
-                        } else {
-                            err.run();
-                        }
-                    } catch (Exception ex) {
-                        err.run();
-                    }
-                }
-            });
-            dialog.show();
+            displayGotoDlg();
             return true;
         } else if (R.id.action_download == id) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -465,6 +577,8 @@ public class MainActivity extends Activity {
             builder.setMessage("سيتم تحميل المصحف كاملا على جهازك (150 ميغا) استمرار؟")
                     .setPositiveButton("نعم", dialogClickListener)
                     .setNegativeButton("لا", dialogClickListener).show();
+        } else if (R.id.action_bookmark == id) {
+            setBookmarkMenuItem(setting.toggleBookmark(setting.page));
         }
 
         return super.onOptionsItemSelected(item);
@@ -480,12 +594,13 @@ public class MainActivity extends Activity {
     }
 
     private void downloadAll() {
-        final ProgressDialog show = ProgressDialog.show(this, "تحميل المصحف كاملا",
-                "يتم تحميل المصحف...", true, true);
-        final Handler updateBarHandler = new Handler();
+        final ProgressDialog show = new ProgressDialog(this);
+        show.setTitle("تحميل المصحف كاملا");
+        show.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        show.setIndeterminate(false);
         show.setMax(MAX_PAGE);
         show.setProgress(0);
-        show.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        show.show();
         final AsyncTask<Void, Integer, String[]> execute = new AsyncTask<Void, Integer, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
@@ -515,14 +630,7 @@ public class MainActivity extends Activity {
 
             @Override
             protected void onProgressUpdate(final Integer... values) {
-                updateBarHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        show.setProgress(values[0]);
-                        show.setMessage(String.format("يتم تحميل الصفحة %d من %d",
-                                values[0], MAX_PAGE));
-                    }
-                });
+                show.setProgress(values[0]);
             }
 
             @Override
@@ -705,6 +813,32 @@ class Surah {
 class Setting implements Serializable {
     boolean autoSaveDownloadedPage = true;
     int page = 1;
+    ArrayList<ListItem> bookmarks;
+
+    private ListItem getBookmark(int p) {
+        for (ListItem i : bookmarks) {
+            if (Integer.parseInt(i.name) == p)
+                return i;
+        }
+        return null;
+    }
+
+    public boolean isBookmarked(int p) {
+        return getBookmark(p) != null;
+    }
+
+    public boolean toggleBookmark(int p) {
+        ListItem b = getBookmark(p);
+        if (b == null) {
+            b = new ListItem();
+            b.name = p + "";
+            bookmarks.add(b);
+            return true;
+        } else {
+            bookmarks.remove(b);
+            return false;
+        }
+    }
 }
 
 class SynchObj<T> {
@@ -727,5 +861,15 @@ class SynchObj<T> {
         } finally {
             lock.unlock();
         }
+    }
+}
+
+class ListItem implements Serializable {
+    String name;
+    Object value;
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

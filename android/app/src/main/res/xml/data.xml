@@ -36,6 +36,14 @@
     <shahed/>
     <descr/>
   </selection>
+  <selection page="1" rect="336.750000,420.497559,25.892857,23.726830" type="4">
+    <shahed/>
+    <descr/>
+  </selection>
+  <selection page="1" rect="167.107147,197.317078,39.285713,24.468292" type="1">
+    <shahed/>
+    <descr/>
+  </selection>
   <selection page="2" rect="74.389580,110.473679,29.776676,24.753288" type="3">
     <shahed/>
     <descr/>
@@ -46,7 +54,7 @@
   </selection>
   <selection page="3" rect="179.600494,7.863485,14.888338,29.151314" type="1">
     <shahed/>
-    <descr/>
+    <descr>ضم حمزة الهاء</descr>
   </selection>
   <selection page="3" rect="141.883377,3.699013,19.851116,31.233551" type="2">
     <shahed/>
