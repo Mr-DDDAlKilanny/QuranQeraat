@@ -145,7 +145,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(f);
             doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("selection");
+            NodeList nList = doc.getElementsByTagName("mwd");
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -172,7 +172,38 @@ class WriteJFrame1 extends javax.swing.JFrame {
                     s.type = SelectionType.fromValue(Integer.parseInt(eElement.getAttribute("type")));
                     s.page = p;
                     s.shahed = eElement.getElementsByTagName("shahed").item(0).getTextContent();
-                    s.descr = eElement.getElementsByTagName("descr").item(0).getTextContent();
+                    //s.descr = eElement.getElementsByTagName("descr").item(0).getTextContent();
+                    NodeList ks = eElement.getElementsByTagName("khelaf");
+                    s.khelafat = new RewayahSelectionGroup[ks.getLength()];
+                    for (int i = 0; i < ks.getLength(); ++i) {
+                        Node n = ks.item(i);
+                        if (n.getNodeType() == Node.ELEMENT_NODE) {
+                            Element el = (Element) n;
+                            String[] codes = el.getAttribute("rewayat").split(";");
+                            s.khelafat[i] = new RewayahSelectionGroup();
+                            ArrayList<RewayahSelection> tmp = new ArrayList<>();
+                            s.khelafat[i].descr = el.getElementsByTagName("descr").item(0).getTextContent();
+                            for (int j = 0; j < codes.length; ++j) {
+                                String c = codes[j];
+                                if (c.contains(".")) {
+                                    RewayahSelection rs = new RewayahSelection();
+                                    rs.r = Rewayah.getByCombinedCode(c.replace("?", ""));
+                                    rs.kholf = c.endsWith("?");
+                                    tmp.add(rs);
+                                } else {
+                                    RewayahSelection rs = new RewayahSelection();
+                                    rs.r = Rewayah.getByCombinedCode(c.replace("?", "") + ".1");
+                                    rs.kholf = c.endsWith("?");
+                                    tmp.add(rs);
+                                    rs = new RewayahSelection();
+                                    rs.r = Rewayah.getByCombinedCode(c.replace("?", "") + ".2");
+                                    rs.kholf = c.endsWith("?");
+                                    tmp.add(rs);
+                                }
+                            }
+                            s.khelafat[i].rewayaat = tmp.toArray(new RewayahSelection[tmp.size()]);
+                        }
+                    }
                     s.isNew = false;
                     sel[p - 1].add(s);
                 }
@@ -384,7 +415,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("selections");
+            Element rootElement = doc.createElement("mawad");
             for (int i = 0; i < sel.length; ++i) {
                 for (int j = 0; j < sel[i].size(); ++j) {
                     sel[i].get(j).write(doc, rootElement, this);
@@ -407,16 +438,13 @@ class WriteJFrame1 extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         InputQeraatJDialog j = new InputQeraatJDialog(this, true);
-        j.type(current.type);
-        j.shahed(current.shahed);
-        j.descr(current.descr);
+        j.set(current);
         if (JOptionPane.showConfirmDialog(this,
                         j.getContentPane(),
                         "تحرير بيانات القراءة",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
-            current.descr = j.descr();
-            current.shahed = j.shahed();
+            current = j.get();
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -471,6 +499,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
     }
 
     private static void test() {
+        Logger.getLogger(WriteJFrame1.class.getName()).warning("Obsolete  method");
         File f = new File("data.xml");
         if (!f.exists())
             return;
@@ -607,14 +636,14 @@ enum SelectionType {
 abstract class Selection {
     int page;
     String shahed;
-    String descr;
+    RewayahSelectionGroup[] khelafat;
     SelectionType type;
     boolean isNew;
     
     protected abstract void writeShape(Document doc, Element root, WriteJFrame1 frame);
     
     public void write(Document doc, Element root, WriteJFrame1 frame) {
-        Element staff = doc.createElement("selection");
+        Element staff = doc.createElement("mwd");
         root.appendChild(staff);
 
         Attr attr = doc.createAttribute("page");
@@ -631,9 +660,37 @@ abstract class Selection {
         staff.appendChild(el);
         el.appendChild(doc.createTextNode(shahed));
 
-        el = doc.createElement("descr");
-        staff.appendChild(el);
-        el.appendChild(doc.createTextNode(descr));
+        final Element k = doc.createElement("khelafat");
+        staff.appendChild(k);
+        for (RewayahSelectionGroup g : khelafat) {
+            el = doc.createElement("khelaf");
+            attr = doc.createAttribute("rewayat");
+            Arrays.sort(g.rewayaat, (RewayahSelection o1, RewayahSelection o2) -> {
+                return o1.r.getCombinedCode().compareTo(o2.r.getCombinedCode());
+            });
+            StringBuilder b = new StringBuilder();
+            for (int i = 0; i < g.rewayaat.length; ++i) {
+                boolean q = g.rewayaat[i].kholf;
+                if (i + 1 < g.rewayaat.length && 
+                        g.rewayaat[i + 1].r.qeraah.code.equals(g.rewayaat[i].r.qeraah.code)
+                        && g.rewayaat[i].kholf == g.rewayaat[i + 1].kholf) {
+                    b.append(g.rewayaat[i].r.qeraah.code);
+                    ++i;
+                } else {
+                    b.append(g.rewayaat[i].r.getCombinedCode());
+                }
+                if (q)
+                    b.append("?;");
+                else
+                    b.append(";");
+            }
+            attr.setValue(b.toString());
+            el.setAttributeNode(attr);
+            k.appendChild(el);
+            Element d = doc.createElement("descr");
+            el.appendChild(d);
+            d.appendChild(doc.createTextNode(g.descr));
+        }
     }
     
     public abstract Shape getShape();
@@ -719,28 +776,26 @@ class PaintSurface extends JPanel {
                 }
                 WriteJFrame1 f = (WriteJFrame1) PaintSurface.this.getParent().getParent().getParent().getParent();
                 InputQeraatJDialog j = new InputQeraatJDialog(f, true);
-                j.type(f.currentType);
+                Selection s;
+                if (drawRect) {
+                    RectSelection r = new RectSelection();
+                    r.rect = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
+                    s = r;
+                } else {
+                    LineSelection r = new LineSelection();
+                    r.line = makeLine(startDrag.x, startDrag.y, e.getX(), e.getY());
+                    s = r;
+                }
+                s.page = f.page;
+                s.isNew = true;
+                s.type = f.currentType;
+                j.set(s);
                 if (JOptionPane.showConfirmDialog(f,
                         j.getContentPane(),
                         "تحرير بيانات القراءة",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
-                    Selection s;
-                    if (drawRect) {
-                        RectSelection r = new RectSelection();
-                        r.rect = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
-                        s = r;
-                    } else {
-                        LineSelection r = new LineSelection();
-                        r.line = makeLine(startDrag.x, startDrag.y, e.getX(), e.getY());
-                        s = r;
-                    }
-                    s.page = f.page;
-                    s.descr = j.descr();
-                    s.shahed = j.shahed();
-                    s.isNew = true;
-                    s.type = f.currentType;
-                    shapes.add(s);
+                    shapes.add(j.get());
                     startDrag = null;
                     endDrag = null;
                     repaint();

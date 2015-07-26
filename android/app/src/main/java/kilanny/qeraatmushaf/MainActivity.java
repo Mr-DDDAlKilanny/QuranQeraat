@@ -6,6 +6,9 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -44,6 +47,11 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -58,6 +66,7 @@ public class MainActivity extends Activity {
     private Menu menu;
     private static final int MAX_PAGE = 604;
     private boolean isLoadingPage;
+    private SharedPreferences pref;
     private final ListItem[] juzs = new ListItem[30];
     private final ListItem[] hizbs = new ListItem[60];
     private final Surah[] surahs = new Surah[114];
@@ -188,6 +197,36 @@ public class MainActivity extends Activity {
         throw new IllegalArgumentException();
     }
 
+    private List<RewayahSelectionGroup> filter(Selection s) {
+        // use settings to display only needed
+        ArrayList<RewayahSelectionGroup> ret = new ArrayList<>();
+        Resources res = getResources();
+        Set<String> lastRewayaat = pref.getStringSet("listSelectedRewayaat", new HashSet<>(
+                Arrays.asList(res.getStringArray(R.array.rewayaat_vales))));
+        Rewayah selected[] = new Rewayah[lastRewayaat.size()];
+        int tmp = 0;
+        for (String t : lastRewayaat) {
+            selected[tmp++] = Rewayah.getByCombinedCode(t);
+        }
+        for (RewayahSelectionGroup g : s.khelafat) {
+            boolean yes = false;
+            for (RewayahSelection r : g.rewayaat) {
+                for (Rewayah rew : selected) {
+                    if (rew == r.r) {
+                        yes = true;
+                        break;
+                    }
+                }
+                if (yes) break;
+            }
+            if (yes) {
+                //TODO: Only add those selected, not the hole group
+                ret.add(g);
+            }
+        }
+        return ret;
+    }
+
     private void displaySelection(Selection s) {
         final Dialog dialog = new Dialog(this);
         dialog.setTitle(R.string.app_name);
@@ -197,7 +236,16 @@ public class MainActivity extends Activity {
         txt = (TextView) dialog.findViewById(R.id.textViewShahed);
         txt.setText(s.shahed);
         txt = (TextView) dialog.findViewById(R.id.textViewDescr);
-        txt.setText(s.descr);
+        StringBuilder b = new StringBuilder();
+        List<RewayahSelectionGroup> disp = filter(s);
+        boolean useGroups = pref.getBoolean("useGroups", true);
+        boolean displayGroupMembers = pref.getBoolean("displayGroupMembers", false);
+        for (RewayahSelectionGroup g : disp) {
+            if (b.length() > 0)
+                b.append("و");
+            b.append(g.getReadableDescr(useGroups, displayGroupMembers)).append("\n");
+        }
+        txt.setText(b.toString());
         dialog.show();
     }
 
@@ -225,12 +273,13 @@ public class MainActivity extends Activity {
         try {
             int eventType = parser.getEventType();
             Selection currentProduct = null;
+            RewayahSelectionGroup currentGroup = null;
             while (eventType != XmlPullParser.END_DOCUMENT){
                 String name = null;
                 switch (eventType){
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
-                        if (name.equals("selection")) {
+                        if (name.equals("mwd")) {
                             currentProduct = new Selection();
                             currentProduct.page = parser.getAttributeIntValue(null, "page", 1);
                             String rect = parser.getAttributeValue(null, "rect");
@@ -254,18 +303,47 @@ public class MainActivity extends Activity {
                             }
                             currentProduct.type = SelectionType.fromValue(
                                     parser.getAttributeIntValue(null, "type", 1));
+                            currentProduct.khelafat = new LinkedList<>();
+                            currentGroup = null;
                         } else if (currentProduct != null){
-                            if (name.equals("descr")){
-                                currentProduct.descr = parser.nextText();
+                            if (name.equals("khelaf")){
+                                currentGroup = new RewayahSelectionGroup();
+                                currentGroup.rewayaat = new LinkedList<>();
+                                String kh[] = parser.getAttributeValue(null, "rewayat")
+                                        .split(";");
+                                for (String k : kh) {
+                                    if (!k.isEmpty()) {
+                                        if (k.contains(".")) {
+                                            RewayahSelection ss = new RewayahSelection();
+                                            ss.r = Rewayah.getByCombinedCode(k.replace("?", ""));
+                                            ss.kholf = k.endsWith("?");
+                                            currentGroup.rewayaat.add(ss);
+                                        } else {
+                                            RewayahSelection rs = new RewayahSelection();
+                                            rs.r = Rewayah.getByCombinedCode(k.replace("?", "") + ".1");
+                                            rs.kholf = k.endsWith("?");
+                                            currentGroup.rewayaat.add(rs);
+                                            rs = new RewayahSelection();
+                                            rs.r = Rewayah.getByCombinedCode(k.replace("?", "") + ".2");
+                                            rs.kholf = k.endsWith("?");
+                                            currentGroup.rewayaat.add(rs);
+                                        }
+                                    }
+                                }
                             } else if (name.equals("shahed")){
                                 currentProduct.shahed = parser.nextText();
+                            } else if (name.equals("descr")){
+                                currentGroup.descr = parser.nextText();
                             }
                         }
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
-                        if (name.equalsIgnoreCase("selection") && currentProduct != null){
+                        if (name.equalsIgnoreCase("mwd") && currentProduct != null){
                             sel[currentProduct.page - 1].add(currentProduct);
+                        } else if (name.equalsIgnoreCase("khelaf")
+                                && currentProduct != null && currentGroup != null) {
+                            currentProduct.khelafat.add(currentGroup);
                         }
                 }
                 eventType = parser.next();
@@ -354,7 +432,8 @@ public class MainActivity extends Activity {
         //requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageView v = (ImageView) findViewById(R.id.imageView);
+        QuranImageView v = (QuranImageView) findViewById(R.id.imageView);
+        v.pref = pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             private ArrayList<Selection> matches = new ArrayList<Selection>();
 
@@ -410,8 +489,8 @@ public class MainActivity extends Activity {
                 });
                 initQuranData();
                 readSelections();
-                isLoadingPage = false;
                 readSettings();
+                isLoadingPage = false;
                 viewPage(setting.page);
                 return null;
             }
@@ -554,6 +633,7 @@ public class MainActivity extends Activity {
         if (isLoadingPage) {
             ; // ignore any op until finish loading
         } else if (id == R.id.action_settings) {
+            startActivity(new Intent(this, PrefsActivity.class));
             return true;
         } else if (id == R.id.action_goto) {
             displayGotoDlg();
@@ -725,46 +805,6 @@ public class MainActivity extends Activity {
     }
 }
 
-enum SelectionType {
-    Farsh(1),
-    Hamz(2),
-    Edgham(3),
-    Emalah(4),
-    Naql(5),
-    Mad(6),
-    Sakt(7);
-
-    private final int value;
-    private SelectionType(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public static SelectionType fromValue(int t) {
-        switch (t) {
-            case 1:
-                return Farsh;
-            case 2:
-                return Hamz;
-            case 3:
-                return Edgham;
-            case 4:
-                return Emalah;
-            case 5:
-                return Naql;
-            case 6:
-                return Mad;
-            case 7:
-                return Sakt;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-}
-
 abstract class Shape {
 
 }
@@ -791,7 +831,7 @@ class Selection {
     Shape rect;
     int page;
     String shahed;
-    String descr;
+    List<RewayahSelectionGroup> khelafat;
     SelectionType type;
 
     @Override
@@ -812,6 +852,7 @@ class Surah {
 
 class Setting implements Serializable {
     boolean autoSaveDownloadedPage = true;
+    //transient boolean showSelections;
     int page = 1;
     ArrayList<ListItem> bookmarks;
 

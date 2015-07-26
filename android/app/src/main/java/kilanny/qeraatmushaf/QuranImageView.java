@@ -1,6 +1,8 @@
 package kilanny.qeraatmushaf;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,26 +12,31 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ibraheem on 05/11/2015.
  */
 public class QuranImageView extends ImageView {
 
-    private final int[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN,
-            Color.RED, Color.BLUE, Color.WHITE, Color.GRAY };
+    private final int[] colors = new int[7];
     private static final int LINE_BORDER = 10;
     ArrayList<Selection> selections;
     private ArrayList<Boolean> lastTypes = new ArrayList<>();
     private ArrayList<RectF> lastRects = new ArrayList<>();
     private ArrayList<Line> lastLines = new ArrayList<>();
     Dimension currentPageSize;
-    private Paint paint;
+    SharedPreferences pref;
+    private Paint rectPaint, linePaint;
+    private Resources res = getResources();
 
     private void init() {
-        paint = new Paint();
-        //paint.setStrokeWidth(2);
-        paint.setStyle(Paint.Style.FILL);
+        rectPaint = new Paint();
+        linePaint = new Paint();
+        linePaint.setStrokeWidth(LINE_BORDER / 2);
+        rectPaint.setStyle(Paint.Style.FILL);
     }
 
     public QuranImageView(Context context) {
@@ -54,7 +61,7 @@ public class QuranImageView extends ImageView {
 
     private RectF getActualRect(Rectangle r) {
         r = getScaledRectFromImageRect(
-                 currentPageSize,
+                currentPageSize,
                 r);
         RectF ret = new RectF();
         ret.set(r.x,
@@ -64,27 +71,64 @@ public class QuranImageView extends ImageView {
         return ret;
     }
 
+    private void initPrefs() {
+        String tmp = pref.getString("listFarshColor", res.getString(R.string.yellow));
+        colors[0] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listHamzColor", res.getString(R.string.magenta));
+        colors[1] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listEdghamColor", res.getString(R.string.cyan));
+        colors[2] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listEmalahColor", res.getString(R.string.red));
+        colors[3] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listNaqlColor", res.getString(R.string.blue));
+        colors[4] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listMadColor", res.getString(R.string.white));
+        colors[5] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+        tmp = pref.getString("listSaktColor", res.getString(R.string.gray));
+        colors[6] = tmp.equals("-1") ? -1 : Color.parseColor(tmp);
+    }
+
+    private boolean selectionShouldBeViewed(Selection s) {
+        Set<String> lastRewayaat = pref.getStringSet("listSelectedRewayaat", new HashSet<>(
+                Arrays.asList(res.getStringArray(R.array.rewayaat_vales))));
+        for (String t : lastRewayaat) {
+            Rewayah rew = Rewayah.getByCombinedCode(t);
+            for (RewayahSelectionGroup g : s.khelafat) {
+                for (RewayahSelection r : g.rewayaat) {
+                    if (rew == r.r) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (selections != null) {
+            initPrefs();
             lastRects.clear();
             lastLines.clear();
             lastTypes.clear();
             for (Selection s : selections) {
-                paint.setColor(colors[s.type.getValue() - 1]);
-                paint.setAlpha(125);
-                if (s.rect instanceof Rectangle) {
-                    lastTypes.add(Boolean.TRUE);
-                    RectF r = getActualRect((Rectangle) s.rect);
-                    lastRects.add(r);
-                    canvas.drawRect(r, paint);
-                }
-                else {
-                    lastTypes.add(Boolean.FALSE);
-                    Line l = getScaledLineFromImageLine(currentPageSize, (Line) s.rect);
-                    lastLines.add(l);
-                    canvas.drawLine(l.x1, l.y1, l.x2, l.y2, paint);
+                if (colors[s.type.getValue() - 1] != -1 && selectionShouldBeViewed(s)) {
+                    if (s.rect instanceof Rectangle) {
+                        lastTypes.add(Boolean.TRUE);
+                        RectF r = getActualRect((Rectangle) s.rect);
+                        lastRects.add(r);
+                        rectPaint.setColor(colors[s.type.getValue() - 1]);
+                        rectPaint.setAlpha(125);
+                        canvas.drawRect(r, rectPaint);
+                    } else {
+                        lastTypes.add(Boolean.FALSE);
+                        Line l = getScaledLineFromImageLine(currentPageSize, (Line) s.rect);
+                        lastLines.add(l);
+                        linePaint.setColor(colors[s.type.getValue() - 1]);
+                        linePaint.setAlpha(125);
+                        canvas.drawLine(l.x1, l.y1, l.x2, l.y2, linePaint);
+                    }
                 }
             }
         }

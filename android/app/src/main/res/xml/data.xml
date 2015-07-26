@@ -1,91 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<selections>
-  <selection page="1" rect="196.473953,173.500000,66.501244,30.750000" type="3">
+<mawad>
+  <mwd page="1" rect="152.285706,176.556107,59.285713,36.331707" type="1">
+    <shahed>ومالك يوم الدين راويه ناصر
+      ومالك حز فز</shahed>
+    <khelafat>
+      <khelaf rewayat="1;2;3;4;6;8;">
+        <descr>بغير المد (ملك)</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd page="1" rect="191.214279,178.780487,68.750000,31.141464" type="3">
     <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="159.749390,173.500000,31.761787,35.250000" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="317.565765,276.250000,77.419357,46.500000" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="142.875931,279.250000,48.635239,46.500000" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="290.766754,337.000000,61.538464,48.000000" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="54.538464,340.000000,82.382133,38.250000" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection line="57.285713,214.370728,115.321426,213.629272" page="1" type="5">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection line="23.357143,269.980499,71.571426,270.721954" page="1" type="6">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection line="20.678572,323.365845,84.071426,321.882935" page="1" type="7">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="336.750000,420.497559,25.892857,23.726830" type="4">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="1" rect="167.107147,197.317078,39.285713,24.468292" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="2" rect="74.389580,110.473679,29.776676,24.753288" type="3">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="2" rect="12.851116,150.786179,59.553352,38.190788" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="179.600494,7.863485,14.888338,29.151314" type="1">
-    <shahed/>
-    <descr>ضم حمزة الهاء</descr>
-  </selection>
-  <selection page="3" rect="141.883377,3.699013,19.851116,31.233551" type="2">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="347.342438,93.235191,28.784121,32.274670" type="4">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="18.806452,89.070717,23.821341,29.151314" type="4">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="97.218369,169.236832,68.486351,32.274670" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="132.950378,251.485199,66.501244,38.521381" type="1">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="27.739456,253.567413,27.791565,35.398026" type="3">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="3.918115,343.103607,15.880894,30.192432" type="3">
-    <shahed/>
-    <descr/>
-  </selection>
-  <selection page="3" rect="198.459061,499.271362,89.330025,42.685852" type="2">
-    <shahed/>
-    <descr>وقف حمزة</descr>
-  </selection>
-</selections>
+    <khelafat>
+      <khelaf rewayat="3.2;">
+        <descr>إدغام متماثلين كبير</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd page="1" rect="321.571411,280.360992,69.642853,41.521950" type="1">
+    <shahed>وعند سراط والسراط ل قنبلا   بحيث أتى والصاد زايا أشمها لدى خلف واشمم لخلاد الاولا
+      والصراط فه اسجلا وبالسين طب</shahed>
+    <khelafat>
+      <khelaf rewayat="2.2;9.1;">
+        <descr>السين بدلا عن الصاد</descr>
+      </khelaf>
+      <khelaf rewayat="6;">
+        <descr>إشمام الصاد صوت الزاي، ويشم خلاد الموضع الأول فقط</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd page="1" rect="136.750000,281.102448,53.571426,47.453659" type="1">
+    <shahed>سبق بيانه</shahed>
+    <khelafat/>
+  </mwd>
+</mawad>

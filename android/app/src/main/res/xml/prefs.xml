@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:summary="إعدادات أساسية"
+        android:title="أساسي" >
+        <MultiSelectListPreference
+            android:entries="@array/rewayaat_names"
+            android:entryValues="@array/rewayaat_vales"
+            android:key="listSelectedRewayaat"
+            android:title="اختيار الروايات"
+            android:summary="اختيار مجموعة روايات محددة لعرض ما اختلفوا فيه عن حفص"
+            android:defaultValue="@array/rewayaat_vales"
+            />
+        <CheckBoxPreference
+            android:title="اختصار القراءات برموز الجمع"
+            android:summary="تقليل عدد القراء المعروضين من خلال استخدام رموز الجمع في متن الشاطبية"
+            android:defaultValue="true"
+            android:key="useGroups"
+            />
+        <CheckBoxPreference
+            android:dependency="useGroups"
+            android:title="عرض رمز الجمع مع القراء"
+            android:summary="مثلا: سما (نافع وابن كثير وأبو عمرو)"
+            android:defaultValue="false"
+            android:key="displayGroupMembers"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="ضبط ألوان التظليلات"
+        android:title="إعدادات الألوان" >
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listFarshColor"
+            android:summary="تحديد لون الخلافات الفرشية"
+            android:title="لون الفرش"
+            android:defaultValue="@string/yellow"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listHamzColor"
+            android:summary="تحديد لون الخلافات في الهمز"
+            android:title="لون الهمز"
+            android:defaultValue="@string/magenta"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listEdghamColor"
+            android:summary="تحديد لون الخلافات في الإدغام"
+            android:title="لون الإدغام"
+            android:defaultValue="@string/cyan"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listEmalahColor"
+            android:summary="تحديد لون الخلافات في الإمالة"
+            android:title="لون الإمالة"
+            android:defaultValue="@string/red"/>
+
+
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listNaqlColor"
+            android:summary="تحديد لون نقل حركة الهمزة"
+            android:title="لون النقل"
+            android:defaultValue="@string/blue"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listMadColor"
+            android:summary="تحديد لون الخلافات في المدود"
+            android:title="لون المد"
+            android:defaultValue="@string/white"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listSaktColor"
+            android:summary="تحديد لون الخلافات في السكت"
+            android:title="لون السكت"
+            android:defaultValue="@string/gray"/>
+    </PreferenceCategory>
+</PreferenceScreen>

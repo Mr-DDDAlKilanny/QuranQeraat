@@ -1,0 +1,372 @@
+$("table").each(function() {
+Uncaught SyntaxError: Unexpected end of input
+$("table").each(function() { console.log($(this)); });
+[table.wikitable.sortable.jquery-tablesorter, context: table.wikitable.sortable.jquery-tablesorter, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.navbox, context: table.navbox, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table#collapsibleTable0.nowraplinks.hlist.collapsible.collapsed.navbox-inner, context: table#collapsibleTable0.nowraplinks.hlist.collapsible.collapsed.navbox-inner, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table#collapsibleTable1.nowraplinks.collapsible.expanded.navbox-subgroup, context: table#collapsibleTable1.nowraplinks.collapsible.expanded.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table#collapsibleTable2.nowraplinks.collapsible.collapsed.navbox-subgroup, context: table#collapsibleTable2.nowraplinks.collapsible.collapsed.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table#collapsibleTable3.nowraplinks.collapsible.collapsed.navbox-subgroup, context: table#collapsibleTable3.nowraplinks.collapsible.collapsed.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[table.nowraplinks.navbox-subgroup, context: table.nowraplinks.navbox-subgroup, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[<table class=​"wikitable sortable jquery-tablesorter" style=​"margin:​ 1em auto 1em auto;​">​…​</table>​, <table class=​"navbox" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks hlist collapsible collapsed navbox-inner" style=​"border-spacing:​0;​background:​transparent;​color:​inherit" id=​"collapsibleTable0">​…​</table>​, <table class=​"nowraplinks collapsible expanded navbox-subgroup" style=​"border-spacing:​0" id=​"collapsibleTable1">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks collapsible collapsed navbox-subgroup" style=​"border-spacing:​0" id=​"collapsibleTable2">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks collapsible collapsed navbox-subgroup" style=​"border-spacing:​0" id=​"collapsibleTable3">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​, <table class=​"nowraplinks navbox-subgroup" style=​"border-spacing:​0">​…​</table>​]
+$("table.wikitable.sortable.jquery-tablesorter").each(function() { console.log($(this)); });
+[table.wikitable.sortable.jquery-tablesorter, context: table.wikitable.sortable.jquery-tablesorter, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]0: table.wikitable.sortable.jquery-tablesortercontext: table.wikitable.sortable.jquery-tablesorterlength: 1__proto__: jQuery[0]
+[<table class=​"wikitable sortable jquery-tablesorter" style=​"margin:​ 1em auto 1em auto;​">​…​</table>​]
+$("table.wikitable.sortable.jquery-tablesorter tr").each(function() { console.log($(this)); });
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+[tr, context: tr, jquery: "1.11.3", constructor: function, selector: "", toArray: function…]
+jQuery.fn.init[115]
+$("table.wikitable.sortable.jquery-tablesorter tr").each(function() { console.log($(this).children().eq(0).text()); });
+#
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+jQuery.fn.init[115]
+$("table.wikitable.sortable.jquery-tablesorter tr").each(function() { console.log($(this).children().eq(0).text() + " " + $(this).children().eq(3).text()); });
+# Number of verses (Number of Rukūʿs)
+1 7 (01)
+2 286 (40)
+3 200 (20)
+4 176 (24)
+5 120 (16)
+6 165 (20)
+7 206 (24)
+8 75 (10)
+9 129 (16)
+10 109 (11)
+11 123 (10)
+12 111 (12)
+13 43 (06)
+14 52 (07)
+15 99 (06)
+16 128 (16)
+17 111 (12)
+18 110 (12)
+19 98 (06)
+20 135 (08)
+21 112 (07)
+22 78 (10)
+23 118 (06)
+24 64 (09)
+25 77 (06)
+26 227 (11)
+27 93 (07)
+28 88 (09)
+29 69 (07)
+30 60 (06)
+31 34
+32 30
+33 73
+34 54
+35 45
+36 83
+37 182
+38 88
+39 75
+40 85
+41 54
+42 53
+43 89
+44 59
+45 37
+46 35
+47 38
+48 29
+49 18
+50 45
+51 60
+52 49
+53 62
+54 55
+55 78
+56 96
+57 29
+58 22
+59 24
+60 13
+61 14
+62 11
+63 11
+64 18 (02)
+65 12 (02)
+66 12 (02)
+67 30 (02)
+68 52 (02)
+69 52 (02)
+70 44 (02)
+71 28 (02)
+72 28 (02)
+73 20 (02)
+74 56 (02)
+75 40 (02)
+76 31 (02)
+77 50 (02)
+78 40 (02)
+79 46 (02)
+80 42 (01)
+81 29 (01)
+82 19 (01)
+83 36 (01)
+84 25 (01)
+85 22 (01)
+86 17 (01)
+87 19 (01)
+88 26 (01)
+89 30 (01)
+90 20 (01)
+91 15 (01)
+92 21 (01)
+93 11 (01)
+94 8 (01)
+95 8 (01)
+96 19 (01)
+97 5 (01)
+98 8 (01)
+99 8 (01)
+100 11 (01)
+101 11 (01)
+102 8 (01)
+103 3 (01)
+104 9 (01)
+105 5 (01)
+106 4 (01)
+107 7 (01)
+108 3 (01)
+109 6 (01)
+110 3 (01)
+111 5 (01)
+112 4 (01)
+113 5 (05)
+114 6 (01)
+jQuery.fn.init[115]

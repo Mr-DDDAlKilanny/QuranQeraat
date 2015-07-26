@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="white">#FFFFFF</string>
+    <string name="red">#FF0000</string>
+    <string name="gray">#808080</string>
+    <string name="yellow">yellow</string>
+    <string name="green">green</string>
+    <string name="cyan">cyan</string>
+    <string name="azure">#007FFF</string>
+    <string name="blue">#0000FF</string>
+    <string name="violet">#7F00FF</string>
+    <string name="magenta">#FF00FF</string>
+
+    <string-array name="listOptions">
+        <item>بلا</item>
+        <item>أصفر</item>
+        <item>وردي</item>
+        <item>لبني</item>
+        <item>أحمر</item>
+        <item>أزرق فاتح</item>
+        <item>أبيض</item>
+        <item>رمادي</item>
+        <item>أزرق غامق</item>
+        <item>أخضر</item>
+        <item>بنفسجي</item>
+    </string-array>
+
+    <string-array name="listValues">
+        <item>-1</item>
+        <item>@string/yellow</item>
+        <item>@string/magenta</item>
+        <item>@string/cyan</item>
+        <item>@string/red</item>
+        <item>@string/azure</item>
+        <item>@string/white</item>
+        <item>@string/gray</item>
+        <item>@string/blue</item>
+        <item>@string/green</item>
+        <item>@string/violet</item>
+    </string-array>
+
+    <string-array name="rewayaat_names">
+        <item>قالون عن نافع</item>
+        <item>ورش عن نافع</item>
+        <item>البزي عن ابن كثير</item>
+        <item>قنبل عن ابن كثير</item>
+        <item>الدوري عن أبي عمرو</item>
+        <item>السوسي عن أبي عمرو</item>
+        <item>هشام عن ابن عامر</item>
+        <item>ابن ذكوان عن ابن عامر</item>
+        <item>شعبة عن عاصم</item>
+        <!--<item>حفص عن عاصم</item>-->
+        <item>خلف عن حمزة</item>
+        <item>خلاد عن حمزة</item>
+        <item>أبو الحارث عن الكسائي</item>
+        <item>الدوري عن الكسائي</item>
+        <item>ابن وردان عن أبي جعفر</item>
+        <item>ابن جماز عن أبي جعفر</item>
+        <item>رويس عن يعقوب</item>
+        <item>روح عن يعقوب</item>
+        <item>إسحاق عن خلف</item>
+        <item>إدريس عن خلف</item>
+    </string-array>
+
+    <string-array name="rewayaat_vales">
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>2.1</item>
+        <item>2.2</item>
+        <item>3.1</item>
+        <item>3.2</item>
+        <item>4.1</item>
+        <item>4.2</item>
+        <item>5.1</item>
+        <!--<item>5.2</item>-->
+        <item>6.1</item>
+        <item>6.2</item>
+        <item>7.1</item>
+        <item>7.2</item>
+        <item>8.1</item>
+        <item>8.2</item>
+        <item>9.1</item>
+        <item>9.2</item>
+        <item>10.1</item>
+        <item>10.2</item>
+    </string-array>
+</resources>
