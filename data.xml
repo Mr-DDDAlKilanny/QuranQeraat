@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mawad>
-  <mwd page="1" rect="152.285706,176.556107,59.285713,36.331707" type="1">
-    <shahed>ومالك يوم الدين راويه ناصر
-ومالك حز فز</shahed>
+  <mwd id="1" page="1" rect="152.285706,176.556107,59.285713,36.331707" type="1">
+    <shahed>ش: ومالك يوم الدين راويه ناصر
+د: ومالك حز فز</shahed>
     <khelafat>
       <khelaf rewayat="1;2;3;4;6;8;">
         <descr>بغير المد (ملك)</descr>
       </khelaf>
     </khelafat>
   </mwd>
-  <mwd page="1" rect="191.214279,178.780487,68.750000,31.141464" type="3">
+  <mwd id="2" page="1" rect="191.214279,178.780487,68.750000,31.141464" type="3">
     <shahed/>
     <khelafat>
       <khelaf rewayat="3.2;">
@@ -17,9 +17,9 @@
       </khelaf>
     </khelafat>
   </mwd>
-  <mwd page="1" rect="321.571411,280.360992,69.642853,41.521950" type="1">
-    <shahed>وعند سراط والسراط ل قنبلا   بحيث أتى والصاد زايا أشمها لدى خلف واشمم لخلاد الاولا
-والصراط فه اسجلا وبالسين طب</shahed>
+  <mwd id="3" page="1" rect="321.571411,280.360992,69.642853,41.521950" type="1">
+    <shahed>ش: وعند سراط والسراط ل (قنبلا)  **  بحيث أتى والصاد زايا أشمها * لدى (خلف) واشمم (لخلاد) الاولا
+د: والصراط (ف)ـه (ا)سجلا ** وبالسين (ط)ـب</shahed>
     <khelafat>
       <khelaf rewayat="2.2;9.1;">
         <descr>السين بدلا عن الصاد</descr>
@@ -29,8 +29,52 @@
       </khelaf>
     </khelafat>
   </mwd>
-  <mwd page="1" rect="136.750000,281.102448,53.571426,47.453659" type="1">
+  <mwd id="4" page="1" rect="136.750000,281.102448,53.571426,47.453659" type="1">
+    <shahed>سبق بيانه في الموضع السابق</shahed>
+    <khelafat/>
+  </mwd>
+  <mwd id="5" page="1" rect="291.214294,335.970734,60.714287,51.902439" type="1">
+    <shahed>ش: عليهم إليهم (حمزة) ولديهمو * جميعا بضم الهاء وقفا وموصلا</shahed>
+    <khelafat>
+      <khelaf rewayat="6;">
+        <descr>ضم الهاء وصلا ووقفا</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd id="6" page="1" rect="60.857140,335.229279,74.107140,45.229267" type="1">
     <shahed>سبق بيانه</shahed>
     <khelafat/>
+  </mwd>
+  <mwd id="7" page="2" rect="72.464287,107.658531,31.250000,30.065041" type="3">
+    <shahed/>
+    <khelafat>
+      <khelaf rewayat="3.2;">
+        <descr>إدغام كبير</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd id="8" page="2" rect="228.714279,164.292679,17.857143,30.065041" type="2">
+    <shahed/>
+    <khelafat>
+      <khelaf rewayat="1.2;3.2;8;">
+        <descr>إبدال الهمز واوا</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd id="9" page="2" rect="26.035713,152.406494,16.964285,38.455284" type="1">
+    <shahed/>
+    <khelafat>
+      <khelaf rewayat="1.2;">
+        <descr>تغليظ اللام</descr>
+      </khelaf>
+    </khelafat>
+  </mwd>
+  <mwd id="10" page="2" rect="114.428574,205.934418,25.892857,42.295082" type="2">
+    <shahed/>
+    <khelafat>
+      <khelaf rewayat="1.2;3.2;8;">
+        <descr>إبدال الهمز واوا</descr>
+      </khelaf>
+    </khelafat>
   </mwd>
 </mawad>

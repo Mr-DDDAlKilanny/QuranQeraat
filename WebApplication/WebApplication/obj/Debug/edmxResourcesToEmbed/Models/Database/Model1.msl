@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="mushaf_qeraat_serverModelStoreContainer" CdmEntityContainer="mushaf_qeraat_serverEntities">
+    <EntitySetMapping Name="Dorrah">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Dorrah">
+        <MappingFragment StoreEntitySet="Dorrah">
+          <ScalarProperty Name="Part2" ColumnName="Part2" />
+          <ScalarProperty Name="Part1" ColumnName="Part1" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DorrahPage">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahPage">
+        <MappingFragment StoreEntitySet="DorrahPage">
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="Page" ColumnName="Page" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DorrahSearch">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahSearch">
+        <MappingFragment StoreEntitySet="DorrahSearch">
+          <ScalarProperty Name="BeitText" ColumnName="BeitText" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DorrahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahShahed">
+        <MappingFragment StoreEntitySet="DorrahShahed">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DorrahTitle">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahTitle">
+        <MappingFragment StoreEntitySet="DorrahTitle">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Khlaf">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Khlaf">
+        <MappingFragment StoreEntitySet="Khlaf">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="KhlafGroupID" ColumnName="KhlafGroupID" />
+          <ScalarProperty Name="HasKholf" ColumnName="HasKholf" />
+          <ScalarProperty Name="RewayahID" ColumnName="RewayahID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KhlafGroup">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.KhlafGroup">
+        <MappingFragment StoreEntitySet="KhlafGroup">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MawdeaKhlaf">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlaf">
+        <MappingFragment StoreEntitySet="MawdeaKhlaf">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="y2" ColumnName="y2" />
+          <ScalarProperty Name="y1" ColumnName="y1" />
+          <ScalarProperty Name="x2" ColumnName="x2" />
+          <ScalarProperty Name="x1" ColumnName="x1" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+          <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MawdeaKhlafDetail">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlafDetail">
+        <MappingFragment StoreEntitySet="MawdeaKhlafDetail">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="KhlafType" ColumnName="KhlafType" />
+          <ScalarProperty Name="OwnerMawdeaKhlaf" ColumnName="OwnerMawdeaKhlaf" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MawdeaKhlafType">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlafType">
+        <MappingFragment StoreEntitySet="MawdeaKhlafType">
+          <ScalarProperty Name="IsRect" ColumnName="IsRect" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OsolIntro">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.OsolIntro">
+        <MappingFragment StoreEntitySet="OsolIntro">
+          <ScalarProperty Name="Explain" ColumnName="Explain" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Qeraah">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Qeraah">
+        <MappingFragment StoreEntitySet="Qeraah">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QeraahGroup">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.QeraahGroup">
+        <MappingFragment StoreEntitySet="QeraahGroup">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rewayah">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Rewayah">
+        <MappingFragment StoreEntitySet="Rewayah">
+          <ScalarProperty Name="Qeraah" ColumnName="Qeraah" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shatibiyyah">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Shatibiyyah">
+        <MappingFragment StoreEntitySet="Shatibiyyah">
+          <ScalarProperty Name="Part2" ColumnName="Part2" />
+          <ScalarProperty Name="Part1" ColumnName="Part1" />
+          <ScalarProperty Name="C_ID" ColumnName="_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShatibiyyahPage">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahPage">
+        <MappingFragment StoreEntitySet="ShatibiyyahPage">
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="Page" ColumnName="Page" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShatibiyyahSearch">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahSearch">
+        <MappingFragment StoreEntitySet="ShatibiyyahSearch">
+          <ScalarProperty Name="BeitText" ColumnName="BeitText" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShatibiyyahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahShahed">
+        <MappingFragment StoreEntitySet="ShatibiyyahShahed">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShatibiyyahTitle">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahTitle">
+        <MappingFragment StoreEntitySet="ShatibiyyahTitle">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_DorrahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_DorrahShahed">
+        <MappingFragment StoreEntitySet="Submit_DorrahShahed">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedDetailID" ColumnName="InsertedDetailID" />
+          <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="TableDetailID" ColumnName="TableDetailID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_Khlaf">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_Khlaf">
+        <MappingFragment StoreEntitySet="Submit_Khlaf">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedKhlafGroupID" ColumnName="InsertedKhlafGroupID" />
+          <ScalarProperty Name="InsertedRewayahID" ColumnName="InsertedRewayahID" />
+          <ScalarProperty Name="TableKhlafGroupID" ColumnName="TableKhlafGroupID" />
+          <ScalarProperty Name="HasKholf" ColumnName="HasKholf" />
+          <ScalarProperty Name="TableRewayahID" ColumnName="TableRewayahID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_KhlafGroup">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_KhlafGroup">
+        <MappingFragment StoreEntitySet="Submit_KhlafGroup">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+          <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_MawdeaKhlaf">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf">
+        <MappingFragment StoreEntitySet="Submit_MawdeaKhlaf">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+          <ScalarProperty Name="y2" ColumnName="y2" />
+          <ScalarProperty Name="y1" ColumnName="y1" />
+          <ScalarProperty Name="x2" ColumnName="x2" />
+          <ScalarProperty Name="x1" ColumnName="x1" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+          <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_MawdeaKhlafDetail">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail">
+        <MappingFragment StoreEntitySet="Submit_MawdeaKhlafDetail">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+          <ScalarProperty Name="DetailType" ColumnName="DetailType" />
+          <ScalarProperty Name="OwnerMawdeaKhlaf" ColumnName="OwnerMawdeaKhlaf" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submit_ShatibiyyahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed">
+        <MappingFragment StoreEntitySet="Submit_ShatibiyyahShahed">
+          <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+          <ScalarProperty Name="InsertedDetailID" ColumnName="InsertedDetailID" />
+          <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="TableDetailID" ColumnName="TableDetailID" />
+          <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubmitRejectReason">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.SubmitRejectReason">
+        <MappingFragment StoreEntitySet="SubmitRejectReason">
+          <ScalarProperty Name="Descr" ColumnName="Descr" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="CanSubmit" ColumnName="CanSubmit" />
+          <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+          <ScalarProperty Name="UsersTableID" ColumnName="UsersTableID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSubmit">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.UserSubmit">
+        <MappingFragment StoreEntitySet="UserSubmit">
+          <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="QeraahGroupQeraah" TypeName="mushaf_qeraat_serverModel.QeraahGroupQeraah" StoreEntitySet="QeraahGroupQeraah">
+      <EndProperty Name="QeraahGroup">
+        <ScalarProperty Name="C_ID" ColumnName="GroupID" />
+      </EndProperty>
+      <EndProperty Name="Qeraah">
+        <ScalarProperty Name="C_ID" ColumnName="QeraahID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Morag3ah_DorrahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed">
+        <MappingFragment StoreEntitySet="Morag3ah_DorrahShahed">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+          <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Morag3ah_MawdeaKhlaf">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf">
+        <MappingFragment StoreEntitySet="Morag3ah_MawdeaKhlaf">
+          <ScalarProperty Name="Old_y2" ColumnName="Old_y2" />
+          <ScalarProperty Name="Old_y1" ColumnName="Old_y1" />
+          <ScalarProperty Name="Old_x2" ColumnName="Old_x2" />
+          <ScalarProperty Name="Old_x1" ColumnName="Old_x1" />
+          <ScalarProperty Name="Old_DetailID" ColumnName="Old_DetailID" />
+          <ScalarProperty Name="Old_PageNumber" ColumnName="Old_PageNumber" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="MawdeaKhlafID" ColumnName="MawdeaKhlafID" />
+          <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Morag3ah_MawdeaKhlafDetail">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail">
+        <MappingFragment StoreEntitySet="Morag3ah_MawdeaKhlafDetail">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+          <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Morag3ah_ShatibiyyahShahed">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed">
+        <MappingFragment StoreEntitySet="Morag3ah_ShatibiyyahShahed">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+          <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RowMorag3ahType">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.RowMorag3ahType">
+        <MappingFragment StoreEntitySet="RowMorag3ahType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserMorag3ah">
+      <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.UserMorag3ah">
+        <MappingFragment StoreEntitySet="UserMorag3ah">
+          <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

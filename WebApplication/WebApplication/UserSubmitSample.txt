@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<submit>
+	<details>
+		<detail id="1" owner="" type="3" />
+		<detail id="2" owner="2" type="1" />
+	</details>
+	<shaheds>
+		<shahed beit="122" detail="1" dorrah="0" />
+		<shahed beit="12" detail="2" dorrah="1" />
+	</shaheds>
+	<mawade3>
+		<mawd3 id="2" page="102" detail="1" x1="12.12" y1="29.543" x2="12.3456" y2="45.6789" />
+	</mawade3>
+	<khlafgroups>
+		<group id="12" detail="1">
+			بإثبات الألف وصلا ووقفا
+		</group>
+	</khlafgroups>
+	<khlafs>
+		<khlaf group="12" rewayah="12" kholf="0" />
+	</khlafs>
+</submit>

@@ -10,4 +10,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_chooce_rewayat">ChooceRewayatActivity</string>
+    <string name="title_activity_rewayat_intro">RewayatIntro</string>
+
+    <string name="title_activity_initial">@string/app_name</string>
+
+    <string name="navigation_drawer_open">فتح القائمة</string>
+    <string name="navigation_drawer_close">إغلاق القائمة</string>
 </resources>

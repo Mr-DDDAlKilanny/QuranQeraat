@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ffc76935b6da406786f059190921a6f2" Name="Diagram1">
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Dorrah" Width="1.5" PointX="13" PointY="8" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.DorrahPage" Width="1.5" PointX="15.25" PointY="28.75" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.DorrahSearch" Width="1.5" PointX="15.25" PointY="26.375" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.DorrahShahed" Width="1.5" PointX="15.25" PointY="2" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.DorrahTitle" Width="1.5" PointX="15.25" PointY="24.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Khlaf" Width="1.5" PointX="17.5" PointY="10.375" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.KhlafGroup" Width="1.5" PointX="15.25" PointY="10.375" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.MawdeaKhlaf" Width="1.5" PointX="10.75" PointY="4.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Width="1.5" PointX="13" PointY="4.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.MawdeaKhlafType" Width="1.5" PointX="10.75" PointY="2" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.OsolIntro" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Qeraah" Width="1.5" PointX="13" PointY="13.375" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.QeraahGroup" Width="1.5" PointX="15.25" PointY="21.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Rewayah" Width="1.5" PointX="15.25" PointY="13.25" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Shatibiyyah" Width="1.5" PointX="13" PointY="0.75" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.ShatibiyyahPage" Width="1.5" PointX="15.25" PointY="8" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.ShatibiyyahSearch" Width="1.5" PointX="15.25" PointY="18.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.ShatibiyyahShahed" Width="1.5" PointX="15.25" PointY="5" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.ShatibiyyahTitle" Width="1.5" PointX="15.25" PointY="16.25" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_DorrahShahed" Width="1.5" PointX="5.25" PointY="8.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_Khlaf" Width="1.5" PointX="5.25" PointY="12" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_KhlafGroup" Width="1.5" PointX="8.25" PointY="8.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf" Width="1.5" PointX="8.25" PointY="15.75" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail" Width="1.5" PointX="8.25" PointY="12.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed" Width="1.5" PointX="5.25" PointY="16.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.SubmitRejectReason" Width="1.5" PointX="3" PointY="8.25" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.User" Width="1.5" PointX="0.75" PointY="12.5" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.UserSubmit" Width="1.5" PointX="3" PointY="12" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_DorrahPage_Dorrah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_DorrahSearch_Dorrah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_DorrahShahed_Dorrah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_DorrahTitle_Dorrah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_DorrahShahed_MawdeaKhlafDetail" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Khlaf_KhlafGroup" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Khlaf_Rewayah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_KhlafGroup_MawdeaKhlafDetail" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlaf" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlafType" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_MawdeaKhlafDetail" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Rewayah_Qeraah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_ShatibiyyahPage_Shatibiyyah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_ShatibiyyahSearch_Shatibiyyah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_Shatibiyyah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_ShatibiyyahTitle_Shatibiyyah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_Khlaf_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_Khlaf_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_SubmitRejectReason" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_UserSubmit_UserSubmit" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.QeraahGroupQeraah" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed" Width="1.5" PointX="17.5" PointY="6.125" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf" Width="1.5" PointX="13" PointY="17" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail" Width="1.5" PointX="18.25" PointY="13.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed" Width="1.5" PointX="20.5" PointY="10.625" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.RowMorag3ahType" Width="1.5" PointX="15.25" PointY="31.375" />
+        <EntityTypeShape EntityType="mushaf_qeraat_serverModel.UserMorag3ah" Width="1.5" PointX="3" PointY="16.25" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_DorrahShahed" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_RowMorag3ahType" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_UserMorag3ah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_UserMorag3ah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah" />
+        <AssociationConnector Association="mushaf_qeraat_serverModel.FK_UserMorag3ah_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

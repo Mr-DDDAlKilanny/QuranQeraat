@@ -1,0 +1,2596 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mushaf_qeraat_serverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dorrah">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" Nullable="false" />
+          <Property Name="Part1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Part2" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DorrahPage">
+          <Key>
+            <PropertyRef Name="Page" />
+          </Key>
+          <Property Name="Page" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DorrahSearch">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitText" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DorrahShahed">
+          <Key>
+            <PropertyRef Name="DetailID" />
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitPart" Type="smallint" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DorrahTitle">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Khlaf">
+          <Key>
+            <PropertyRef Name="RewayahID" />
+            <PropertyRef Name="KhlafGroupID" />
+          </Key>
+          <Property Name="RewayahID" Type="int" Nullable="false" />
+          <Property Name="HasKholf" Type="bit" Nullable="false" />
+          <Property Name="KhlafGroupID" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KhlafGroup">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MawdeaKhlafDetailID" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageNumber" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="x1" Type="real" />
+          <Property Name="x2" Type="real" />
+          <Property Name="y1" Type="real" />
+          <Property Name="y2" Type="real" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerMawdeaKhlaf" Type="int" />
+          <Property Name="KhlafType" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlafType">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsRect" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Morag3ah_DorrahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Morag3ahID" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Morag3ah_MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Morag3ahID" Type="int" Nullable="false" />
+          <Property Name="MawdeaKhlafID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Old_PageNumber" Type="int" />
+          <Property Name="Old_DetailID" Type="int" />
+          <Property Name="Old_x1" Type="real" />
+          <Property Name="Old_x2" Type="real" />
+          <Property Name="Old_y1" Type="real" />
+          <Property Name="Old_y2" Type="real" />
+        </EntityType>
+        <EntityType Name="Morag3ah_MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Morag3ahID" Type="int" Nullable="false" />
+          <Property Name="MawdeaKhlafDetailID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Morag3ah_ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Morag3ahID" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OsolIntro">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Explain" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Qeraah">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QeraahGroup">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QeraahGroupQeraah">
+          <Key>
+            <PropertyRef Name="QeraahID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="QeraahID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rewayah">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Qeraah" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RowMorag3ahType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shatibiyyah">
+          <Key>
+            <PropertyRef Name="_ID" />
+          </Key>
+          <Property Name="_ID" Type="int" Nullable="false" />
+          <Property Name="Part1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Part2" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahPage">
+          <Key>
+            <PropertyRef Name="Page" />
+          </Key>
+          <Property Name="Page" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahSearch">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitText" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="DetailID" />
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitPart" Type="smallint" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahTitle">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Submit_DorrahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableDetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitPart" Type="smallint" Nullable="false" />
+          <Property Name="InsertedDetailID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="Submit_Khlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableRewayahID" Type="int" Nullable="false" />
+          <Property Name="HasKholf" Type="bit" Nullable="false" />
+          <Property Name="TableKhlafGroupID" Type="int" Nullable="false" />
+          <Property Name="InsertedRewayahID" Type="int" />
+          <Property Name="InsertedKhlafGroupID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="Submit_KhlafGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MawdeaKhlafDetailID" Type="int" Nullable="false" />
+          <Property Name="InsertedID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="Submit_MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableID" Type="int" Nullable="false" />
+          <Property Name="PageNumber" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="x1" Type="real" />
+          <Property Name="x2" Type="real" />
+          <Property Name="y1" Type="real" />
+          <Property Name="y2" Type="real" />
+          <Property Name="InsertedID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="Submit_MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableID" Type="int" Nullable="false" />
+          <Property Name="OwnerMawdeaKhlaf" Type="int" />
+          <Property Name="DetailType" Type="int" Nullable="false" />
+          <Property Name="InsertedID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="Submit_ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmitID" Type="int" Nullable="false" />
+          <Property Name="TableDetailID" Type="int" Nullable="false" />
+          <Property Name="BeitID" Type="int" Nullable="false" />
+          <Property Name="BeitPart" Type="smallint" Nullable="false" />
+          <Property Name="InsertedDetailID" Type="int" />
+          <Property Name="RejectReason" Type="int" />
+        </EntityType>
+        <EntityType Name="SubmitRejectReason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descr" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsersTableID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="JoinDate" Type="datetime" Nullable="false" />
+          <Property Name="CanSubmit" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserMorag3ah">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SubmitTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSubmit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SubmitTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DorrahPage_Dorrah">
+          <End Role="Dorrah" Type="Self.Dorrah" Multiplicity="1" />
+          <End Role="DorrahPage" Type="Self.DorrahPage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="DorrahPage">
+              <PropertyRef Name="Page" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahSearch_Dorrah">
+          <End Role="Dorrah" Type="Self.Dorrah" Multiplicity="1" />
+          <End Role="DorrahSearch" Type="Self.DorrahSearch" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="DorrahSearch">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahShahed_Dorrah">
+          <End Role="Dorrah" Type="Self.Dorrah" Multiplicity="1" />
+          <End Role="DorrahShahed" Type="Self.DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="DorrahShahed">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahShahed_MawdeaKhlafDetail">
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="1" />
+          <End Role="DorrahShahed" Type="Self.DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="DorrahShahed">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahTitle_Dorrah">
+          <End Role="Dorrah" Type="Self.Dorrah" Multiplicity="1" />
+          <End Role="DorrahTitle" Type="Self.DorrahTitle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="DorrahTitle">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Khlaf_KhlafGroup">
+          <End Role="KhlafGroup" Type="Self.KhlafGroup" Multiplicity="1" />
+          <End Role="Khlaf" Type="Self.Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhlafGroup">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="Khlaf">
+              <PropertyRef Name="KhlafGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Khlaf_Rewayah">
+          <End Role="Rewayah" Type="Self.Rewayah" Multiplicity="1" />
+          <End Role="Khlaf" Type="Self.Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rewayah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="Khlaf">
+              <PropertyRef Name="RewayahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KhlafGroup_MawdeaKhlafDetail">
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="1" />
+          <End Role="KhlafGroup" Type="Self.KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="KhlafGroup">
+              <PropertyRef Name="MawdeaKhlafDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MawdeaKhlafDetail_MawdeaKhlaf">
+          <End Role="MawdeaKhlaf" Type="Self.MawdeaKhlaf" Multiplicity="0..1" />
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlaf">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="MawdeaKhlafDetail">
+              <PropertyRef Name="OwnerMawdeaKhlaf" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MawdeaKhlafDetail_MawdeaKhlafType">
+          <End Role="MawdeaKhlafType" Type="Self.MawdeaKhlafType" Multiplicity="1" />
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafType">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="MawdeaKhlafDetail">
+              <PropertyRef Name="KhlafType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_DorrahShahed_DorrahShahed">
+          <End Role="DorrahShahed" Type="Self.DorrahShahed" Multiplicity="1" />
+          <End Role="Morag3ah_DorrahShahed" Type="Self.Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DorrahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_DorrahShahed_RowMorag3ahType">
+          <End Role="RowMorag3ahType" Type="Self.RowMorag3ahType" Multiplicity="1" />
+          <End Role="Morag3ah_DorrahShahed" Type="Self.Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_DorrahShahed_UserMorag3ah">
+          <End Role="UserMorag3ah" Type="Self.UserMorag3ah" Multiplicity="1" />
+          <End Role="Morag3ah_DorrahShahed" Type="Self.Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf">
+          <End Role="MawdeaKhlaf" Type="Self.MawdeaKhlaf" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlaf" Type="Self.Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlaf">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="MawdeaKhlafID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType">
+          <End Role="RowMorag3ahType" Type="Self.RowMorag3ahType" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlaf" Type="Self.Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_UserMorag3ah">
+          <End Role="UserMorag3ah" Type="Self.UserMorag3ah" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlaf" Type="Self.Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail">
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlafDetail" Type="Self.Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="MawdeaKhlafDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType">
+          <End Role="RowMorag3ahType" Type="Self.RowMorag3ahType" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlafDetail" Type="Self.Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah">
+          <End Role="UserMorag3ah" Type="Self.UserMorag3ah" Multiplicity="1" />
+          <End Role="Morag3ah_MawdeaKhlafDetail" Type="Self.Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType">
+          <End Role="RowMorag3ahType" Type="Self.RowMorag3ahType" Multiplicity="1" />
+          <End Role="Morag3ah_ShatibiyyahShahed" Type="Self.Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed">
+          <End Role="ShatibiyyahShahed" Type="Self.ShatibiyyahShahed" Multiplicity="1" />
+          <End Role="Morag3ah_ShatibiyyahShahed" Type="Self.Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah">
+          <End Role="UserMorag3ah" Type="Self.UserMorag3ah" Multiplicity="1" />
+          <End Role="Morag3ah_ShatibiyyahShahed" Type="Self.Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QeraahGroupQeraah_Qeraah">
+          <End Role="Qeraah" Type="Self.Qeraah" Multiplicity="1" />
+          <End Role="QeraahGroupQeraah" Type="Self.QeraahGroupQeraah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qeraah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="QeraahGroupQeraah">
+              <PropertyRef Name="QeraahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QeraahGroupQeraah_QeraahGroup">
+          <End Role="QeraahGroup" Type="Self.QeraahGroup" Multiplicity="1" />
+          <End Role="QeraahGroupQeraah" Type="Self.QeraahGroupQeraah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QeraahGroup">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="QeraahGroupQeraah">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rewayah_Qeraah">
+          <End Role="Qeraah" Type="Self.Qeraah" Multiplicity="1" />
+          <End Role="Rewayah" Type="Self.Rewayah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qeraah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="Rewayah">
+              <PropertyRef Name="Qeraah" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahPage_Shatibiyyah">
+          <End Role="Shatibiyyah" Type="Self.Shatibiyyah" Multiplicity="1" />
+          <End Role="ShatibiyyahPage" Type="Self.ShatibiyyahPage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahPage">
+              <PropertyRef Name="Page" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahSearch_Shatibiyyah">
+          <End Role="Shatibiyyah" Type="Self.Shatibiyyah" Multiplicity="1" />
+          <End Role="ShatibiyyahSearch" Type="Self.ShatibiyyahSearch" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahSearch">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahShahed_MawdeaKhlafDetail">
+          <End Role="MawdeaKhlafDetail" Type="Self.MawdeaKhlafDetail" Multiplicity="1" />
+          <End Role="ShatibiyyahShahed" Type="Self.ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahShahed_Shatibiyyah">
+          <End Role="Shatibiyyah" Type="Self.Shatibiyyah" Multiplicity="1" />
+          <End Role="ShatibiyyahShahed" Type="Self.ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahShahed">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahTitle_Shatibiyyah">
+          <End Role="Shatibiyyah" Type="Self.Shatibiyyah" Multiplicity="1" />
+          <End Role="ShatibiyyahTitle" Type="Self.ShatibiyyahTitle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahTitle">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_DorrahShahed_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_DorrahShahed" Type="Self.Submit_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_DorrahShahed">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_DorrahShahed_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_DorrahShahed" Type="Self.Submit_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_DorrahShahed">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_Khlaf_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_Khlaf" Type="Self.Submit_Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_Khlaf">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_Khlaf_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_Khlaf" Type="Self.Submit_Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_Khlaf">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_KhlafGroup_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_KhlafGroup" Type="Self.Submit_KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_KhlafGroup">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_KhlafGroup_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_KhlafGroup" Type="Self.Submit_KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_KhlafGroup">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlaf_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_MawdeaKhlaf" Type="Self.Submit_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlaf">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlaf_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_MawdeaKhlaf" Type="Self.Submit_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlaf">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlafDetail_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_MawdeaKhlafDetail" Type="Self.Submit_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlafDetail">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlafDetail_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_MawdeaKhlafDetail" Type="Self.Submit_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlafDetail">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_ShatibiyyahShahed_SubmitRejectReason">
+          <End Role="SubmitRejectReason" Type="Self.SubmitRejectReason" Multiplicity="0..1" />
+          <End Role="Submit_ShatibiyyahShahed" Type="Self.Submit_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_ShatibiyyahShahed">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_ShatibiyyahShahed_UserSubmit">
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="1" />
+          <End Role="Submit_ShatibiyyahShahed" Type="Self.Submit_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_ShatibiyyahShahed">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMorag3ah_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserMorag3ah" Type="Self.UserMorag3ah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserMorag3ah">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSubmit_UserSubmit">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserSubmit" Type="Self.UserSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSubmit">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mushaf_qeraat_serverModelStoreContainer">
+          <EntitySet Name="Dorrah" EntityType="Self.Dorrah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DorrahPage" EntityType="Self.DorrahPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DorrahSearch" EntityType="Self.DorrahSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DorrahShahed" EntityType="Self.DorrahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DorrahTitle" EntityType="Self.DorrahTitle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Khlaf" EntityType="Self.Khlaf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhlafGroup" EntityType="Self.KhlafGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MawdeaKhlaf" EntityType="Self.MawdeaKhlaf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MawdeaKhlafDetail" EntityType="Self.MawdeaKhlafDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MawdeaKhlafType" EntityType="Self.MawdeaKhlafType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Morag3ah_DorrahShahed" EntityType="Self.Morag3ah_DorrahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Morag3ah_MawdeaKhlaf" EntityType="Self.Morag3ah_MawdeaKhlaf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Morag3ah_MawdeaKhlafDetail" EntityType="Self.Morag3ah_MawdeaKhlafDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Morag3ah_ShatibiyyahShahed" EntityType="Self.Morag3ah_ShatibiyyahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OsolIntro" EntityType="Self.OsolIntro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Qeraah" EntityType="Self.Qeraah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QeraahGroup" EntityType="Self.QeraahGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QeraahGroupQeraah" EntityType="Self.QeraahGroupQeraah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rewayah" EntityType="Self.Rewayah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RowMorag3ahType" EntityType="Self.RowMorag3ahType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shatibiyyah" EntityType="Self.Shatibiyyah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShatibiyyahPage" EntityType="Self.ShatibiyyahPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShatibiyyahSearch" EntityType="Self.ShatibiyyahSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShatibiyyahShahed" EntityType="Self.ShatibiyyahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShatibiyyahTitle" EntityType="Self.ShatibiyyahTitle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_DorrahShahed" EntityType="Self.Submit_DorrahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_Khlaf" EntityType="Self.Submit_Khlaf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_KhlafGroup" EntityType="Self.Submit_KhlafGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_MawdeaKhlaf" EntityType="Self.Submit_MawdeaKhlaf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_MawdeaKhlafDetail" EntityType="Self.Submit_MawdeaKhlafDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Submit_ShatibiyyahShahed" EntityType="Self.Submit_ShatibiyyahShahed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubmitRejectReason" EntityType="Self.SubmitRejectReason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMorag3ah" EntityType="Self.UserMorag3ah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSubmit" EntityType="Self.UserSubmit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DorrahPage_Dorrah" Association="Self.FK_DorrahPage_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahPage" EntitySet="DorrahPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahSearch_Dorrah" Association="Self.FK_DorrahSearch_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahSearch" EntitySet="DorrahSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahShahed_Dorrah" Association="Self.FK_DorrahShahed_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahShahed_MawdeaKhlafDetail" Association="Self.FK_DorrahShahed_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahTitle_Dorrah" Association="Self.FK_DorrahTitle_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahTitle" EntitySet="DorrahTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Khlaf_KhlafGroup" Association="Self.FK_Khlaf_KhlafGroup">
+            <End Role="KhlafGroup" EntitySet="KhlafGroup" />
+            <End Role="Khlaf" EntitySet="Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Khlaf_Rewayah" Association="Self.FK_Khlaf_Rewayah">
+            <End Role="Rewayah" EntitySet="Rewayah" />
+            <End Role="Khlaf" EntitySet="Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhlafGroup_MawdeaKhlafDetail" Association="Self.FK_KhlafGroup_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="KhlafGroup" EntitySet="KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MawdeaKhlafDetail_MawdeaKhlaf" Association="Self.FK_MawdeaKhlafDetail_MawdeaKhlaf">
+            <End Role="MawdeaKhlaf" EntitySet="MawdeaKhlaf" />
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MawdeaKhlafDetail_MawdeaKhlafType" Association="Self.FK_MawdeaKhlafDetail_MawdeaKhlafType">
+            <End Role="MawdeaKhlafType" EntitySet="MawdeaKhlafType" />
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_DorrahShahed" Association="Self.FK_Morag3ah_DorrahShahed_DorrahShahed">
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_RowMorag3ahType" Association="Self.FK_Morag3ah_DorrahShahed_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_UserMorag3ah" Association="Self.FK_Morag3ah_DorrahShahed_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf" Association="Self.FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf">
+            <End Role="MawdeaKhlaf" EntitySet="MawdeaKhlaf" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType" Association="Self.FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_UserMorag3ah" Association="Self.FK_Morag3ah_MawdeaKhlaf_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail" Association="Self.FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType" Association="Self.FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah" Association="Self.FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType" Association="Self.FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed" Association="Self.FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed">
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah" Association="Self.FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QeraahGroupQeraah_Qeraah" Association="Self.FK_QeraahGroupQeraah_Qeraah">
+            <End Role="Qeraah" EntitySet="Qeraah" />
+            <End Role="QeraahGroupQeraah" EntitySet="QeraahGroupQeraah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QeraahGroupQeraah_QeraahGroup" Association="Self.FK_QeraahGroupQeraah_QeraahGroup">
+            <End Role="QeraahGroup" EntitySet="QeraahGroup" />
+            <End Role="QeraahGroupQeraah" EntitySet="QeraahGroupQeraah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rewayah_Qeraah" Association="Self.FK_Rewayah_Qeraah">
+            <End Role="Qeraah" EntitySet="Qeraah" />
+            <End Role="Rewayah" EntitySet="Rewayah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahPage_Shatibiyyah" Association="Self.FK_ShatibiyyahPage_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahPage" EntitySet="ShatibiyyahPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahSearch_Shatibiyyah" Association="Self.FK_ShatibiyyahSearch_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahSearch" EntitySet="ShatibiyyahSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahShahed_MawdeaKhlafDetail" Association="Self.FK_ShatibiyyahShahed_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahShahed_Shatibiyyah" Association="Self.FK_ShatibiyyahShahed_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahTitle_Shatibiyyah" Association="Self.FK_ShatibiyyahTitle_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahTitle" EntitySet="ShatibiyyahTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_DorrahShahed_SubmitRejectReason" Association="Self.FK_Submit_DorrahShahed_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_DorrahShahed" EntitySet="Submit_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_DorrahShahed_UserSubmit" Association="Self.FK_Submit_DorrahShahed_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_DorrahShahed" EntitySet="Submit_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_Khlaf_SubmitRejectReason" Association="Self.FK_Submit_Khlaf_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_Khlaf" EntitySet="Submit_Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_Khlaf_UserSubmit" Association="Self.FK_Submit_Khlaf_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_Khlaf" EntitySet="Submit_Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_KhlafGroup_SubmitRejectReason" Association="Self.FK_Submit_KhlafGroup_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_KhlafGroup" EntitySet="Submit_KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_KhlafGroup_UserSubmit" Association="Self.FK_Submit_KhlafGroup_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_KhlafGroup" EntitySet="Submit_KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlaf_SubmitRejectReason" Association="Self.FK_Submit_MawdeaKhlaf_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_MawdeaKhlaf" EntitySet="Submit_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlaf_UserSubmit" Association="Self.FK_Submit_MawdeaKhlaf_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_MawdeaKhlaf" EntitySet="Submit_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlafDetail_SubmitRejectReason" Association="Self.FK_Submit_MawdeaKhlafDetail_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_MawdeaKhlafDetail" EntitySet="Submit_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlafDetail_UserSubmit" Association="Self.FK_Submit_MawdeaKhlafDetail_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_MawdeaKhlafDetail" EntitySet="Submit_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_ShatibiyyahShahed_SubmitRejectReason" Association="Self.FK_Submit_ShatibiyyahShahed_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_ShatibiyyahShahed" EntitySet="Submit_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_ShatibiyyahShahed_UserSubmit" Association="Self.FK_Submit_ShatibiyyahShahed_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_ShatibiyyahShahed" EntitySet="Submit_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMorag3ah_User" Association="Self.FK_UserMorag3ah_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSubmit_UserSubmit" Association="Self.FK_UserSubmit_UserSubmit">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mushaf_qeraat_serverModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="mushaf_qeraat_serverEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dorrah" EntityType="mushaf_qeraat_serverModel.Dorrah" />
+          <EntitySet Name="DorrahPage" EntityType="mushaf_qeraat_serverModel.DorrahPage" />
+          <EntitySet Name="DorrahSearch" EntityType="mushaf_qeraat_serverModel.DorrahSearch" />
+          <EntitySet Name="DorrahShahed" EntityType="mushaf_qeraat_serverModel.DorrahShahed" />
+          <EntitySet Name="DorrahTitle" EntityType="mushaf_qeraat_serverModel.DorrahTitle" />
+          <EntitySet Name="Khlaf" EntityType="mushaf_qeraat_serverModel.Khlaf" />
+          <EntitySet Name="KhlafGroup" EntityType="mushaf_qeraat_serverModel.KhlafGroup" />
+          <EntitySet Name="MawdeaKhlaf" EntityType="mushaf_qeraat_serverModel.MawdeaKhlaf" />
+          <EntitySet Name="MawdeaKhlafDetail" EntityType="mushaf_qeraat_serverModel.MawdeaKhlafDetail" />
+          <EntitySet Name="MawdeaKhlafType" EntityType="mushaf_qeraat_serverModel.MawdeaKhlafType" />
+          <EntitySet Name="OsolIntro" EntityType="mushaf_qeraat_serverModel.OsolIntro" />
+          <EntitySet Name="Qeraah" EntityType="mushaf_qeraat_serverModel.Qeraah" />
+          <EntitySet Name="QeraahGroup" EntityType="mushaf_qeraat_serverModel.QeraahGroup" />
+          <EntitySet Name="Rewayah" EntityType="mushaf_qeraat_serverModel.Rewayah" />
+          <EntitySet Name="Shatibiyyah" EntityType="mushaf_qeraat_serverModel.Shatibiyyah" />
+          <EntitySet Name="ShatibiyyahPage" EntityType="mushaf_qeraat_serverModel.ShatibiyyahPage" />
+          <EntitySet Name="ShatibiyyahSearch" EntityType="mushaf_qeraat_serverModel.ShatibiyyahSearch" />
+          <EntitySet Name="ShatibiyyahShahed" EntityType="mushaf_qeraat_serverModel.ShatibiyyahShahed" />
+          <EntitySet Name="ShatibiyyahTitle" EntityType="mushaf_qeraat_serverModel.ShatibiyyahTitle" />
+          <EntitySet Name="Submit_DorrahShahed" EntityType="mushaf_qeraat_serverModel.Submit_DorrahShahed" />
+          <EntitySet Name="Submit_Khlaf" EntityType="mushaf_qeraat_serverModel.Submit_Khlaf" />
+          <EntitySet Name="Submit_KhlafGroup" EntityType="mushaf_qeraat_serverModel.Submit_KhlafGroup" />
+          <EntitySet Name="Submit_MawdeaKhlaf" EntityType="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf" />
+          <EntitySet Name="Submit_MawdeaKhlafDetail" EntityType="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail" />
+          <EntitySet Name="Submit_ShatibiyyahShahed" EntityType="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed" />
+          <EntitySet Name="SubmitRejectReason" EntityType="mushaf_qeraat_serverModel.SubmitRejectReason" />
+          <EntitySet Name="User" EntityType="mushaf_qeraat_serverModel.User" />
+          <EntitySet Name="UserSubmit" EntityType="mushaf_qeraat_serverModel.UserSubmit" />
+          <AssociationSet Name="FK_DorrahPage_Dorrah" Association="mushaf_qeraat_serverModel.FK_DorrahPage_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahPage" EntitySet="DorrahPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahSearch_Dorrah" Association="mushaf_qeraat_serverModel.FK_DorrahSearch_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahSearch" EntitySet="DorrahSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahShahed_Dorrah" Association="mushaf_qeraat_serverModel.FK_DorrahShahed_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahTitle_Dorrah" Association="mushaf_qeraat_serverModel.FK_DorrahTitle_Dorrah">
+            <End Role="Dorrah" EntitySet="Dorrah" />
+            <End Role="DorrahTitle" EntitySet="DorrahTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DorrahShahed_MawdeaKhlafDetail" Association="mushaf_qeraat_serverModel.FK_DorrahShahed_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Khlaf_KhlafGroup" Association="mushaf_qeraat_serverModel.FK_Khlaf_KhlafGroup">
+            <End Role="KhlafGroup" EntitySet="KhlafGroup" />
+            <End Role="Khlaf" EntitySet="Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Khlaf_Rewayah" Association="mushaf_qeraat_serverModel.FK_Khlaf_Rewayah">
+            <End Role="Rewayah" EntitySet="Rewayah" />
+            <End Role="Khlaf" EntitySet="Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhlafGroup_MawdeaKhlafDetail" Association="mushaf_qeraat_serverModel.FK_KhlafGroup_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="KhlafGroup" EntitySet="KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MawdeaKhlafDetail_MawdeaKhlaf" Association="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlaf">
+            <End Role="MawdeaKhlaf" EntitySet="MawdeaKhlaf" />
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MawdeaKhlafDetail_MawdeaKhlafType" Association="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlafType">
+            <End Role="MawdeaKhlafType" EntitySet="MawdeaKhlafType" />
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahShahed_MawdeaKhlafDetail" Association="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rewayah_Qeraah" Association="mushaf_qeraat_serverModel.FK_Rewayah_Qeraah">
+            <End Role="Qeraah" EntitySet="Qeraah" />
+            <End Role="Rewayah" EntitySet="Rewayah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahPage_Shatibiyyah" Association="mushaf_qeraat_serverModel.FK_ShatibiyyahPage_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahPage" EntitySet="ShatibiyyahPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahSearch_Shatibiyyah" Association="mushaf_qeraat_serverModel.FK_ShatibiyyahSearch_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahSearch" EntitySet="ShatibiyyahSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahShahed_Shatibiyyah" Association="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShatibiyyahTitle_Shatibiyyah" Association="mushaf_qeraat_serverModel.FK_ShatibiyyahTitle_Shatibiyyah">
+            <End Role="Shatibiyyah" EntitySet="Shatibiyyah" />
+            <End Role="ShatibiyyahTitle" EntitySet="ShatibiyyahTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_DorrahShahed_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_DorrahShahed" EntitySet="Submit_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_DorrahShahed_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_DorrahShahed" EntitySet="Submit_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_Khlaf_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_Khlaf_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_Khlaf" EntitySet="Submit_Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_Khlaf_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_Khlaf_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_Khlaf" EntitySet="Submit_Khlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_KhlafGroup_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_KhlafGroup" EntitySet="Submit_KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_KhlafGroup_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_KhlafGroup" EntitySet="Submit_KhlafGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlaf_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_MawdeaKhlaf" EntitySet="Submit_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlaf_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_MawdeaKhlaf" EntitySet="Submit_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlafDetail_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_MawdeaKhlafDetail" EntitySet="Submit_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_MawdeaKhlafDetail_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_MawdeaKhlafDetail" EntitySet="Submit_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_ShatibiyyahShahed_SubmitRejectReason" Association="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_SubmitRejectReason">
+            <End Role="SubmitRejectReason" EntitySet="SubmitRejectReason" />
+            <End Role="Submit_ShatibiyyahShahed" EntitySet="Submit_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_ShatibiyyahShahed_UserSubmit" Association="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_UserSubmit">
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+            <End Role="Submit_ShatibiyyahShahed" EntitySet="Submit_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSubmit_UserSubmit" Association="mushaf_qeraat_serverModel.FK_UserSubmit_UserSubmit">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserSubmit" EntitySet="UserSubmit" />
+          </AssociationSet>
+          <AssociationSet Name="QeraahGroupQeraah" Association="mushaf_qeraat_serverModel.QeraahGroupQeraah">
+            <End Role="Qeraah" EntitySet="Qeraah" />
+            <End Role="QeraahGroup" EntitySet="QeraahGroup" />
+          </AssociationSet>
+          <EntitySet Name="Morag3ah_DorrahShahed" EntityType="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed" />
+          <EntitySet Name="Morag3ah_MawdeaKhlaf" EntityType="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf" />
+          <EntitySet Name="Morag3ah_MawdeaKhlafDetail" EntityType="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail" />
+          <EntitySet Name="Morag3ah_ShatibiyyahShahed" EntityType="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed" />
+          <EntitySet Name="RowMorag3ahType" EntityType="mushaf_qeraat_serverModel.RowMorag3ahType" />
+          <EntitySet Name="UserMorag3ah" EntityType="mushaf_qeraat_serverModel.UserMorag3ah" />
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_DorrahShahed" Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_DorrahShahed">
+            <End Role="DorrahShahed" EntitySet="DorrahShahed" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf">
+            <End Role="MawdeaKhlaf" EntitySet="MawdeaKhlaf" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail">
+            <End Role="MawdeaKhlafDetail" EntitySet="MawdeaKhlafDetail" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_RowMorag3ahType" Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_DorrahShahed_UserMorag3ah" Association="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_DorrahShahed" EntitySet="Morag3ah_DorrahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlaf_UserMorag3ah" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_MawdeaKhlaf" EntitySet="Morag3ah_MawdeaKhlaf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah" Association="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_MawdeaKhlafDetail" EntitySet="Morag3ah_MawdeaKhlafDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType" Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType">
+            <End Role="RowMorag3ahType" EntitySet="RowMorag3ahType" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed" Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed">
+            <End Role="ShatibiyyahShahed" EntitySet="ShatibiyyahShahed" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah" Association="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah">
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+            <End Role="Morag3ah_ShatibiyyahShahed" EntitySet="Morag3ah_ShatibiyyahShahed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMorag3ah_User" Association="mushaf_qeraat_serverModel.FK_UserMorag3ah_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserMorag3ah" EntitySet="UserMorag3ah" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Dorrah">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" />
+          <Property Name="Part1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Part2" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DorrahPage" Relationship="mushaf_qeraat_serverModel.FK_DorrahPage_Dorrah" FromRole="Dorrah" ToRole="DorrahPage" />
+          <NavigationProperty Name="DorrahSearch" Relationship="mushaf_qeraat_serverModel.FK_DorrahSearch_Dorrah" FromRole="Dorrah" ToRole="DorrahSearch" />
+          <NavigationProperty Name="DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_DorrahShahed_Dorrah" FromRole="Dorrah" ToRole="DorrahShahed" />
+          <NavigationProperty Name="DorrahTitle" Relationship="mushaf_qeraat_serverModel.FK_DorrahTitle_Dorrah" FromRole="Dorrah" ToRole="DorrahTitle" />
+        </EntityType>
+        <EntityType Name="DorrahPage">
+          <Key>
+            <PropertyRef Name="Page" />
+          </Key>
+          <Property Name="Page" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Dorrah" Relationship="mushaf_qeraat_serverModel.FK_DorrahPage_Dorrah" FromRole="DorrahPage" ToRole="Dorrah" />
+        </EntityType>
+        <EntityType Name="DorrahSearch">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dorrah" Relationship="mushaf_qeraat_serverModel.FK_DorrahSearch_Dorrah" FromRole="DorrahSearch" ToRole="Dorrah" />
+        </EntityType>
+        <EntityType Name="DorrahShahed">
+          <Key>
+            <PropertyRef Name="DetailID" />
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitPart" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Dorrah" Relationship="mushaf_qeraat_serverModel.FK_DorrahShahed_Dorrah" FromRole="DorrahShahed" ToRole="Dorrah" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_DorrahShahed_MawdeaKhlafDetail" FromRole="DorrahShahed" ToRole="MawdeaKhlafDetail" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Morag3ah_DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_DorrahShahed" FromRole="DorrahShahed" ToRole="Morag3ah_DorrahShahed" />
+        </EntityType>
+        <EntityType Name="DorrahTitle">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dorrah" Relationship="mushaf_qeraat_serverModel.FK_DorrahTitle_Dorrah" FromRole="DorrahTitle" ToRole="Dorrah" />
+        </EntityType>
+        <EntityType Name="Khlaf">
+          <Key>
+            <PropertyRef Name="RewayahID" />
+            <PropertyRef Name="KhlafGroupID" />
+          </Key>
+          <Property Name="RewayahID" Type="Int32" Nullable="false" />
+          <Property Name="HasKholf" Type="Boolean" Nullable="false" />
+          <Property Name="KhlafGroupID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="KhlafGroup" Relationship="mushaf_qeraat_serverModel.FK_Khlaf_KhlafGroup" FromRole="Khlaf" ToRole="KhlafGroup" />
+          <NavigationProperty Name="Rewayah" Relationship="mushaf_qeraat_serverModel.FK_Khlaf_Rewayah" FromRole="Khlaf" ToRole="Rewayah" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KhlafGroup">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MawdeaKhlafDetailID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Khlaf" Relationship="mushaf_qeraat_serverModel.FK_Khlaf_KhlafGroup" FromRole="KhlafGroup" ToRole="Khlaf" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_KhlafGroup_MawdeaKhlafDetail" FromRole="KhlafGroup" ToRole="MawdeaKhlafDetail" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageNumber" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="x1" Type="Single" />
+          <Property Name="x2" Type="Single" />
+          <Property Name="y1" Type="Single" />
+          <Property Name="y2" Type="Single" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlaf" FromRole="MawdeaKhlaf" ToRole="MawdeaKhlafDetail" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf" FromRole="MawdeaKhlaf" ToRole="Morag3ah_MawdeaKhlaf" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerMawdeaKhlaf" Type="Int32" />
+          <Property Name="KhlafType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_DorrahShahed_MawdeaKhlafDetail" FromRole="MawdeaKhlafDetail" ToRole="DorrahShahed" />
+          <NavigationProperty Name="KhlafGroup" Relationship="mushaf_qeraat_serverModel.FK_KhlafGroup_MawdeaKhlafDetail" FromRole="MawdeaKhlafDetail" ToRole="KhlafGroup" />
+          <NavigationProperty Name="MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlaf" FromRole="MawdeaKhlafDetail" ToRole="MawdeaKhlaf" />
+          <NavigationProperty Name="MawdeaKhlafType" Relationship="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlafType" FromRole="MawdeaKhlafDetail" ToRole="MawdeaKhlafType" />
+          <NavigationProperty Name="ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_MawdeaKhlafDetail" FromRole="MawdeaKhlafDetail" ToRole="ShatibiyyahShahed" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail" FromRole="MawdeaKhlafDetail" ToRole="Morag3ah_MawdeaKhlafDetail" />
+        </EntityType>
+        <EntityType Name="MawdeaKhlafType">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRect" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_MawdeaKhlafDetail_MawdeaKhlafType" FromRole="MawdeaKhlafType" ToRole="MawdeaKhlafDetail" />
+        </EntityType>
+        <EntityType Name="OsolIntro">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Explain" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Qeraah">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rewayah" Relationship="mushaf_qeraat_serverModel.FK_Rewayah_Qeraah" FromRole="Qeraah" ToRole="Rewayah" />
+          <NavigationProperty Name="QeraahGroup" Relationship="mushaf_qeraat_serverModel.QeraahGroupQeraah" FromRole="Qeraah" ToRole="QeraahGroup" />
+        </EntityType>
+        <EntityType Name="QeraahGroup">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Qeraah" Relationship="mushaf_qeraat_serverModel.QeraahGroupQeraah" FromRole="QeraahGroup" ToRole="Qeraah" />
+        </EntityType>
+        <EntityType Name="Rewayah">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Qeraah" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Khlaf" Relationship="mushaf_qeraat_serverModel.FK_Khlaf_Rewayah" FromRole="Rewayah" ToRole="Khlaf" />
+          <NavigationProperty Name="Qeraah1" Relationship="mushaf_qeraat_serverModel.FK_Rewayah_Qeraah" FromRole="Rewayah" ToRole="Qeraah" />
+        </EntityType>
+        <EntityType Name="Shatibiyyah">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" />
+          <Property Name="Part1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Part2" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ShatibiyyahPage" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahPage_Shatibiyyah" FromRole="Shatibiyyah" ToRole="ShatibiyyahPage" />
+          <NavigationProperty Name="ShatibiyyahSearch" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahSearch_Shatibiyyah" FromRole="Shatibiyyah" ToRole="ShatibiyyahSearch" />
+          <NavigationProperty Name="ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_Shatibiyyah" FromRole="Shatibiyyah" ToRole="ShatibiyyahShahed" />
+          <NavigationProperty Name="ShatibiyyahTitle" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahTitle_Shatibiyyah" FromRole="Shatibiyyah" ToRole="ShatibiyyahTitle" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahPage">
+          <Key>
+            <PropertyRef Name="Page" />
+          </Key>
+          <Property Name="Page" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Shatibiyyah" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahPage_Shatibiyyah" FromRole="ShatibiyyahPage" ToRole="Shatibiyyah" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahSearch">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shatibiyyah" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahSearch_Shatibiyyah" FromRole="ShatibiyyahSearch" ToRole="Shatibiyyah" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="DetailID" />
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitPart" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_MawdeaKhlafDetail" FromRole="ShatibiyyahShahed" ToRole="MawdeaKhlafDetail" />
+          <NavigationProperty Name="Shatibiyyah" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahShahed_Shatibiyyah" FromRole="ShatibiyyahShahed" ToRole="Shatibiyyah" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Morag3ah_ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed" FromRole="ShatibiyyahShahed" ToRole="Morag3ah_ShatibiyyahShahed" />
+        </EntityType>
+        <EntityType Name="ShatibiyyahTitle">
+          <Key>
+            <PropertyRef Name="BeitID" />
+          </Key>
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shatibiyyah" Relationship="mushaf_qeraat_serverModel.FK_ShatibiyyahTitle_Shatibiyyah" FromRole="ShatibiyyahTitle" ToRole="Shatibiyyah" />
+        </EntityType>
+        <EntityType Name="Submit_DorrahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableDetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitPart" Type="Int16" Nullable="false" />
+          <Property Name="InsertedDetailID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_SubmitRejectReason" FromRole="Submit_DorrahShahed" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_UserSubmit" FromRole="Submit_DorrahShahed" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="Submit_Khlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableRewayahID" Type="Int32" Nullable="false" />
+          <Property Name="HasKholf" Type="Boolean" Nullable="false" />
+          <Property Name="TableKhlafGroupID" Type="Int32" Nullable="false" />
+          <Property Name="InsertedRewayahID" Type="Int32" />
+          <Property Name="InsertedKhlafGroupID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_Khlaf_SubmitRejectReason" FromRole="Submit_Khlaf" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_Khlaf_UserSubmit" FromRole="Submit_Khlaf" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="Submit_KhlafGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MawdeaKhlafDetailID" Type="Int32" Nullable="false" />
+          <Property Name="InsertedID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_SubmitRejectReason" FromRole="Submit_KhlafGroup" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_UserSubmit" FromRole="Submit_KhlafGroup" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="Submit_MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableID" Type="Int32" Nullable="false" />
+          <Property Name="PageNumber" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="x1" Type="Single" />
+          <Property Name="x2" Type="Single" />
+          <Property Name="y1" Type="Single" />
+          <Property Name="y2" Type="Single" />
+          <Property Name="InsertedID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_SubmitRejectReason" FromRole="Submit_MawdeaKhlaf" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_UserSubmit" FromRole="Submit_MawdeaKhlaf" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="Submit_MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableID" Type="Int32" Nullable="false" />
+          <Property Name="OwnerMawdeaKhlaf" Type="Int32" />
+          <Property Name="DetailType" Type="Int32" Nullable="false" />
+          <Property Name="InsertedID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_SubmitRejectReason" FromRole="Submit_MawdeaKhlafDetail" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_UserSubmit" FromRole="Submit_MawdeaKhlafDetail" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="Submit_ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmitID" Type="Int32" Nullable="false" />
+          <Property Name="TableDetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="BeitPart" Type="Int16" Nullable="false" />
+          <Property Name="InsertedDetailID" Type="Int32" />
+          <Property Name="RejectReason" Type="Int32" />
+          <NavigationProperty Name="SubmitRejectReason" Relationship="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_SubmitRejectReason" FromRole="Submit_ShatibiyyahShahed" ToRole="SubmitRejectReason" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_UserSubmit" FromRole="Submit_ShatibiyyahShahed" ToRole="UserSubmit" />
+        </EntityType>
+        <EntityType Name="SubmitRejectReason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Submit_DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_DorrahShahed" />
+          <NavigationProperty Name="Submit_Khlaf" Relationship="mushaf_qeraat_serverModel.FK_Submit_Khlaf_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_Khlaf" />
+          <NavigationProperty Name="Submit_KhlafGroup" Relationship="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_KhlafGroup" />
+          <NavigationProperty Name="Submit_MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_MawdeaKhlaf" />
+          <NavigationProperty Name="Submit_MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_MawdeaKhlafDetail" />
+          <NavigationProperty Name="Submit_ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_SubmitRejectReason" FromRole="SubmitRejectReason" ToRole="Submit_ShatibiyyahShahed" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsersTableID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CanSubmit" Type="Boolean" />
+          <NavigationProperty Name="UserSubmit" Relationship="mushaf_qeraat_serverModel.FK_UserSubmit_UserSubmit" FromRole="User" ToRole="UserSubmit" />
+          <NavigationProperty Name="UserMorag3ah" Relationship="mushaf_qeraat_serverModel.FK_UserMorag3ah_User" FromRole="User" ToRole="UserMorag3ah" />
+        </EntityType>
+        <EntityType Name="UserSubmit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Submit_DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Submit_DorrahShahed_UserSubmit" FromRole="UserSubmit" ToRole="Submit_DorrahShahed" />
+          <NavigationProperty Name="Submit_Khlaf" Relationship="mushaf_qeraat_serverModel.FK_Submit_Khlaf_UserSubmit" FromRole="UserSubmit" ToRole="Submit_Khlaf" />
+          <NavigationProperty Name="Submit_KhlafGroup" Relationship="mushaf_qeraat_serverModel.FK_Submit_KhlafGroup_UserSubmit" FromRole="UserSubmit" ToRole="Submit_KhlafGroup" />
+          <NavigationProperty Name="Submit_MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlaf_UserSubmit" FromRole="UserSubmit" ToRole="Submit_MawdeaKhlaf" />
+          <NavigationProperty Name="Submit_MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Submit_MawdeaKhlafDetail_UserSubmit" FromRole="UserSubmit" ToRole="Submit_MawdeaKhlafDetail" />
+          <NavigationProperty Name="Submit_ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Submit_ShatibiyyahShahed_UserSubmit" FromRole="UserSubmit" ToRole="Submit_ShatibiyyahShahed" />
+          <NavigationProperty Name="User" Relationship="mushaf_qeraat_serverModel.FK_UserSubmit_UserSubmit" FromRole="UserSubmit" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_DorrahPage_Dorrah">
+          <End Type="mushaf_qeraat_serverModel.Dorrah" Role="Dorrah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.DorrahPage" Role="DorrahPage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="DorrahPage">
+              <PropertyRef Name="Page" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahSearch_Dorrah">
+          <End Type="mushaf_qeraat_serverModel.Dorrah" Role="Dorrah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.DorrahSearch" Role="DorrahSearch" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="DorrahSearch">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahShahed_Dorrah">
+          <End Type="mushaf_qeraat_serverModel.Dorrah" Role="Dorrah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.DorrahShahed" Role="DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="DorrahShahed">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahTitle_Dorrah">
+          <End Type="mushaf_qeraat_serverModel.Dorrah" Role="Dorrah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.DorrahTitle" Role="DorrahTitle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dorrah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="DorrahTitle">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DorrahShahed_MawdeaKhlafDetail">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.DorrahShahed" Role="DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="DorrahShahed">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Khlaf_KhlafGroup">
+          <End Type="mushaf_qeraat_serverModel.KhlafGroup" Role="KhlafGroup" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Khlaf" Role="Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhlafGroup">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Khlaf">
+              <PropertyRef Name="KhlafGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Khlaf_Rewayah">
+          <End Type="mushaf_qeraat_serverModel.Rewayah" Role="Rewayah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Khlaf" Role="Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rewayah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Khlaf">
+              <PropertyRef Name="RewayahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KhlafGroup_MawdeaKhlafDetail">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.KhlafGroup" Role="KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="KhlafGroup">
+              <PropertyRef Name="MawdeaKhlafDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MawdeaKhlafDetail_MawdeaKhlaf">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlaf" Role="MawdeaKhlaf" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlaf">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="MawdeaKhlafDetail">
+              <PropertyRef Name="OwnerMawdeaKhlaf" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MawdeaKhlafDetail_MawdeaKhlafType">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafType" Role="MawdeaKhlafType" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafType">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="MawdeaKhlafDetail">
+              <PropertyRef Name="KhlafType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahShahed_MawdeaKhlafDetail">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahShahed" Role="ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rewayah_Qeraah">
+          <End Type="mushaf_qeraat_serverModel.Qeraah" Role="Qeraah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Rewayah" Role="Rewayah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qeraah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Rewayah">
+              <PropertyRef Name="Qeraah" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahPage_Shatibiyyah">
+          <End Type="mushaf_qeraat_serverModel.Shatibiyyah" Role="Shatibiyyah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahPage" Role="ShatibiyyahPage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahPage">
+              <PropertyRef Name="Page" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahSearch_Shatibiyyah">
+          <End Type="mushaf_qeraat_serverModel.Shatibiyyah" Role="Shatibiyyah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahSearch" Role="ShatibiyyahSearch" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahSearch">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahShahed_Shatibiyyah">
+          <End Type="mushaf_qeraat_serverModel.Shatibiyyah" Role="Shatibiyyah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahShahed" Role="ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahShahed">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShatibiyyahTitle_Shatibiyyah">
+          <End Type="mushaf_qeraat_serverModel.Shatibiyyah" Role="Shatibiyyah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahTitle" Role="ShatibiyyahTitle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Shatibiyyah">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="ShatibiyyahTitle">
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_DorrahShahed_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_DorrahShahed" Role="Submit_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_DorrahShahed">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_DorrahShahed_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_DorrahShahed" Role="Submit_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_DorrahShahed">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_Khlaf_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_Khlaf" Role="Submit_Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_Khlaf">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_Khlaf_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_Khlaf" Role="Submit_Khlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_Khlaf">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_KhlafGroup_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_KhlafGroup" Role="Submit_KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_KhlafGroup">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_KhlafGroup_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_KhlafGroup" Role="Submit_KhlafGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_KhlafGroup">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlaf_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf" Role="Submit_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlaf">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlaf_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf" Role="Submit_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlaf">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlafDetail_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail" Role="Submit_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlafDetail">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_MawdeaKhlafDetail_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail" Role="Submit_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_MawdeaKhlafDetail">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_ShatibiyyahShahed_SubmitRejectReason">
+          <End Type="mushaf_qeraat_serverModel.SubmitRejectReason" Role="SubmitRejectReason" Multiplicity="0..1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed" Role="Submit_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubmitRejectReason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_ShatibiyyahShahed">
+              <PropertyRef Name="RejectReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_ShatibiyyahShahed_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed" Role="Submit_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSubmit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Submit_ShatibiyyahShahed">
+              <PropertyRef Name="SubmitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSubmit_UserSubmit">
+          <End Type="mushaf_qeraat_serverModel.User" Role="User" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.UserSubmit" Role="UserSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSubmit">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="QeraahGroupQeraah">
+          <End Type="mushaf_qeraat_serverModel.Qeraah" Role="Qeraah" Multiplicity="*" />
+          <End Type="mushaf_qeraat_serverModel.QeraahGroup" Role="QeraahGroup" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Morag3ah_DorrahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Morag3ahID" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_DorrahShahed" FromRole="Morag3ah_DorrahShahed" ToRole="DorrahShahed" />
+          <NavigationProperty Name="RowMorag3ahType" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_RowMorag3ahType" FromRole="Morag3ah_DorrahShahed" ToRole="RowMorag3ahType" />
+          <NavigationProperty Name="UserMorag3ah" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_UserMorag3ah" FromRole="Morag3ah_DorrahShahed" ToRole="UserMorag3ah" />
+        </EntityType>
+        <EntityType Name="Morag3ah_MawdeaKhlaf">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Morag3ahID" Type="Int32" Nullable="false" />
+          <Property Name="MawdeaKhlafID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Old_PageNumber" Type="Int32" />
+          <Property Name="Old_DetailID" Type="Int32" />
+          <Property Name="Old_x1" Type="Single" />
+          <Property Name="Old_x2" Type="Single" />
+          <Property Name="Old_y1" Type="Single" />
+          <Property Name="Old_y2" Type="Single" />
+          <NavigationProperty Name="MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf" FromRole="Morag3ah_MawdeaKhlaf" ToRole="MawdeaKhlaf" />
+          <NavigationProperty Name="RowMorag3ahType" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType" FromRole="Morag3ah_MawdeaKhlaf" ToRole="RowMorag3ahType" />
+          <NavigationProperty Name="UserMorag3ah" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_UserMorag3ah" FromRole="Morag3ah_MawdeaKhlaf" ToRole="UserMorag3ah" />
+        </EntityType>
+        <EntityType Name="Morag3ah_MawdeaKhlafDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Morag3ahID" Type="Int32" Nullable="false" />
+          <Property Name="MawdeaKhlafDetailID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail" FromRole="Morag3ah_MawdeaKhlafDetail" ToRole="MawdeaKhlafDetail" />
+          <NavigationProperty Name="RowMorag3ahType" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType" FromRole="Morag3ah_MawdeaKhlafDetail" ToRole="RowMorag3ahType" />
+          <NavigationProperty Name="UserMorag3ah" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah" FromRole="Morag3ah_MawdeaKhlafDetail" ToRole="UserMorag3ah" />
+        </EntityType>
+        <EntityType Name="Morag3ah_ShatibiyyahShahed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Morag3ahID" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="BeitID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RowMorag3ahType" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType" FromRole="Morag3ah_ShatibiyyahShahed" ToRole="RowMorag3ahType" />
+          <NavigationProperty Name="ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed" FromRole="Morag3ah_ShatibiyyahShahed" ToRole="ShatibiyyahShahed" />
+          <NavigationProperty Name="UserMorag3ah" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah" FromRole="Morag3ah_ShatibiyyahShahed" ToRole="UserMorag3ah" />
+        </EntityType>
+        <EntityType Name="RowMorag3ahType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Morag3ah_DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_RowMorag3ahType" FromRole="RowMorag3ahType" ToRole="Morag3ah_DorrahShahed" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType" FromRole="RowMorag3ahType" ToRole="Morag3ah_MawdeaKhlaf" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType" FromRole="RowMorag3ahType" ToRole="Morag3ah_MawdeaKhlafDetail" />
+          <NavigationProperty Name="Morag3ah_ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType" FromRole="RowMorag3ahType" ToRole="Morag3ah_ShatibiyyahShahed" />
+        </EntityType>
+        <EntityType Name="UserMorag3ah">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Morag3ah_DorrahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_DorrahShahed_UserMorag3ah" FromRole="UserMorag3ah" ToRole="Morag3ah_DorrahShahed" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlaf" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlaf_UserMorag3ah" FromRole="UserMorag3ah" ToRole="Morag3ah_MawdeaKhlaf" />
+          <NavigationProperty Name="Morag3ah_MawdeaKhlafDetail" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah" FromRole="UserMorag3ah" ToRole="Morag3ah_MawdeaKhlafDetail" />
+          <NavigationProperty Name="Morag3ah_ShatibiyyahShahed" Relationship="mushaf_qeraat_serverModel.FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah" FromRole="UserMorag3ah" ToRole="Morag3ah_ShatibiyyahShahed" />
+          <NavigationProperty Name="User" Relationship="mushaf_qeraat_serverModel.FK_UserMorag3ah_User" FromRole="UserMorag3ah" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Morag3ah_DorrahShahed_DorrahShahed">
+          <End Type="mushaf_qeraat_serverModel.DorrahShahed" Role="DorrahShahed" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed" Role="Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DorrahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_MawdeaKhlaf">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlaf" Role="MawdeaKhlaf" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf" Role="Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlaf">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="MawdeaKhlafID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_MawdeaKhlafDetail">
+          <End Type="mushaf_qeraat_serverModel.MawdeaKhlafDetail" Role="MawdeaKhlafDetail" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail" Role="Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MawdeaKhlafDetail">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="MawdeaKhlafDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_DorrahShahed_RowMorag3ahType">
+          <End Type="mushaf_qeraat_serverModel.RowMorag3ahType" Role="RowMorag3ahType" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed" Role="Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_DorrahShahed_UserMorag3ah">
+          <End Type="mushaf_qeraat_serverModel.UserMorag3ah" Role="UserMorag3ah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed" Role="Morag3ah_DorrahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_DorrahShahed">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_RowMorag3ahType">
+          <End Type="mushaf_qeraat_serverModel.RowMorag3ahType" Role="RowMorag3ahType" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf" Role="Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlaf_UserMorag3ah">
+          <End Type="mushaf_qeraat_serverModel.UserMorag3ah" Role="UserMorag3ah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf" Role="Morag3ah_MawdeaKhlaf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlaf">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_RowMorag3ahType">
+          <End Type="mushaf_qeraat_serverModel.RowMorag3ahType" Role="RowMorag3ahType" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail" Role="Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_MawdeaKhlafDetail_UserMorag3ah">
+          <End Type="mushaf_qeraat_serverModel.UserMorag3ah" Role="UserMorag3ah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail" Role="Morag3ah_MawdeaKhlafDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_MawdeaKhlafDetail">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_RowMorag3ahType">
+          <End Type="mushaf_qeraat_serverModel.RowMorag3ahType" Role="RowMorag3ahType" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed" Role="Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RowMorag3ahType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_ShatibiyyahShahed">
+          <End Type="mushaf_qeraat_serverModel.ShatibiyyahShahed" Role="ShatibiyyahShahed" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed" Role="Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="DetailID" />
+              <PropertyRef Name="BeitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Morag3ah_ShatibiyyahShahed_UserMorag3ah">
+          <End Type="mushaf_qeraat_serverModel.UserMorag3ah" Role="UserMorag3ah" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed" Role="Morag3ah_ShatibiyyahShahed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMorag3ah">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Morag3ah_ShatibiyyahShahed">
+              <PropertyRef Name="Morag3ahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMorag3ah_User">
+          <End Type="mushaf_qeraat_serverModel.User" Role="User" Multiplicity="1" />
+          <End Type="mushaf_qeraat_serverModel.UserMorag3ah" Role="UserMorag3ah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserMorag3ah">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mushaf_qeraat_serverModelStoreContainer" CdmEntityContainer="mushaf_qeraat_serverEntities">
+          <EntitySetMapping Name="Dorrah">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Dorrah">
+              <MappingFragment StoreEntitySet="Dorrah">
+                <ScalarProperty Name="Part2" ColumnName="Part2" />
+                <ScalarProperty Name="Part1" ColumnName="Part1" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DorrahPage">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahPage">
+              <MappingFragment StoreEntitySet="DorrahPage">
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DorrahSearch">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahSearch">
+              <MappingFragment StoreEntitySet="DorrahSearch">
+                <ScalarProperty Name="BeitText" ColumnName="BeitText" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DorrahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahShahed">
+              <MappingFragment StoreEntitySet="DorrahShahed">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DorrahTitle">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.DorrahTitle">
+              <MappingFragment StoreEntitySet="DorrahTitle">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Khlaf">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Khlaf">
+              <MappingFragment StoreEntitySet="Khlaf">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="KhlafGroupID" ColumnName="KhlafGroupID" />
+                <ScalarProperty Name="HasKholf" ColumnName="HasKholf" />
+                <ScalarProperty Name="RewayahID" ColumnName="RewayahID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhlafGroup">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.KhlafGroup">
+              <MappingFragment StoreEntitySet="KhlafGroup">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MawdeaKhlaf">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlaf">
+              <MappingFragment StoreEntitySet="MawdeaKhlaf">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="y2" ColumnName="y2" />
+                <ScalarProperty Name="y1" ColumnName="y1" />
+                <ScalarProperty Name="x2" ColumnName="x2" />
+                <ScalarProperty Name="x1" ColumnName="x1" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MawdeaKhlafDetail">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlafDetail">
+              <MappingFragment StoreEntitySet="MawdeaKhlafDetail">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="KhlafType" ColumnName="KhlafType" />
+                <ScalarProperty Name="OwnerMawdeaKhlaf" ColumnName="OwnerMawdeaKhlaf" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MawdeaKhlafType">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.MawdeaKhlafType">
+              <MappingFragment StoreEntitySet="MawdeaKhlafType">
+                <ScalarProperty Name="IsRect" ColumnName="IsRect" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OsolIntro">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.OsolIntro">
+              <MappingFragment StoreEntitySet="OsolIntro">
+                <ScalarProperty Name="Explain" ColumnName="Explain" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Qeraah">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Qeraah">
+              <MappingFragment StoreEntitySet="Qeraah">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QeraahGroup">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.QeraahGroup">
+              <MappingFragment StoreEntitySet="QeraahGroup">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rewayah">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Rewayah">
+              <MappingFragment StoreEntitySet="Rewayah">
+                <ScalarProperty Name="Qeraah" ColumnName="Qeraah" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shatibiyyah">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Shatibiyyah">
+              <MappingFragment StoreEntitySet="Shatibiyyah">
+                <ScalarProperty Name="Part2" ColumnName="Part2" />
+                <ScalarProperty Name="Part1" ColumnName="Part1" />
+                <ScalarProperty Name="C_ID" ColumnName="_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShatibiyyahPage">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahPage">
+              <MappingFragment StoreEntitySet="ShatibiyyahPage">
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShatibiyyahSearch">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahSearch">
+              <MappingFragment StoreEntitySet="ShatibiyyahSearch">
+                <ScalarProperty Name="BeitText" ColumnName="BeitText" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShatibiyyahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahShahed">
+              <MappingFragment StoreEntitySet="ShatibiyyahShahed">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShatibiyyahTitle">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.ShatibiyyahTitle">
+              <MappingFragment StoreEntitySet="ShatibiyyahTitle">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_DorrahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_DorrahShahed">
+              <MappingFragment StoreEntitySet="Submit_DorrahShahed">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedDetailID" ColumnName="InsertedDetailID" />
+                <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="TableDetailID" ColumnName="TableDetailID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_Khlaf">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_Khlaf">
+              <MappingFragment StoreEntitySet="Submit_Khlaf">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedKhlafGroupID" ColumnName="InsertedKhlafGroupID" />
+                <ScalarProperty Name="InsertedRewayahID" ColumnName="InsertedRewayahID" />
+                <ScalarProperty Name="TableKhlafGroupID" ColumnName="TableKhlafGroupID" />
+                <ScalarProperty Name="HasKholf" ColumnName="HasKholf" />
+                <ScalarProperty Name="TableRewayahID" ColumnName="TableRewayahID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_KhlafGroup">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_KhlafGroup">
+              <MappingFragment StoreEntitySet="Submit_KhlafGroup">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+                <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TableID" ColumnName="TableID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_MawdeaKhlaf">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_MawdeaKhlaf">
+              <MappingFragment StoreEntitySet="Submit_MawdeaKhlaf">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+                <ScalarProperty Name="y2" ColumnName="y2" />
+                <ScalarProperty Name="y1" ColumnName="y1" />
+                <ScalarProperty Name="x2" ColumnName="x2" />
+                <ScalarProperty Name="x1" ColumnName="x1" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+                <ScalarProperty Name="TableID" ColumnName="TableID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_MawdeaKhlafDetail">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_MawdeaKhlafDetail">
+              <MappingFragment StoreEntitySet="Submit_MawdeaKhlafDetail">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedID" ColumnName="InsertedID" />
+                <ScalarProperty Name="DetailType" ColumnName="DetailType" />
+                <ScalarProperty Name="OwnerMawdeaKhlaf" ColumnName="OwnerMawdeaKhlaf" />
+                <ScalarProperty Name="TableID" ColumnName="TableID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Submit_ShatibiyyahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Submit_ShatibiyyahShahed">
+              <MappingFragment StoreEntitySet="Submit_ShatibiyyahShahed">
+                <ScalarProperty Name="RejectReason" ColumnName="RejectReason" />
+                <ScalarProperty Name="InsertedDetailID" ColumnName="InsertedDetailID" />
+                <ScalarProperty Name="BeitPart" ColumnName="BeitPart" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="TableDetailID" ColumnName="TableDetailID" />
+                <ScalarProperty Name="SubmitID" ColumnName="SubmitID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubmitRejectReason">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.SubmitRejectReason">
+              <MappingFragment StoreEntitySet="SubmitRejectReason">
+                <ScalarProperty Name="Descr" ColumnName="Descr" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="CanSubmit" ColumnName="CanSubmit" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="UsersTableID" ColumnName="UsersTableID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSubmit">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.UserSubmit">
+              <MappingFragment StoreEntitySet="UserSubmit">
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="QeraahGroupQeraah" TypeName="mushaf_qeraat_serverModel.QeraahGroupQeraah" StoreEntitySet="QeraahGroupQeraah">
+            <EndProperty Name="QeraahGroup">
+              <ScalarProperty Name="C_ID" ColumnName="GroupID" />
+            </EndProperty>
+            <EndProperty Name="Qeraah">
+              <ScalarProperty Name="C_ID" ColumnName="QeraahID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Morag3ah_DorrahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_DorrahShahed">
+              <MappingFragment StoreEntitySet="Morag3ah_DorrahShahed">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Morag3ah_MawdeaKhlaf">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlaf">
+              <MappingFragment StoreEntitySet="Morag3ah_MawdeaKhlaf">
+                <ScalarProperty Name="Old_y2" ColumnName="Old_y2" />
+                <ScalarProperty Name="Old_y1" ColumnName="Old_y1" />
+                <ScalarProperty Name="Old_x2" ColumnName="Old_x2" />
+                <ScalarProperty Name="Old_x1" ColumnName="Old_x1" />
+                <ScalarProperty Name="Old_DetailID" ColumnName="Old_DetailID" />
+                <ScalarProperty Name="Old_PageNumber" ColumnName="Old_PageNumber" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="MawdeaKhlafID" ColumnName="MawdeaKhlafID" />
+                <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Morag3ah_MawdeaKhlafDetail">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_MawdeaKhlafDetail">
+              <MappingFragment StoreEntitySet="Morag3ah_MawdeaKhlafDetail">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="MawdeaKhlafDetailID" ColumnName="MawdeaKhlafDetailID" />
+                <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Morag3ah_ShatibiyyahShahed">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.Morag3ah_ShatibiyyahShahed">
+              <MappingFragment StoreEntitySet="Morag3ah_ShatibiyyahShahed">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="BeitID" ColumnName="BeitID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="Morag3ahID" ColumnName="Morag3ahID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RowMorag3ahType">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.RowMorag3ahType">
+              <MappingFragment StoreEntitySet="RowMorag3ahType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMorag3ah">
+            <EntityTypeMapping TypeName="mushaf_qeraat_serverModel.UserMorag3ah">
+              <MappingFragment StoreEntitySet="UserMorag3ah">
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

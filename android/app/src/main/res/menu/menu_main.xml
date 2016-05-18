@@ -9,4 +9,6 @@
         android:orderInCategory="99"/>
     <item android:id="@+id/action_bookmark" android:title="حفظ الصفحة"
         android:orderInCategory="98" />
+    <item android:id="@+id/action_rewayatintro" android:title="أصول الروايات"
+        android:orderInCategory="101" />
 </menu>

@@ -5,7 +5,14 @@
  */
 package qurandwnld;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -15,9 +22,9 @@ import javax.swing.JOptionPane;
  */
 public class InputQeraatJDialog extends javax.swing.JDialog {
     
-    private Selection lastSelection;
+    private SelectionDetail lastSelection;
     
-    void set(Selection s) {
+    void set(SelectionDetail s) {
         lastSelection = s;
         switch (s.type) {
             case Edgham:
@@ -42,19 +49,19 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
                 jLabel1.setText("النوع: سكت");
                 break;
         }
-        if (s.khelafat != null) 
-            for (RewayahSelectionGroup g : s.khelafat)
+        if (s.rewayaat != null) 
+            for (Rewayah g : s.rewayaat)
                 ((DefaultListModel) jList1.getModel()).addElement(g);
-        jTextArea2.setText(s.shahed);
+        updateShahedText(lastSelection);
     }
     
-    Selection get() {
-        Selection s = lastSelection;
-        s.shahed = jTextArea2.getText();
-        if (s.khelafat == null || s.khelafat.length != jList1.getModel().getSize())
-            s.khelafat = new RewayahSelectionGroup[jList1.getModel().getSize()];
+    SelectionDetail get() {
+        SelectionDetail s = lastSelection;
+        //s.shahed = jTextArea2.getText();
+        if (s.rewayaat == null || s.rewayaat.size() != jList1.getModel().getSize())
+            s.rewayaat = new RewayahSelectionList();
         for (int i = 0; i < jList1.getModel().getSize(); ++i) {
-            s.khelafat[i] = (RewayahSelectionGroup) jList1.getModel().getElementAt(i);
+            s.rewayaat.add((Rewayah) jList1.getModel().getElementAt(i));
         }
         return s;
     }
@@ -68,6 +75,29 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
         WriteJFrame1.rtlLayout(this);
     }
 
+    private void updateShahedText(SelectionDetail s) {
+        StringBuilder b = new StringBuilder();
+        Function<String, String> str = t -> t == null ? "      " : t.trim();
+        if (s != null) {
+            if (s.shatibiyyah != null && !s.shatibiyyah.isEmpty()) {
+                b.append("من الشاطبية:\n");
+                for (Shahed h : s.shatibiyyah)
+                    b.append(h.id).append(". ").append(str.apply(h.part1))
+                            .append(" ... ").append(str.apply(h.part2))
+                            .append("\n");
+                b.append("\n");
+            }
+            if (s.dorrah != null && !s.dorrah.isEmpty()) {
+                b.append("من الدرة:\n");
+                for (Shahed h : s.dorrah)
+                    b.append(h.id).append(". ").append(str.apply(h.part1))
+                            .append(" ... ").append(str.apply(h.part2))
+                            .append("\n");
+            }
+        }
+        jTextArea2.setText(b.toString());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,6 +111,9 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
@@ -113,19 +146,38 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
         });
         jPopupMenu1.add(jMenuItem3);
 
+        jMenuItem4.setText("من الشاطبية...");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("من الدرة...");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem5);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("تحرير بيانات القراءة");
 
         jLabel3.setText("الشاهد");
 
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Traditional Arabic", 1, 18)); // NOI18N
         jTextArea2.setRows(5);
+        jTextArea2.setComponentPopupMenu(jPopupMenu2);
         jScrollPane2.setViewportView(jTextArea2);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("jLabel1");
 
+        jList1.setFont(new java.awt.Font("Traditional Arabic", 0, 18)); // NOI18N
         jList1.setModel(new DefaultListModel<>());
         jList1.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(jList1);
@@ -160,10 +212,10 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -178,12 +230,13 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
             Arrays.sort(s);
             for (int i = s.length - 1; i >= 0; --i) {
                 ((DefaultListModel) jList1.getModel()).removeElementAt(s[i]);
+                //TODO:
             }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        RewayahSelectionGroup sel = (RewayahSelectionGroup) jList1.getSelectedValue();
+        SelectionDetail sel = (SelectionDetail) jList1.getSelectedValue();
         if (sel != null) {
             QeraatGroupJPanel j = new QeraatGroupJPanel();
             j.set(sel);
@@ -195,7 +248,7 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        RewayahSelectionGroup sel = new RewayahSelectionGroup();
+        SelectionDetail sel = new SelectionDetail();
         QeraatGroupJPanel j = new QeraatGroupJPanel();
         j.set(sel);
         if (JOptionPane.showConfirmDialog(this, j, "تحرير بيانات القراءة",
@@ -203,6 +256,73 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
             ((DefaultListModel) jList1.getModel()).addElement(j.get());
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private boolean compare(Map<Integer, Byte> sel1, Map<Integer, Byte> sel2) {
+        if (sel1.size() != sel2.size()) return false;
+        boolean yes = true;
+        for (Map.Entry<Integer, Byte> k : sel1.entrySet()) {
+            Byte get = sel2.get(k.getKey());
+            if (!Objects.equals(get, k.getValue())) {
+                yes = false;
+                break;
+            }
+        }
+        return yes;
+    }
+    
+    private void work(boolean isDorrah, SelectionDetail detail) {
+        Map<Integer, Byte> init = new LinkedHashMap<>();
+        if (detail.dorrah == null)
+            detail.dorrah = new ArrayList<>();
+        if (detail.shatibiyyah == null)
+            detail.shatibiyyah = new ArrayList<>();
+        ArrayList<Shahed> list = isDorrah ? detail.dorrah : detail.shatibiyyah;
+        if (list != null)
+            list.stream().forEach(k -> {
+                init.put(k.id, k.part2 == null ? ChooseShahedJFrame.SELECTION_PART1 : 
+                        k.part1 == null ? ChooseShahedJFrame.SELECTION_PART2 : ChooseShahedJFrame.SELECTION_ALL);
+            });
+        int page = 1;
+        if (!init.isEmpty()) {
+            int beit = init.entrySet().iterator().next().getKey();
+            page = DbHelper.getMatnPageByBeit(beit, isDorrah);
+        }
+        ChooseShahedJFrame frame = new ChooseShahedJFrame(isDorrah, page);
+        frame.addSelections(init);
+        if (JOptionPane.showConfirmDialog(this, frame.getContentPane(), "تحديد الشاهد",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            Map<Integer, Byte> sel = frame.getSelections();
+            if (!compare(init, sel)) {
+                List<Integer> ids = sel.keySet().stream().collect(Collectors.toList());
+                ids.sort((i, j) -> i.compareTo(j));
+                ArrayList<Shahed> sh = DbHelper.getShahedList(ids, isDorrah);
+                list.clear();
+                sh.stream().forEach(h -> {
+                    switch (sel.get(h.id)) {
+                        case ChooseShahedJFrame.SELECTION_ALL:
+                            break;
+                        case ChooseShahedJFrame.SELECTION_PART1:
+                            h.part2 = null;
+                            break;
+                        case ChooseShahedJFrame.SELECTION_PART2:
+                            h.part1 = null;
+                            break;
+                    }
+                    list.add(h);
+                });
+                //TODO: DbHelper.updateSelectionDetailShahed(detail);
+                updateShahedText(lastSelection);
+            }
+        }
+    }
+    
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        work(false, lastSelection);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        work(true, lastSelection);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -212,7 +332,10 @@ public class InputQeraatJDialog extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea2;

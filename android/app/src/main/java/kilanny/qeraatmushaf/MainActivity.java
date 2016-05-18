@@ -659,6 +659,9 @@ public class MainActivity extends Activity {
                     .setNegativeButton("لا", dialogClickListener).show();
         } else if (R.id.action_bookmark == id) {
             setBookmarkMenuItem(setting.toggleBookmark(setting.page));
+        } else if (R.id.action_rewayatintro == id) {
+            startActivity(new Intent(this, IntroActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

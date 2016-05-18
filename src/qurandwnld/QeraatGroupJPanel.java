@@ -6,11 +6,22 @@
 package qurandwnld;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
  *
@@ -18,15 +29,72 @@ import javax.swing.JMenuItem;
  */
 public class QeraatGroupJPanel extends javax.swing.JPanel {
 
-    private final RewayahSelectionGroup temp = new RewayahSelectionGroup();
-    private RewayahSelectionGroup current;
+    static final SelectionType[] selectionTypes = {
+        SelectionType.Farsh,
+        SelectionType.Hamz,
+        SelectionType.Edgham,
+        SelectionType.Emalah,
+        SelectionType.Naql,
+        SelectionType.Mad,
+        SelectionType.Sakt
+    };
+    
+    private final List<JRadioButton> radioButtons;
+    private final SelectionDetail temp = new SelectionDetail();
+    private SelectionDetail current;
+    SelectionType currentType = SelectionType.Farsh;
+    
+    private TableModel getTableModel() {
+        return new DefaultTableModel(new String [] {
+                "المتن", "رقم البيت", "الشطر الأول", "الشطر الثاني"
+            }, 0){
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, 
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+         
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+    }
     
     /**
      * Creates new form QeraatGroupJPanel
      */
     public QeraatGroupJPanel() {
         initComponents();
+        radioButtons = Arrays.asList(new JRadioButton[] {
+            jRadioButtonFarsh,
+            jRadioButtonHamz,
+            jRadioButtonEdgham,
+            jRadioButtonEmalah,
+            jRadioButtonNaql,
+            jRadioButtonMadd,
+            jRadioButtonSakt
+        });
+        javax.swing.event.ChangeListener changeListener = (javax.swing.event.ChangeEvent evt) -> {
+            JRadioButton btn = (JRadioButton) evt.getSource();
+            if (btn.isSelected()) {
+                int idx = radioButtons.indexOf(btn);
+                currentType = selectionTypes[idx];
+            }
+        };
+        radioButtons.stream().forEach((r) -> {
+            r.addChangeListener(changeListener);
+        });
         initMenues();
+        int[] colWidth = {100, 50, 200, 200};
+        for (int i = 0; i < colWidth.length; ++i)
+            jTable2.getColumnModel().getColumn(i).setPreferredWidth(colWidth[i]);
+        WriteJFrame1.rtlLayout(this);
     }
 
     /**
@@ -38,23 +106,38 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuQeraat = new javax.swing.JPopupMenu();
-        jMenuRewayat = new javax.swing.JPopupMenu();
-        jMenuRamz = new javax.swing.JPopupMenu();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenu_Ramz = new javax.swing.JMenu();
+        jMenu_Qeraah = new javax.swing.JMenu();
+        jMenuRewayah = new javax.swing.JMenu();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jLabelPreview = new javax.swing.JLabel();
+        jRadioButtonSakt = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jRadioButtonFarsh = new javax.swing.JRadioButton();
+        jRadioButtonHamz = new javax.swing.JRadioButton();
+        jRadioButtonEdgham = new javax.swing.JRadioButton();
+        jRadioButtonEmalah = new javax.swing.JRadioButton();
+        jRadioButtonNaql = new javax.swing.JRadioButton();
+        jRadioButtonMadd = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+        jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jMenuItem1.setText("إزالة");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -63,6 +146,30 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(jSeparator2);
+
+        jMenu_Ramz.setText("إضافة رمز");
+        jPopupMenu1.add(jMenu_Ramz);
+
+        jMenu_Qeraah.setText("إضافة قراءة");
+        jPopupMenu1.add(jMenu_Qeraah);
+
+        jMenuRewayah.setText("إضافة رواية");
+        jPopupMenu1.add(jMenuRewayah);
+
+        jMenu1.setText("إضافة بيت");
+
+        jMenuItem2.setText("من الشاطبية");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("من الدرة");
+        jMenu1.add(jMenuItem3);
+
+        jPopupMenu2.add(jMenu1);
+        jPopupMenu2.add(jSeparator1);
+
+        jMenuItem4.setText("حذف البيت المحدد");
+        jPopupMenu2.add(jMenuItem4);
 
         jLabel2.setText("الوصف");
 
@@ -71,36 +178,74 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jList1.setModel(new DefaultListModel<RewayahSelection>());
-        jList1.setComponentPopupMenu(jPopupMenu1);
-        jScrollPane2.setViewportView(jList1);
+        jLabelPreview.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelPreview.setForeground(new java.awt.Color(255, 51, 51));
+        jLabelPreview.setText("قرأ فلان وفلان بـ كذا وكذا");
+        jLabelPreview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel1.setText("الروايات");
+        buttonGroup1.add(jRadioButtonSakt);
+        jRadioButtonSakt.setText("سكت");
 
-        jButton1.setText("المحدد بغير خلف");
+        jLabel3.setText("نوع الخلاف");
+
+        buttonGroup1.add(jRadioButtonFarsh);
+        jRadioButtonFarsh.setSelected(true);
+        jRadioButtonFarsh.setText("فرش");
+
+        buttonGroup1.add(jRadioButtonHamz);
+        jRadioButtonHamz.setText("همز");
+
+        buttonGroup1.add(jRadioButtonEdgham);
+        jRadioButtonEdgham.setText("إدغام/اختلاس");
+
+        buttonGroup1.add(jRadioButtonEmalah);
+        jRadioButtonEmalah.setText("إمالة");
+
+        buttonGroup1.add(jRadioButtonNaql);
+        jRadioButtonNaql.setText("نقل");
+
+        buttonGroup1.add(jRadioButtonMadd);
+        jRadioButtonMadd.setText("مد");
+
+        jLabel4.setText("الشاهد");
+
+        jTable2.setModel(getTableModel());
+        jTable2.setComponentPopupMenu(jPopupMenu2);
+        jScrollPane4.setViewportView(jTable2);
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("الروايات");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("أهل عم");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("نافع");
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("قالون");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("ورش");
+        treeNode3.add(treeNode4);
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("ابن عامر");
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("هشام");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("ابن ذكوان");
+        treeNode3.add(treeNode4);
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("عاصم");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("حفص");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("شعبة");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane3.setViewportView(jTree1);
+
+        jLabel6.setText("شجرة القراء");
+
+        jButton1.setText("إضافة");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jButton2.setText("المحدد بخلف");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("إضافة قارئ");
-        jButton3.setComponentPopupMenu(jMenuQeraat);
-
-        jButton4.setText("إضافة رواية");
-        jButton4.setComponentPopupMenu(jMenuRewayat);
-
-        jButton5.setText("إضافة رمز");
-        jButton5.setComponentPopupMenu(jMenuRamz);
-
-        jLabelPreview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -109,133 +254,271 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButtonFarsh)
+                            .addComponent(jRadioButtonHamz)
+                            .addComponent(jRadioButtonEdgham)
+                            .addComponent(jRadioButtonMadd)
+                            .addComponent(jRadioButtonNaql)
+                            .addComponent(jRadioButtonEmalah)
+                            .addComponent(jLabel3)
+                            .addComponent(jRadioButtonSakt))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel6))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jRadioButtonFarsh)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioButtonHamz)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioButtonEdgham)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioButtonEmalah)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioButtonNaql)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jRadioButtonMadd))
+                                .addComponent(jScrollPane1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButtonSakt)
+                            .addComponent(jLabelPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        List<RewayahSelection> l = jList1.getSelectedValuesList();
-        for (int i = 0; i < l.size(); ++i) {
-            RewayahSelection s = l.get(i);
-            s.kholf = true;
-        }
-        jList1.invalidate();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        List<RewayahSelection> l = jList1.getSelectedValuesList();
-        for (int i = 0; i < l.size(); ++i) {
-            RewayahSelection s = l.get(i);
-            s.kholf = false;
-        }
-        jList1.invalidate();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        int[] s = jList1.getSelectedIndices();
-        Arrays.sort(s);
-        for (int i = s.length - 1; i >= 0; --i) {
-            ((DefaultListModel) jList1.getModel()).removeElementAt(s[i]);
+        if (jTree1.getSelectionPath() != null) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) 
+                    jTree1.getSelectionPath().getLastPathComponent();
+            if (node != null &&
+                    (node.getUserObject() instanceof QeraahGroup
+                    || node.getUserObject() instanceof Qeraah
+                    || node.getUserObject() instanceof MyRewayah)) {
+                ((DefaultMutableTreeNode) node.getParent()).remove(node);
+                ((DefaultTreeModel) jTree1.getModel()).setRoot(
+                        (TreeNode) jTree1.getModel().getRoot());
+            }
         }
         get(temp);
         jLabelPreview.setText(temp.toString());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    void set(RewayahSelectionGroup s) {
-        jTextArea1.setText(s.descr);
-        if (s.rewayaat != null) {
-            for (RewayahSelection r : s.rewayaat) {
-                addListItem(r);
-            }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int sel = JOptionPane.showOptionDialog(getParent(), "فضلا حدد المتن:", "إضافة شاهد", 
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, 
+                new Object[]{"الشاطبية", "الدرة"}, null);
+        if (sel != JOptionPane.CLOSED_OPTION) {
+            work(sel == 1, current);
         }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    void set(SelectionDetail s) {
+        jTextArea1.setText(s.descr);
+        radioButtons.get(s.type.getValue() - 1).setSelected(true);
         current = s;
+        buildTree();
+        updateShahed();
         jLabelPreview.setText(current.toString());
     }
     
-    void get(RewayahSelectionGroup current) {
+    void get(SelectionDetail current) {
         current.descr = jTextArea1.getText();
-        current.rewayaat = new RewayahSelection[jList1.getModel().getSize()];
-        for (int i = 0; i < jList1.getModel().getSize(); ++i) {
-            current.rewayaat[i] = (RewayahSelection) jList1.getModel().getElementAt(i);
+        current.rewayaat = new RewayahSelectionList();
+        current.type = currentType;
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTree1.getModel().getRoot();
+        for (int i = 0; i < root.getChildCount(); ++i) {
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode) root.getChildAt(i);
+            if (child.getUserObject() instanceof QeraahGroup) {
+                QeraahGroup g = (QeraahGroup) child.getUserObject();
+                for (Qeraah q : g.qeraat) {
+                    current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".1"));
+                    current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".2"));
+                }
+            } else if (child.getUserObject() instanceof Qeraah) {
+                Qeraah q = (Qeraah) child.getUserObject();
+                current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".1"));
+                current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".2"));
+            } else if (child.getUserObject() instanceof MyRewayah) {
+                MyRewayah m = (MyRewayah) child.getUserObject();
+                current.rewayaat.add(m.r);
+            }
+        }
+        current.dorrah.clear();
+        current.shatibiyyah.clear();
+        for (int i = 0; i < jTable2.getRowCount(); ++i) {
+            Shahed s = new Shahed();
+            s.id = Integer.parseInt(jTable2.getValueAt(i, 1).toString());
+            s.part1 = (String) jTable2.getValueAt(i, 2);
+            s.part2 = (String) jTable2.getValueAt(i, 3);
+            if (jTable2.getValueAt(i, 0).equals("الشاطبية")) {
+                current.shatibiyyah.add(s);
+            } else {
+                current.dorrah.add(s);
+            }
         }
     }
     
-    RewayahSelectionGroup get() {
+    SelectionDetail get() {
         get(current);
         return current;
     }
     
-    private void addListItem(RewayahSelection r) {
-        ((DefaultListModel) jList1.getModel()).addElement(r);
-    }
-    
-    private void addRewayah(Rewayah r) {
-        for (int i = 0; i < jList1.getModel().getSize(); ++i) {
-            if (((RewayahSelection) jList1.getModel().getElementAt(i)).r == r)
-                return;
-        }
-        RewayahSelection s = new RewayahSelection();
-        s.r = r;
-        addListItem(s);
+    private void buildTree() {
+        DefaultTreeModel model = (DefaultTreeModel) jTree1.getModel();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("القراء");
         jLabelPreview.setText(current.toString());
+        for (Object o : current.lastGroupingResult)
+            buildTree(root, o);
+        model.setRoot(root);
     }
     
-    private void addItem(Object o) {
-        if (o instanceof Qeraah) {
-            Qeraah q = (Qeraah) o;
-            for (int i = 0; i < Rewayah.array.length; ++i) {
-                if (Rewayah.array[i].qeraah == q)
-                    addRewayah(Rewayah.array[i]);
-            }
-        } else if (o instanceof Rewayah) {
-            addRewayah((Rewayah) o);
-        } else if (o instanceof QeraahGroup) {
-            QeraahGroup g = (QeraahGroup) o;
-            for (Qeraah q : g.qeraat)
-                addItem(q);
+    static class MyRewayah {
+        final Rewayah r;
+        final DefaultMutableTreeNode parent;
+        
+        public MyRewayah(Rewayah r, DefaultMutableTreeNode parent) {
+            this.r = r;
+            this.parent = parent;
         }
-        get(temp);
-        jLabelPreview.setText(temp.toString());
+
+        @Override
+        public String toString() {
+            return parent.getUserObject() instanceof Qeraah ?
+                    r.rewayah : r.toString();
+        }
+    }
+    
+    private void buildTree(DefaultMutableTreeNode parent, Object obj) {
+        if (obj instanceof QeraahGroup) {
+            QeraahGroup g = (QeraahGroup) obj;
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(g);
+            for (Qeraah q : g.qeraat)
+                buildTree(node, q);
+            parent.add(node);
+        } else if (obj instanceof Qeraah) {
+            Qeraah q = (Qeraah) obj;
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(q);
+            buildTree(node, Rewayah.getByCombinedCode(q.code + ".1"));
+            buildTree(node, Rewayah.getByCombinedCode(q.code + ".2"));
+            parent.add(node);
+        } else if (obj instanceof Rewayah) {
+            parent.add(new DefaultMutableTreeNode(new MyRewayah((Rewayah) obj, parent)));
+        } else
+            throw new IllegalArgumentException();
+    }
+    
+    private boolean compare(Map<Integer, Byte> sel1, Map<Integer, Byte> sel2) {
+        if (sel1.size() != sel2.size()) return false;
+        boolean yes = true;
+        for (Map.Entry<Integer, Byte> k : sel1.entrySet()) {
+            Byte get = sel2.get(k.getKey());
+            if (!Objects.equals(get, k.getValue())) {
+                yes = false;
+                break;
+            }
+        }
+        return yes;
+    }
+    
+    private void work(boolean isDorrah, SelectionDetail detail) {
+        Map<Integer, Byte> init = new LinkedHashMap<>();
+        if (detail.dorrah == null)
+            detail.dorrah = new ArrayList<>();
+        if (detail.shatibiyyah == null)
+            detail.shatibiyyah = new ArrayList<>();
+        ArrayList<Shahed> list = isDorrah ? detail.dorrah : detail.shatibiyyah;
+        if (list != null)
+            list.stream().forEach(k -> {
+                init.put(k.id, k.part2 == null ? ChooseShahedJFrame.SELECTION_PART1 : 
+                        k.part1 == null ? ChooseShahedJFrame.SELECTION_PART2 : ChooseShahedJFrame.SELECTION_ALL);
+            });
+        int page = 1;
+        if (!init.isEmpty()) {
+            int beit = init.entrySet().iterator().next().getKey();
+            page = DbHelper.getMatnPageByBeit(beit, isDorrah);
+        }
+        ChooseShahedJFrame frame = new ChooseShahedJFrame(isDorrah, page);
+        frame.addSelections(init);
+        if (JOptionPane.showConfirmDialog(this, frame.getContentPane(), "تحديد الشاهد",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            Map<Integer, Byte> sel = frame.getSelections();
+            if (!compare(init, sel)) {
+                List<Integer> ids = sel.keySet().stream().collect(Collectors.toList());
+                ids.sort((i, j) -> i.compareTo(j));
+                ArrayList<Shahed> sh = DbHelper.getShahedList(ids, isDorrah);
+                list.clear();
+                sh.stream().forEach(h -> {
+                    switch (sel.get(h.id)) {
+                        case ChooseShahedJFrame.SELECTION_ALL:
+                            break;
+                        case ChooseShahedJFrame.SELECTION_PART1:
+                            h.part2 = null;
+                            break;
+                        case ChooseShahedJFrame.SELECTION_PART2:
+                            h.part1 = null;
+                            break;
+                    }
+                    list.add(h);
+                });
+                //TODO: DbHelper.updateSelectionDetailShahed(detail);
+                updateShahed();
+            }
+        }
+    }
+    
+    private void updateShahed() {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        current.shatibiyyah.stream().forEach((s) -> {
+            model.addRow(new Object[]{ "الشاطبية", s.id, s.part1, s.part2 });
+        });
+        current.dorrah.stream().forEach((s) -> {
+            model.addRow(new Object[]{ "الدرة", s.id, s.part1, s.part2 });
+        });
     }
     
     private void initMenues() {
@@ -243,252 +526,73 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
             JMenuItem item = new JMenuItem(Qeraah.array[i].qeraah);
             item.setArmed(true);
             final Qeraah tmp = Qeraah.array[i];
-            item.addActionListener((ActionEvent e) -> addItem(tmp));
-            jMenuQeraat.add(item);
+            item.addActionListener((ActionEvent e) -> {
+                //addItem(tmp);
+                current.rewayaat.add(Rewayah.getByCombinedCode(tmp.code + ".1"));
+                current.rewayaat.add(Rewayah.getByCombinedCode(tmp.code + ".2"));
+                buildTree();
+            });
+            jMenu_Qeraah.add(item);
         }
         for (int i = 0; i < Rewayah.array.length; ++i) {
             JMenuItem item = new JMenuItem(Rewayah.array[i].rewayah);
             item.setArmed(true);
             final Rewayah tmp = Rewayah.array[i];
-            item.addActionListener((ActionEvent e) -> addItem(tmp));
-            jMenuRewayat.add(item);
+            item.addActionListener((ActionEvent e) -> {
+                //addItem(tmp);
+                current.rewayaat.add(tmp);
+                buildTree();
+            });
+            jMenuRewayah.add(item);
         }
         for (int i = 0; i < QeraahGroup.array.length; ++i) {
             JMenuItem item = new JMenuItem(QeraahGroup.array[i].name);
             item.setArmed(true);
             final QeraahGroup tmp = QeraahGroup.array[i];
-            item.addActionListener((ActionEvent e) -> addItem(tmp));
-            jMenuRamz.add(item);
+            item.addActionListener((ActionEvent e) -> {
+                //addItem(tmp);
+                for (Qeraah q : tmp.qeraat) {
+                    current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".1"));
+                    current.rewayaat.add(Rewayah.getByCombinedCode(q.code + ".2"));
+                }
+                buildTree();
+            });
+            jMenu_Ramz.add(item);
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelPreview;
-    private javax.swing.JList jList1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPopupMenu jMenuQeraat;
-    private javax.swing.JPopupMenu jMenuRamz;
-    private javax.swing.JPopupMenu jMenuRewayat;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu jMenuRewayah;
+    private javax.swing.JMenu jMenu_Qeraah;
+    private javax.swing.JMenu jMenu_Ramz;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JRadioButton jRadioButtonEdgham;
+    private javax.swing.JRadioButton jRadioButtonEmalah;
+    private javax.swing.JRadioButton jRadioButtonFarsh;
+    private javax.swing.JRadioButton jRadioButtonHamz;
+    private javax.swing.JRadioButton jRadioButtonMadd;
+    private javax.swing.JRadioButton jRadioButtonNaql;
+    private javax.swing.JRadioButton jRadioButtonSakt;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
-}
-final class Qeraah {
-    public static final Qeraah NAFE3 = new Qeraah("نافع", "1");
-    public static final Qeraah IBN_KATHEER = new Qeraah("ابن كثير", "2");
-    public static final Qeraah ABO_AMRE = new Qeraah("أبو عمرو", "3");
-    public static final Qeraah IBN_AMER = new Qeraah("ابن عامر", "4");
-    public static final Qeraah AASEM = new Qeraah("عاصم", "5");
-    public static final Qeraah HAMZAH = new Qeraah("حمزة", "6");
-    public static final Qeraah ALKESA2E = new Qeraah("الكسائي", "7");
-    public static final Qeraah ABO_JA3FAR = new Qeraah("أبو جعفر", "8");
-    public static final Qeraah YA3QOB = new Qeraah("يعقوب", "9");
-    public static final Qeraah KHALAF = new Qeraah("خلف العاشر", "10");
-    
-    public static final Qeraah[] array = {Qeraah.NAFE3,Qeraah.IBN_KATHEER,Qeraah.ABO_AMRE,Qeraah.IBN_AMER,
-            Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E,Qeraah.ABO_JA3FAR,Qeraah.YA3QOB,Qeraah.KHALAF};
-    
-    public final String qeraah, code;
-    
-    private Qeraah(String q, String code) {
-        this.qeraah = q;
-        this.code = code;
-    }
-
-    @Override
-    public String toString() {
-        return qeraah;
-    }
-}
-
-final class Rewayah {
-    public static final Rewayah QALOON = new Rewayah(Qeraah.NAFE3, "قالون", "1");
-    public static final Rewayah WARSH = new Rewayah(Qeraah.NAFE3, "ورش", "2");
-    public static final Rewayah BAZZI = new Rewayah(Qeraah.IBN_KATHEER, "البزي", "1");
-    public static final Rewayah QONBOL = new Rewayah(Qeraah.IBN_KATHEER, "قنبل", "2");
-    public static final Rewayah DORI_ABO_AMR = new Rewayah(Qeraah.ABO_AMRE, "الدوري", "1");
-    public static final Rewayah SOSI = new Rewayah(Qeraah.ABO_AMRE, "السوسي", "2");
-    public static final Rewayah IBN_THAKWAN = new Rewayah(Qeraah.IBN_AMER, "ابن ذكوان", "1");
-    public static final Rewayah HESHAM = new Rewayah(Qeraah.IBN_AMER, "هشام", "2");
-    public static final Rewayah SHO3BAH = new Rewayah(Qeraah.AASEM, "شعبة", "1");
-    public static final Rewayah HAFS = new Rewayah(Qeraah.AASEM, "حفص", "2");
-    public static final Rewayah KHALAF = new Rewayah(Qeraah.HAMZAH, "خلف", "1");
-    public static final Rewayah KHALLAD = new Rewayah(Qeraah.HAMZAH, "خلاد", "2");
-    public static final Rewayah ABO_ALHARETH = new Rewayah(Qeraah.ALKESA2E, "أبو الحارث", "1");
-    public static final Rewayah DORI_KESA2E = new Rewayah(Qeraah.ALKESA2E, "الدوري", "2");
-    public static final Rewayah IBN_WARDAN = new Rewayah(Qeraah.ABO_JA3FAR, "ابن وردان", "1");
-    public static final Rewayah IBN_JAMMAZ = new Rewayah(Qeraah.ABO_JA3FAR, "ابن جماز", "2");
-    public static final Rewayah ROWISE = new Rewayah(Qeraah.YA3QOB, "رويس", "1");
-    public static final Rewayah ROW7 = new Rewayah(Qeraah.YA3QOB, "روح", "2");
-    public static final Rewayah ES7AQ = new Rewayah(Qeraah.KHALAF, "إسحاق", "1");
-    public static final Rewayah EDREES = new Rewayah(Qeraah.KHALAF, "إدريس", "2");
-    
-    public static final Rewayah[] array = {
-        QALOON,WARSH,BAZZI,QONBOL,DORI_ABO_AMR,SOSI,HESHAM,IBN_THAKWAN,
-        SHO3BAH,HAFS,KHALAF,KHALLAD,ABO_ALHARETH,DORI_KESA2E,
-        IBN_WARDAN,IBN_JAMMAZ,ROWISE,ROW7,ES7AQ,EDREES
-    };
-    
-    public static boolean toStringUsesCode = false;
-    
-    public static Rewayah getByCombinedCode(String c) {
-        for (Rewayah r : array) {
-            if (r.getCombinedCode().equals(c))
-                return r;
-        }
-        throw new IllegalArgumentException();
-    }
-    
-    public final String rewayah, code;
-    public final Qeraah qeraah;
-    
-    private Rewayah(Qeraah q, String rewayah, String code) {
-        this.qeraah = q;
-        this.rewayah = rewayah;
-        this.code = code;
-    }
-    
-    public String getCombinedCode() {
-        return qeraah.code + "." + code;
-    }
-    
-    public String getCombinedName() {
-        return rewayah + " عن " + (qeraah.qeraah.startsWith("أبو") ?
-                "أبي" + qeraah.qeraah.substring(3) : qeraah.qeraah);
-    }
-
-    @Override
-    public String toString() {
-        return toStringUsesCode ? getCombinedCode() : getCombinedName();
-    }
-}
-
-final class QeraahGroup {
-    public static final QeraahGroup SAMA = new QeraahGroup("سما", new Qeraah[]{Qeraah.NAFE3,Qeraah.IBN_KATHEER,Qeraah.ABO_AMRE});
-    public static final QeraahGroup NAFAR = new QeraahGroup("نفر", new Qeraah[]{Qeraah.IBN_KATHEER,Qeraah.ABO_AMRE,Qeraah.IBN_AMER});
-    public static final QeraahGroup HAQQ = new QeraahGroup("حق", new Qeraah[]{Qeraah.IBN_KATHEER,Qeraah.ABO_AMRE});
-    public static final QeraahGroup AMMA = new QeraahGroup("عم", new Qeraah[]{Qeraah.NAFE3,Qeraah.IBN_AMER});
-    public static final QeraahGroup THAL = new QeraahGroup("ذ", new Qeraah[]{Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E,Qeraah.IBN_AMER});
-    public static final QeraahGroup ZHAA = new QeraahGroup("ظ", new Qeraah[]{Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E,Qeraah.IBN_KATHEER});
-    public static final QeraahGroup KHAA = new QeraahGroup("خ", new Qeraah[]{Qeraah.IBN_KATHEER,Qeraah.ABO_AMRE,Qeraah.IBN_AMER,Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E});
-    public static final QeraahGroup KOFI = new QeraahGroup("الكوفي", new Qeraah[]{Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E});
-    public static final QeraahGroup GHINE = new QeraahGroup("غ", new Qeraah[]{Qeraah.AASEM,Qeraah.HAMZAH,Qeraah.ALKESA2E,Qeraah.ABO_AMRE});
-    
-    public static final QeraahGroup[] array = {SAMA,NAFAR,HAQQ,AMMA,THAL,ZHAA,KHAA,KOFI,GHINE};
-    
-    public final String name;
-    public final Qeraah[] qeraat;
-
-    private QeraahGroup(String name, Qeraah[] qeraat) {
-        this.name = name;
-        this.qeraat = qeraat;
-    }
-}
-
-class RewayahSelection {
-    Rewayah r;
-    boolean kholf;
-
-    @Override
-    public String toString() {
-        return r.getCombinedName() + (kholf ? " ؟" : "");
-    }
-}
-
-class RewayahSelectionGroup {
-    RewayahSelection[] rewayaat;
-    String descr;
-    
-    private boolean applies(List<RewayahSelection> l, Rewayah r) {
-        return l.stream().anyMatch((RewayahSelection s) -> {
-           return s.r == r && !s.kholf; 
-        });
-    }
-    
-    private void remove(List<RewayahSelection> l, Rewayah r) {
-        Object[] rem = l.stream().filter((s) -> (s.r == r)).toArray();
-        l.removeAll(Arrays.asList(rem));
-    }
-    
-    private boolean applies(List<RewayahSelection> l, Qeraah q) {
-        Object[] o = Arrays.stream(Rewayah.array).filter((Rewayah t) -> {
-            return t.qeraah == q;
-        }).toArray();
-        return Arrays.stream(o).allMatch((Object s) -> {
-            return applies(l, (Rewayah) s);
-        });
-    }
-    
-    private void remove(List<RewayahSelection> l, Qeraah r) {
-        Object[] rem = l.stream().filter((s) -> (s.r.qeraah == r)).toArray();
-        l.removeAll(Arrays.asList(rem));
-    }
-    
-    private boolean applies(List<RewayahSelection> l, QeraahGroup g) {
-        return Arrays.stream(g.qeraat).allMatch((Qeraah q) -> {
-            return applies(l, q);
-        });
-    }
-    
-    private void remove(List<RewayahSelection> l, QeraahGroup r) {
-        for (Qeraah q : r.qeraat) {
-            remove(l, q);
-        }
-    }
-    
-    private StringBuilder tryGroup() {
-        // 1. try group by ramz, then qeraah (if no kholf)
-        // 2. sort qeraat, rewayaat
-        StringBuilder ret = new StringBuilder();
-        List<RewayahSelection> l = new LinkedList<>(Arrays.asList(rewayaat));
-        for (QeraahGroup g : QeraahGroup.array) {
-            if (applies(l, g)) {
-                remove(l, g);
-                if (ret.length() > 0)
-                    ret.append(" و");
-                if (g == QeraahGroup.KOFI)
-                    ret.append("الكوفيون");
-                else
-                    ret.append("أهل ").append(g.name);
-            }
-        }
-        for (Qeraah g : Qeraah.array) {
-            if (applies(l, g)) {
-                remove(l, g);
-                if (ret.length() > 0)
-                    ret.append(" و");
-                ret.append(g.toString());
-            }
-        }
-        for (Rewayah g : Rewayah.array) {
-            if (applies(l, g)) {
-                remove(l, g);
-                if (ret.length() > 0)
-                    ret.append(" و");
-                ret.append(g.toString());
-            }
-        }
-        for (RewayahSelection s : l) {
-            if (ret.length() > 0)
-                ret.append(" و");
-            ret.append(s.r.toString());
-            if (s.kholf)
-                ret.append(" بخلف عنه");
-        }
-        return ret;
-    }
-
-    @Override
-    public String toString() {
-        return "قرأ " + tryGroup() + " بـ " + descr;
-    }
 }
