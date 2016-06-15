@@ -12,11 +12,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -80,7 +82,7 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
             jRadioButtonMadd,
             jRadioButtonSakt
         });
-        javax.swing.event.ChangeListener changeListener = (javax.swing.event.ChangeEvent evt) -> {
+        ChangeListener changeListener = (evt) -> {
             JRadioButton btn = (JRadioButton) evt.getSource();
             if (btn.isSelected()) {
                 int idx = radioButtons.indexOf(btn);
@@ -451,11 +453,11 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException();
     }
     
-    private boolean compare(Map<Integer, Byte> sel1, Map<Integer, Byte> sel2) {
+    private boolean compare(Map<Integer, String> sel1, Map<Integer, String> sel2) {
         if (sel1.size() != sel2.size()) return false;
         boolean yes = true;
-        for (Map.Entry<Integer, Byte> k : sel1.entrySet()) {
-            Byte get = sel2.get(k.getKey());
+        for (Map.Entry<Integer, String> k : sel1.entrySet()) {
+            String get = sel2.get(k.getKey());
             if (!Objects.equals(get, k.getValue())) {
                 yes = false;
                 break;
@@ -465,59 +467,65 @@ public class QeraatGroupJPanel extends javax.swing.JPanel {
     }
     
     private void work(boolean isDorrah, SelectionDetail detail) {
-        Map<Integer, Byte> init = new LinkedHashMap<>();
+        Map<Integer, String> init = new LinkedHashMap<>();
         if (detail.dorrah == null)
             detail.dorrah = new ArrayList<>();
         if (detail.shatibiyyah == null)
             detail.shatibiyyah = new ArrayList<>();
         ArrayList<Shahed> list = isDorrah ? detail.dorrah : detail.shatibiyyah;
-        if (list != null)
-            list.stream().forEach(k -> {
-                init.put(k.id, k.part2 == null ? ChooseShahedJFrame.SELECTION_PART1 : 
-                        k.part1 == null ? ChooseShahedJFrame.SELECTION_PART2 : ChooseShahedJFrame.SELECTION_ALL);
-            });
+        list.stream().forEach(k -> {
+            init.put(k.id, k.words);
+        });
         int page = 1;
         if (!init.isEmpty()) {
             int beit = init.entrySet().iterator().next().getKey();
             page = DbHelper.getMatnPageByBeit(beit, isDorrah);
         }
-        ChooseShahedJFrame frame = new ChooseShahedJFrame(isDorrah, page);
-        frame.addSelections(init);
+        ChooseShahedJFrame2 frame = new ChooseShahedJFrame2(isDorrah, page);
+        list.stream().forEach(k -> {
+            frame.addSelection(k.id, k.words);
+        });
         if (JOptionPane.showConfirmDialog(this, frame.getContentPane(), "تحديد الشاهد",
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            Map<Integer, Byte> sel = frame.getSelections();
+            Map<Integer, String> sel = frame.getSelectionsAsWordsString();
             if (!compare(init, sel)) {
                 List<Integer> ids = sel.keySet().stream().collect(Collectors.toList());
                 ids.sort((i, j) -> i.compareTo(j));
                 ArrayList<Shahed> sh = DbHelper.getShahedList(ids, isDorrah);
                 list.clear();
                 sh.stream().forEach(h -> {
-                    switch (sel.get(h.id)) {
-                        case ChooseShahedJFrame.SELECTION_ALL:
-                            break;
-                        case ChooseShahedJFrame.SELECTION_PART1:
-                            h.part2 = null;
-                            break;
-                        case ChooseShahedJFrame.SELECTION_PART2:
-                            h.part1 = null;
-                            break;
-                    }
+                    h.words = sel.get(h.id);
                     list.add(h);
                 });
-                //TODO: DbHelper.updateSelectionDetailShahed(detail);
+                DbHelper.updateShaheds(detail);
                 updateShahed();
             }
         }
+    }
+    
+    private String getWords(String part, String words, boolean isFirstPart) {
+        String[] arr = part.trim().split(" ");
+        String prefix = isFirstPart ? "1" : "2";
+        String[] w = words.split(";");
+        String res = "";
+        for (String idx : Arrays.stream(w).filter(k -> k.startsWith(prefix))
+                .collect(Collectors.toList())) {
+            byte i = Byte.parseByte(idx.substring(2));
+            res += arr[i] + " ";
+        }
+        return res;
     }
     
     private void updateShahed() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         current.shatibiyyah.stream().forEach((s) -> {
-            model.addRow(new Object[]{ "الشاطبية", s.id, s.part1, s.part2 });
+            model.addRow(new Object[]{ "الشاطبية", s.id, 
+                getWords(s.part1, s.words, true), getWords(s.part2, s.words, false) });
         });
         current.dorrah.stream().forEach((s) -> {
-            model.addRow(new Object[]{ "الدرة", s.id, s.part1, s.part2 });
+            model.addRow(new Object[]{ "الدرة", s.id, 
+                getWords(s.part1, s.words, true), getWords(s.part2, s.words, false)});
         });
     }
     

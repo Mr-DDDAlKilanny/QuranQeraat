@@ -224,6 +224,22 @@ public final class DbHelper {
         return s.id;
     }
     
+    static boolean updateShaheds(SelectionDetail d) {
+        try (Statement stmnt = CONNECTION.createStatement()) {
+            stmnt.executeUpdate(String.format("DELETE FROM DorrahShahed \n"
+                    + "WHERE MawdeaKhlafGroupID = %d", d.id));
+            stmnt.executeUpdate(String.format("DELETE FROM ShatibiyyahShahed \n"
+                    + "WHERE MawdeaKhlafGroupID = %d", d.id));
+            insertShaheds(d);
+            commit();
+            return true;
+        } catch (SQLException ex) {
+            rollback();
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
     private static void insertShaheds(SelectionDetail d) throws SQLException {
         ArrayList<Shahed> all = new ArrayList<>(d.dorrah);
         all.addAll(d.shatibiyyah);
@@ -232,11 +248,10 @@ public final class DbHelper {
             Shahed sh = all.get(i);
             try (PreparedStatement stmnt = CONNECTION.prepareStatement(
                     "INSERT INTO " + tableName
-                    + "(MawdeaKhlafGroupID, BeitID, BeitPart) VALUES (?,?,?)")) {
+                    + "(MawdeaKhlafGroupID, BeitID, Words) VALUES (?,?,?)")) {
                 stmnt.setLong(1, d.id);
                 stmnt.setLong(2, sh.id);
-                stmnt.setLong(3, sh.part1 != null && sh.part2 != null ? 0
-                        : sh.part1 != null ? 1 : 2);
+                stmnt.setString(3, sh.words);
                 stmnt.execute();
             }
         }
@@ -649,8 +664,8 @@ public final class DbHelper {
     static void fillSelection(Selection s) {
         Selection selection = s;
         try (Statement stmnt = CONNECTION.createStatement();
-                ResultSet res = stmnt.executeQuery("SELECT * FROM MawdeaKhlafGroup WHERE MawdeaKhlaf = "
-                        + selection.id)) {
+                ResultSet res = stmnt.executeQuery("SELECT * FROM MawdeaKhlafGroup "
+                        + "WHERE MawdeaKhlaf = " + selection.id)) {
             selection.details = new ArrayList<>();
             while (res.next()) {
                 SelectionDetail d = new SelectionDetail();
@@ -666,12 +681,12 @@ public final class DbHelper {
         for (SelectionDetail d : selection.details) {
             try (Statement stmnt = CONNECTION.createStatement();
                     ResultSet res = stmnt.executeQuery(String.format("SELECT * "
-                                    + "FROM (SELECT BeitID, BeitPart, Part1, Part2, 0 AS isDorrah "
+                                    + "FROM (SELECT BeitID, Part1, Part2, Words, 0 AS isDorrah "
                                     + "	FROM ShatibiyyahShahed s "
                                     + "		JOIN Shatibiyyah t ON t._ID = s.BeitID "
                                     + "	WHERE s.MawdeaKhlafGroupID = %d "
                                     + "	UNION "
-                                    + "	SELECT BeitID, BeitPart, Part1, Part2, 1 AS isDorrah "
+                                    + "	SELECT BeitID, Part1, Part2, Words, 1 AS isDorrah "
                                     + "	FROM DorrahShahed ss "
                                     + "		JOIN Dorrah r ON r._ID = ss.BeitID "
                                     + "	WHERE ss.MawdeaKhlafGroupID = %d "
@@ -682,18 +697,9 @@ public final class DbHelper {
                 while (res.next()) {
                     Shahed h = new Shahed();
                     h.id = res.getInt("BeitID");
-                    switch (res.getInt("BeitPart")) {
-                        case 0:
-                            h.part1 = res.getString("Part1");
-                            h.part2 = res.getString("Part2");
-                            break;
-                        case 1:
-                            h.part1 = res.getString("Part1");
-                            break;
-                        case 2:
-                            h.part2 = res.getString("Part2");
-                            break;
-                    }
+                    h.part1 = res.getString("Part1");
+                    h.part2 = res.getString("Part2");
+                    h.words = res.getString("Words");
                     if (res.getInt("isDorrah") == 0) {
                         d.shatibiyyah.add(h);
                     } else {

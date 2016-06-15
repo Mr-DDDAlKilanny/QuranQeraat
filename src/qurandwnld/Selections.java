@@ -65,6 +65,7 @@ enum SelectionType {
 class Shahed {
     String part1, part2;
     int id;
+    String words;
 }
 
 class RewayahSelectionList extends ArrayList<Rewayah> {
@@ -199,7 +200,7 @@ class SelectionDetail {
                 if (g == QeraahGroup.KOFI)
                     ret.append("الكوفيون");
                 else
-                    ret.append("أهل ").append(g.name);
+                    ret.append("أهل (").append(g.name).append(")");
             }
         }
         for (Qeraah g : Qeraah.array) {

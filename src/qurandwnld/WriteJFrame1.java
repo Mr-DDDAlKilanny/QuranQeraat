@@ -32,18 +32,16 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JToolTip;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.ToolTipManager;
 import javax.swing.border.TitledBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -98,8 +96,7 @@ class WriteJFrame1 extends javax.swing.JFrame {
         initComponents();
         readQuranData();
         rtlLayout(this);
-        JToolTip tooltip = new JToolTip();
-        tooltip.setComponent(getSurface());
+        JToolTip tooltip = getSurface().createToolTip();
         surfaceTooltip = tooltip;
         jSpinner1.setModel(new SpinnerNumberModel(1, 1, MAX_PAGE, 1));
         showPage(page = 1);
@@ -531,7 +528,8 @@ class PaintSurface extends JPanel {
     
     private int strokeSize = 5;
     
-    private Color[] colors = {Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED, Color.BLUE, Color.PINK, Color.GRAY};
+    private Color[] colors = {Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.RED,
+        Color.BLUE, Color.PINK, Color.GRAY};
 
     private Point startDrag, endDrag;
     
@@ -540,12 +538,43 @@ class PaintSurface extends JPanel {
     //true: draw new rect, false: move an existing rect
     private boolean drawMode = true;
     private Selection toMove;
-    private double moveX1, moveY1, moveX2, moveY2;
+    private Selection toResize = null;
+    private boolean resizeChanged = false;
+    private double moveX2, moveY2;
     
     public PaintSurface(WriteJFrame1 parent) {
         this.parent = parent;
         addMouseMotionListener(new MouseMotionListener() {
-
+            
+            private boolean isShown = false;
+            
+            private void showResizeCursorIfNecessary(int mx, int my, Selection s) {
+                if (!drawMode) { // do not show resize while moving
+                    toResize = null;
+                    return;
+                }
+                Rectangle2D rect = s.scaledRect;
+                boolean yes = true;
+                if (Math.abs(rect.getMaxX() - mx) < 3
+                        && my >= rect.getMinY() && my <= rect.getMaxY()) {
+                    // left edge
+                    setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                } else if (Math.abs(rect.getMinX()- mx) < 3
+                        && my >= rect.getMinY() && my <= rect.getMaxY()) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+                } else if (Math.abs(rect.getMinY() - my) < 3
+                        && mx >= rect.getMinX() && mx <= rect.getMaxX()) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+                } else if (Math.abs(rect.getMaxY() - my) < 3
+                        && mx >= rect.getMinX() && mx <= rect.getMaxX()) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+                } else {
+                    yes = false;
+                    setCursor(Cursor.getDefaultCursor());
+                }
+                toResize = yes ? s : null;
+            }
+            
             @Override
             public void mouseDragged(MouseEvent e) {
             }
@@ -555,15 +584,30 @@ class PaintSurface extends JPanel {
                 if (!drawMode) {
                     moveSelection(e.getX(), e.getY());
                 }
-                for (Selection ss : shapes) {
-                    Rectangle2D tmp = ss.scaledRect;
-                    if (tmp.contains(e.getX(), e.getY())) {
-                        parent.surfaceTooltip.setTipText(ss.ayahWord);
-                        ToolTipManager.sharedInstance().mouseMoved(
-                                new MouseEvent(PaintSurface.this, 0, 0, 0,
-                                        e.getX(), e.getY(), // X-Y of the mouse for the tool tip
-                                        0, false));
-                        break;
+                if (!isShown) {
+                    for (Selection ss : shapes) {
+                        showResizeCursorIfNecessary(e.getX(), e.getY(), ss);
+                        if (ss.scaledRect.contains(e.getX(), e.getY())) {
+                            isShown = true;
+                            parent.surfaceTooltip.setTipText(ss.ayahWord);
+                            PopupFactory popupFactory = PopupFactory.getSharedInstance();
+                            final Popup tooltipContainer = popupFactory.getPopup(
+                                    PaintSurface.this, parent.surfaceTooltip, 
+                                    getLocationOnScreen().x + e.getX(), 
+                                    getLocationOnScreen().y + e.getY());
+                            tooltipContainer.show();
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(PaintSurface.class.getName())
+                                            .log(Level.SEVERE, null, ex);
+                                }
+                                isShown = false;
+                                tooltipContainer.hide();
+                            }).start();
+                            break;
+                        }
                     }
                 }
             }
@@ -585,6 +629,13 @@ class PaintSurface extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (!drawMode) {
                     finishMoveMode(e.getButton() == MouseEvent.BUTTON1);
+                    return;
+                }
+                if (toResize != null) {
+                    if (resizeChanged) {
+                        resizeChanged = false;
+                        DbHelper.updateSelection(toResize, PaintSurface.this);
+                    }
                     return;
                 }
                 if (e.isPopupTrigger()) {
@@ -625,12 +676,63 @@ class PaintSurface extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                endDrag = new Point(e.getX(), e.getY());
+                if (toResize != null) {
+                    Rectangle2D rect = toResize.scaledRect;
+                    resizeChanged = true;
+                    switch (getResizeDirection()) {
+                        case 0:
+                            if (rect.getMaxY() - e.getY() > 3)
+                                rect.setRect(rect.getMinX(), 
+                                        e.getY(), 
+                                        rect.getWidth(), 
+                                        rect.getMaxY() - e.getY());
+                            break;
+                        case 1:
+                            if (rect.getMaxX() - e.getX() > 3)
+                                rect.setRect(e.getX(), 
+                                        rect.getMinY(), 
+                                        rect.getMaxX() - e.getX(), 
+                                        rect.getHeight());
+                            break;
+                        case 2:
+                            if (e.getY() - rect.getMinY() > 3)
+                                rect.setRect(rect.getMinX(), 
+                                        rect.getMinY(), 
+                                        rect.getWidth(), 
+                                        e.getY() - rect.getMinY());
+                            break;
+                        case 3:
+                            if (e.getX() - rect.getMinX() > 3)
+                                rect.setRect(rect.getMinX(), 
+                                        rect.getMinY(), 
+                                        e.getX() - rect.getMinX(), 
+                                        rect.getHeight());
+                            break;
+                        default:
+                            resizeChanged = false;
+                    }
+                } else
+                    endDrag = new Point(e.getX(), e.getY());
                 repaint();
             }
         });
     }
     
+    private int getResizeDirection() {
+        switch (getCursor().getType()) {
+            case Cursor.N_RESIZE_CURSOR:
+                return 0;
+            case Cursor.W_RESIZE_CURSOR:
+                return 1;
+            case Cursor.S_RESIZE_CURSOR:
+                return 2;
+            case Cursor.E_RESIZE_CURSOR:
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
     private void moveSelection(double x, double y) {
         //if (toMove instanceof LineSelection) {
         //    Line2D line = ((LineSelection) toMove).line;
@@ -789,9 +891,5 @@ class PaintSurface extends JPanel {
     private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
         return new Rectangle2D.Float(Math.min(x1, x2) - strokeSize,
                 Math.min(y1, y2) - strokeSize, Math.abs(x1 - x2), Math.abs(y1 - y2));
-    }
-    
-    private Line2D.Float makeLine(int x1, int y1, int x2, int y2) {
-        return new Line2D.Float(x1, y1, x2, y2);
     }
 }
